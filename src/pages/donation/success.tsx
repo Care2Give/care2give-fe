@@ -1,4 +1,4 @@
-import AppBar from "@/components/AppBar";
+import AppBar from "@/components/shared/AppBar";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import Image from "next/image";
