@@ -11,8 +11,12 @@ type Props = {
 export const Popup = ({isVisible, onClose}: Props) => {
   if(!isVisible) return null;
 
-  else return (
-    <div className='z-40 fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' onClick={() => onClose()}>
+  const handleClose = (element) => {
+    if (element.target.id==="wrapper") onClose();
+  }
+
+  return (
+    <div className='z-40 fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' id="wrapper" onClick={handleClose}>
       <div className="w-[600px] flex flex-col">
         <div className="border border-[color:var(--grey-300,#A6A6A6)] bg-white self-stretch flex grow flex-col pb-12 px-5 rounded-2xl border-solid max-md:max-w-full">
           <button className="text-black text-xl place-self-end" onClick={() => onClose()}>X</button>
