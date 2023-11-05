@@ -1,7 +1,3 @@
-import { memo, useState } from 'react';
-import type { FC } from 'react';
-import Modal from 'react-modal';
-
 type Props = {
   isVisible?: boolean;
   onClose?: Function;
@@ -20,12 +16,12 @@ export const Popup = ({isVisible, onClose}: Props) => {
       <div className="w-[600px] flex flex-col">
         <div className="border border-[color:var(--grey-300,#A6A6A6)] bg-white self-stretch flex grow flex-col pb-12 px-5 rounded-2xl border-solid max-md:max-w-full">
           <button className="text-black text-xl place-self-end" onClick={() => onClose()}>X</button>
-          <div className="flex-col overflow-hidden self-stretch relative flex min-h-[275px] w-full -mr-5 pl-20 pr-3 pt-3 pb-60 max-md:max-w-full max-md:pl-5 max-md:pb-24">
+          <div className="flex-col overflow-hidden self-stretch relative flex min-h-[275px] w-full -mr-5 max-md:max-w-full max-md:pl-5 max-md:pb-24">
             <img
               loading="lazy"
-              src="./popup_image.png"
+              src="./popup/popup_image.png"
               alt="Care2Give Image"
-              className="aspect-square object-contain object-center w-6 overflow-hidden max-w-full -mb-12 self-end max-md:mb-2.5"
+              className="aspect-square object-fill object-center overflow-hidden max-w-full -mb-12 self-end max-md:mb-2.5"
             />
           </div>
 
