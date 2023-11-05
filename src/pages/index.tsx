@@ -1,11 +1,18 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import { Popup } from "@/components/ui/popup";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const inter = Inter({ subsets: ["latin"] });
-
-
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -14,8 +21,58 @@ export default function Home() {
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
     >
-      <button className="text-white" onClick={() => setShowModal(true)}>Show Modal</button>
-      <Popup isVisible={showModal} onClose={() => setShowModal(false)}></Popup>
+      <Dialog>
+        <DialogTrigger>Open</DialogTrigger>
+        <DialogContent className="border-none overflow-hidden p-0 rounded-xl sm:rounded-xl">
+          <DialogHeader>
+            <DialogDescription className="p-0 overflow-auto bg-white text-black">
+              <div className="grid grid-rows-2">
+                <img
+                  className="object-cover h-[300px] w-full"
+                  src="./popup/popup_image.png"
+                />
+                <div className="text-center p-12">
+                  <h2 className="text-2xl font-bold">Help by sharing</h2>
+                  <p className="pt-4">
+                    your account and remove your data from our servers.This
+                    action cannot be undone. This will permanently delete
+                  </p>
+                  <div className="flex gap-6 pt-12 justify-center">
+                    <button>
+                      <img
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/837e63de-175e-458e-9c93-11c835ade239?"
+                        className="aspect-square object-contain object-center w-11 fill-white overflow-hidden self-stretch max-w-full"
+                      />
+                    </button>
+                    <button>
+                      <img
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/c281b3c3-27f4-44e5-b22a-2798af725d7b?"
+                        className="aspect-square object-contain object-center w-11 overflow-hidden self-stretch max-w-full"
+                      />
+                    </button>
+                    <button>
+                      <img
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/b18f406e-ddd7-40a5-941c-7d365142e4e6?"
+                        className="aspect-[1.21] object-contain object-center w-[41px] stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
+                      />
+                    </button>
+                    <button>
+                      <img
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/cda5c4da-c4c9-4b09-9462-8525de23c716?"
+                        className="aspect-[0.53] object-contain object-center w-5 stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
