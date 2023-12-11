@@ -43,7 +43,7 @@ export default function Home() {
                   <p className="text-base">
                     Share the love; let's show our support together!
                   </p>
-                  <div className="flex gap-6 pt-12 justify-center">
+                  <div className="flex gap-16 pt-16 justify-center">
                     <button>
                       <img
                         loading="lazy"
