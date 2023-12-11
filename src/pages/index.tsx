@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import {
   Dialog,
   DialogClose,
@@ -13,6 +13,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  style: ["normal"],
+  weight: ["400"],
+});
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -31,38 +36,39 @@ export default function Home() {
                   className="object-cover h-[300px] w-full"
                   src="./popup/popup_image.png"
                 />
-                <div className="text-center p-12">
-                  <h2 className="text-2xl font-bold">Help by sharing</h2>
-                  <p className="pt-4">
-                    your account and remove your data from our servers.This
-                    action cannot be undone. This will permanently delete
+                <div
+                  className={`text-[color:var(--grey-500, #262626)] text-center ${montserrat.className} not-italic leading-5 p-10`}
+                >
+                  <h2 className="text-3xl p-2 font-black">Help by sharing</h2>
+                  <p className="text-base">
+                    Share the love; let's show our support together!
                   </p>
                   <div className="flex gap-6 pt-12 justify-center">
                     <button>
                       <img
                         loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/837e63de-175e-458e-9c93-11c835ade239?"
+                        src="./popup/clipboard-copy.svg"
                         className="aspect-square object-contain object-center w-11 fill-white overflow-hidden self-stretch max-w-full"
                       />
                     </button>
                     <button>
                       <img
                         loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/c281b3c3-27f4-44e5-b22a-2798af725d7b?"
+                        src="./popup/instagram.svg"
                         className="aspect-square object-contain object-center w-11 overflow-hidden self-stretch max-w-full"
                       />
                     </button>
                     <button>
                       <img
                         loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/b18f406e-ddd7-40a5-941c-7d365142e4e6?"
+                        src="./popup/twitter.svg"
                         className="aspect-[1.21] object-contain object-center w-[41px] stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
                       />
                     </button>
                     <button>
                       <img
                         loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/cda5c4da-c4c9-4b09-9462-8525de23c716?"
+                        src="./popup/facebook.svg"
                         className="aspect-[0.53] object-contain object-center w-5 stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
                       />
                     </button>
