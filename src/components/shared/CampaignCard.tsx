@@ -1,16 +1,13 @@
-"use client";
-
 import Image from "next/image";
 
 import {
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/CampaignCardUI/card";
 
-import { Button } from "@/components/ui/CampaignCardUI/button";
+import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/CampaignCardUI/progress";
 
 type CampaignCardProps = {

@@ -6,10 +6,10 @@ import Link from "next/link";
 import React from "react";
 
 const unSuccessfulDonationPage = () => {
-    return (
-        <div>
-            <AppBar title="Payment Error" backLink={"/"} />
-            <div className={"flex flex-col items-center pb-7"}>
+  return (
+    <div>
+      <AppBar title="Payment Error" backLink={"/"} />
+      <div className={"flex flex-col items-center pb-7"}>
         <div
           className={
             "bg-[#FF5757] h-14 w-14 flex justify-center items-center rounded-full my-5"
@@ -23,14 +23,20 @@ const unSuccessfulDonationPage = () => {
         </div>
       </div>
       <div className={"bg-[#FFCBCB] py-10 flex justify-center"}>
-        <Image src={"/donation-unsuccess.svg"} alt="" width={254} height={200} />
+        <Image
+          src={"/donation-unsuccess.svg"}
+          alt=""
+          width={254}
+          height={200}
+        />
       </div>
       <div className={"flex flex-col items-center px-8 py-6"}>
         <div className={" w-80 text-center text-sm font-light leading-5 mb-6"}>
-        Oops, it looks like there was an issue processing your payment. 
-        Please double-check the information you provided and try again. 
-        If the problem persists, you may want to ensure that your payment method is valid and has sufficient funds. 
-        We apologise for any inconvenience and appreciate your patience.
+          Oops, it looks like there was an issue processing your payment. Please
+          double-check the information you provided and try again. If the
+          problem persists, you may want to ensure that your payment method is
+          valid and has sufficient funds. We apologise for any inconvenience and
+          appreciate your patience.
         </div>
         <Button
           onClick={() => alert("Make Another Donation")}
@@ -48,8 +54,8 @@ const unSuccessfulDonationPage = () => {
           <Link href={"/"}>Back to home</Link>
         </Button>
       </div>
-        </div>
-    );
+    </div>
+  );
 };
 
-export default unSuccessfulDonationPage
+export default unSuccessfulDonationPage;
