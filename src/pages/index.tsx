@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import Success from "./donation/success";
 import { CampaignCard } from "@/components/shared/CampaignCard";
 
 const inter = Inter({ subsets: ["latin"] });
