@@ -1,3 +1,5 @@
+import {} from "next/font/google";
+
 export default function NavBar() {
   return (
     <nav className="w-full h-24 bg-[#5185FF] flex justify-between">
@@ -8,7 +10,7 @@ export default function NavBar() {
         />
       </div>
       <div>
-        <ul className="flex pt-8 pr-[1120px] gap-12 text-xl font-medium">
+        <ul className="flex pt-8 pr-[1120px] gap-12 text-2xl font-normal">
           <li>
             <button>Home</button>
           </li>
