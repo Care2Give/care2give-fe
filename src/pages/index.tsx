@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import NavBar from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({
@@ -24,61 +25,68 @@ export default function Home() {
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between ${inter.className}`}
     >
-      <Dialog>
-        <DialogTrigger>Open</DialogTrigger>
-        <DialogContent className="border-none overflow-hidden p-0 rounded-xl sm:rounded-xl">
-          <DialogHeader>
-            <DialogDescription className="p-0 overflow-auto bg-white text-black">
-              <div className="grid grid-rows-2">
-                <img
-                  className="object-cover h-[300px] w-full"
-                  src="./popup/popup_image.png"
-                />
-                <div
-                  className={`text-[color:var(--grey-500, #262626)] text-center ${montserrat.className} not-italic leading-5 p-10`}
-                >
-                  <h2 className="text-3xl p-2 font-black">Help by sharing</h2>
-                  <p className="text-base">
-                    Share the love; let's show our support together!
-                  </p>
-                  <div className="flex gap-16 pt-16 justify-center">
-                    <button>
-                      <img
-                        loading="lazy"
-                        src="./popup/clipboard-copy.svg"
-                        className="aspect-square object-contain object-center w-11 fill-white overflow-hidden self-stretch max-w-full"
-                      />
-                    </button>
-                    <button>
-                      <img
-                        loading="lazy"
-                        src="./popup/instagram.svg"
-                        className="aspect-square object-contain object-center w-11 overflow-hidden self-stretch max-w-full"
-                      />
-                    </button>
-                    <button>
-                      <img
-                        loading="lazy"
-                        src="./popup/twitter.svg"
-                        className="aspect-[1.21] object-contain object-center w-[41px] stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
-                      />
-                    </button>
-                    <button>
-                      <img
-                        loading="lazy"
-                        src="./popup/facebook.svg"
-                        className="aspect-[0.53] object-contain object-center w-5 stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
-                      />
-                    </button>
+      <div className="w-full">
+        <NavBar></NavBar>
+      </div>
+
+      <div>
+        <Dialog>
+          <DialogTrigger>Open</DialogTrigger>
+          <DialogContent className="border-none overflow-hidden p-0 rounded-xl sm:rounded-xl">
+            <DialogHeader>
+              <DialogDescription className="p-0 overflow-auto bg-white text-black">
+                <div className="grid grid-rows-2">
+                  <img
+                    className="object-cover h-[300px] w-full"
+                    src="./popup/popup_image.png"
+                  />
+                  <div
+                    className={`text-[color:var(--grey-500, #262626)] text-center ${montserrat.className} not-italic leading-5 p-10`}
+                  >
+                    <h2 className="text-3xl p-2 font-black">Help by sharing</h2>
+                    <p className="text-base">
+                      Share the love; let's show our support together!
+                    </p>
+                    <div className="flex gap-16 pt-16 justify-center">
+                      <button>
+                        <img
+                          loading="lazy"
+                          src="./popup/clipboard-copy.svg"
+                          className="aspect-square object-contain object-center w-11 fill-white overflow-hidden self-stretch max-w-full"
+                        />
+                      </button>
+                      <button>
+                        <img
+                          loading="lazy"
+                          src="./popup/instagram.svg"
+                          className="aspect-square object-contain object-center w-11 overflow-hidden self-stretch max-w-full"
+                        />
+                      </button>
+                      <button>
+                        <img
+                          loading="lazy"
+                          src="./popup/twitter.svg"
+                          className="aspect-[1.21] object-contain object-center w-[41px] stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
+                        />
+                      </button>
+                      <button>
+                        <img
+                          loading="lazy"
+                          src="./popup/facebook.svg"
+                          className="aspect-[0.53] object-contain object-center w-5 stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
+                        />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
+
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
