@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Inter, Montserrat } from "next/font/google";
+import { Inter, Montserrat, Roboto } from "next/font/google";
 import {
   Dialog,
   DialogClose,
@@ -14,6 +14,11 @@ import { Button } from "@/components/ui/button";
 
 const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({
+  subsets: ["latin"],
+  style: ["normal"],
+  weight: ["400"],
+});
+const roboto = Roboto({
   subsets: ["latin"],
   style: ["normal"],
   weight: ["400"],
@@ -36,11 +41,15 @@ export default function Home() {
                   className="object-cover h-[300px] w-full"
                   src="./popup/popup_image.png"
                 />
-                <div
-                  className={`text-[color:var(--grey-500, #262626)] text-center ${montserrat.className} not-italic leading-5 p-10`}
-                >
-                  <h2 className="text-3xl p-2 font-black">Help by sharing</h2>
-                  <p className="text-base">
+                <div className="leading-5 p-10">
+                  <h2
+                    className={`font-black text-3xl text-center p-2 ${roboto.className}`}
+                  >
+                    Help by sharing
+                  </h2>
+                  <p
+                    className={`text-[#262626] text-base text-center ${montserrat.className}`}
+                  >
                     Share the love; let's show our support together!
                   </p>
                   <div className="flex gap-16 pt-16 justify-center">
