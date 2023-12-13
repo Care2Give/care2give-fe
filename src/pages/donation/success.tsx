@@ -43,7 +43,7 @@ export default function Success({}: Props) {
         <Button
           variant={"outline"}
           className={
-            "text-xl w-full text-[#14916F] font-bold rounded-[10px] mb-4 py-6 border-2 hover:opacity-90 hover:text-[#14916F]"
+            "text-xl w-full text-[#14916F] font-bold rounded-[10px] border-[#14916F] mb-4 py-6 border-2 hover:opacity-90 hover:text-[#14916F]"
           }
           onClick={() => alert("Shared")}
         >
