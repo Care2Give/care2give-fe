@@ -1,16 +1,14 @@
 import Image from "next/image";
-import { Inter, Montserrat, Roboto } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({
@@ -18,10 +16,9 @@ const montserrat = Montserrat({
   style: ["normal"],
   weight: ["400"],
 });
-const roboto = Roboto({
-  subsets: ["latin"],
-  style: ["normal"],
-  weight: ["400"],
+
+const araboto = localFont({
+  src: "../../public/fonts/araboto/Araboto Medium 400.ttf",
 });
 
 export default function Home() {
@@ -43,7 +40,7 @@ export default function Home() {
                 />
                 <div className="leading-5 p-10">
                   <h2
-                    className={`font-black text-3xl text-center p-2 ${roboto.className}`}
+                    className={`font-black text-3xl text-center p-2 ${araboto.className}`}
                   >
                     Help by sharing
                   </h2>
