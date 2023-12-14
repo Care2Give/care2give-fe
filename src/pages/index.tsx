@@ -8,7 +8,6 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({
@@ -22,8 +21,6 @@ const araboto = localFont({
 });
 
 export default function Home() {
-  const [showModal, setShowModal] = useState(false);
-
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
