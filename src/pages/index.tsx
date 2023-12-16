@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import NavBar from "@/components/navbar";
 import { CampaignCard } from "@/components/shared/CampaignCard";
 import CartItem from "@/components/shared/CartItem";
 
@@ -24,8 +25,12 @@ const araboto = localFont({
 export default function Home() {
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-2 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between ${inter.className}`}
     >
+      <div className="w-full">
+        <NavBar></NavBar>
+      </div>
+
       <Dialog>
         <DialogTrigger>Open</DialogTrigger>
         <DialogContent className="border-none overflow-hidden p-0 rounded-xl sm:rounded-xl">
