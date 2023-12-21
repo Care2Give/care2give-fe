@@ -7,7 +7,7 @@ import Footer from "@/components/home/Footer";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      <NavBar />
+      <NavBar title="Caregivers Alliance Limited" titleIsCenterAligned />
       <Introduction />
       <Featured />
       <Footer />

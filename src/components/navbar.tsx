@@ -1,14 +1,33 @@
 import Image from "next/image";
 // import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/router";
 
-const NavBar = () => {
+type NavBarProps = {
+  title: String;
+  titleIsCenterAligned?: Boolean;
+};
+
+const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
+  const router = useRouter();
+
   return (
     <nav className="w-full flex justify-between items-center px-6 py-4">
       {/* <Button variant="ghost" size="icon">
         <HamburgerMenuIcon height="24" width="24" color="white" />
       </Button> */}
-      <h1 className="text-2xl">Caregivers Alliance Limited</h1>
+      {!titleIsCenterAligned && (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="w-fit"
+          onClick={() => router.back()}
+        >
+          <ChevronLeftIcon height="24" width="24" color="black" />
+        </Button>
+      )}
+      <h1 className="text-2xl">{title}</h1>
       {/* <div className="flex gap-2"> */}
       <Button variant="ghost" size="icon" className="w-fit">
         <Image

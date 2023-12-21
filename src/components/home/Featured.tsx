@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import { CampaignCard } from "@/components/shared/CampaignCard";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { CampaignData, data as campaigns } from "@/utils/campaignSample";
 
 const araboto = localFont({
   src: "../../../public/fonts/araboto/Araboto Medium 400.ttf",
@@ -34,6 +35,26 @@ const Featured = () => {
             </Link>
           </Button>
         </div>
+
+        {campaigns.map((campaign, i) => {
+          const {
+            title,
+            coverImageURL,
+            currentAmount,
+            targetAmount,
+            targetDate,
+          } = campaign as CampaignData;
+          return i <= 1 ? (
+            <CampaignCard
+              key={`campaign-${i}`}
+              campaignTitle={title}
+              coverImageURL={coverImageURL}
+              currentAmount={currentAmount}
+              targetAmount={targetAmount}
+              targetDate={targetDate}
+            />
+          ) : null;
+        })}
         <CampaignCard
           campaignTitle={"Sample Title 1"}
           coverImageURL={
