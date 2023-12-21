@@ -11,6 +11,8 @@ import NavBar from "@/components/navbar";
 import { CampaignCard } from "@/components/shared/CampaignCard";
 import CartItem from "@/components/shared/CartItem";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { ExternalLinkIcon } from "@radix-ui/react-icons";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -42,6 +44,22 @@ export default function Home() {
           height={264}
           alt="placeholder"
         />
+      </section>
+      <section className="h-full w-full bg-[#F8DF71] flex flex-col gap-3 p-10">
+        <h3 className={`text-2xl ${arabotoBold.className}`}>
+          How Caregivers Alliance Changes Lives for the Better
+        </h3>
+        <p className={`text-sm ${montserrat.className}`}>
+          Caregivers Alliance Limited (CAL) is a non-profit organisation in
+          Singapore dedicated to meeting the needs of caregivers of persons with
+          mental health issues through education, support networks, crisis
+          support, tailored services, and self-care enablement.
+        </p>
+        <Button variant="link" className="justify-start p-0 underline">
+          <a href="https://www.cal.org.sg/" className="flex items-center gap-2">
+            Visit Our Website <ExternalLinkIcon height="22" width="22" />
+          </a>
+        </Button>
       </section>
 
       <Dialog>
