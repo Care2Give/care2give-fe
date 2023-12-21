@@ -9,6 +9,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/CampaignCardUI/progress";
+import Link from "next/link";
 
 type CampaignCardProps = {
   campaignTitle: string;
@@ -16,6 +17,7 @@ type CampaignCardProps = {
   currentAmount: number;
   targetAmount: number;
   targetDate: number;
+  slug: string;
 };
 
 export const CampaignCard = ({
@@ -24,6 +26,7 @@ export const CampaignCard = ({
   currentAmount,
   targetAmount,
   targetDate,
+  slug,
 }: CampaignCardProps) => {
   const completionPercentage = Math.floor((currentAmount / targetAmount) * 100);
   const daysLeftToTarget = Math.floor((targetDate - Date.now()) / 8.64e7);
@@ -57,7 +60,9 @@ export const CampaignCard = ({
       <CardContent>
         <Button className="mb-2">Make a Donation</Button>
         <Button className="mt-2" variant="outline">
-          Learn More
+          <Link href={`/campaigns/${encodeURIComponent(slug)}`}>
+            Learn More
+          </Link>
         </Button>
       </CardContent>
     </div>

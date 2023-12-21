@@ -1,6 +1,6 @@
 import NavBar from "@/components/navbar";
 import { CampaignCard } from "@/components/shared/CampaignCard";
-import { CampaignData, data as campaigns } from "@/utils/campaignSample";
+import { CampaignData, data as campaigns } from "@/lib/campaignSample";
 
 export default function Campaigns() {
   return (
@@ -17,6 +17,7 @@ export default function Campaigns() {
           currentAmount,
           targetAmount,
           targetDate,
+          slug,
         } = campaign as CampaignData;
         return (
           <CampaignCard
@@ -26,6 +27,7 @@ export default function Campaigns() {
             currentAmount={currentAmount}
             targetAmount={targetAmount}
             targetDate={targetDate}
+            slug={slug}
           />
         );
       })}

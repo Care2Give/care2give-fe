@@ -12,7 +12,7 @@ export default function Home() {
       <Featured />
       <Footer />
 
-      <CartItem
+      {/* <CartItem
         id="Campaign-1"
         title="Charity Dinner 2023"
         image="/campaign-img.png"
@@ -26,7 +26,7 @@ export default function Home() {
         image="/campaign-img.png"
         description="Support us by buying a Silver table for 10 guests"
         price={10000}
-      />
+      /> */}
     </main>
   );
 }

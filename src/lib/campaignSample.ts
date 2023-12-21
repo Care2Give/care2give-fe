@@ -4,6 +4,8 @@ export type CampaignData = {
   currentAmount: number;
   targetAmount: number;
   targetDate: number;
+  slug: string;
+  description: string;
 };
 
 const data: CampaignData[] = [
@@ -14,6 +16,9 @@ const data: CampaignData[] = [
     currentAmount: 37500,
     targetAmount: 50000,
     targetDate: 1704145168566,
+    slug: "caring-hearts-initiative",
+    description:
+      "Join us for a joyous evening as we come together to express our appreciation for the tireless dedication of our caregivers. Your gift helps us train and support more caregivers as we support them on their journey.",
   },
   {
     title: "Charity Dinner 2023",
@@ -22,6 +27,9 @@ const data: CampaignData[] = [
     currentAmount: 128550,
     targetAmount: 250000,
     targetDate: 1705145168566,
+    slug: "charity-dinner-2023",
+    description:
+      "Join us for a joyous evening as we come together to express our appreciation for the tireless dedication of our caregivers. Your gift helps us train and support more caregivers as we support them on their journey.",
   },
   {
     title: "Care Collective 2023",
@@ -30,6 +38,9 @@ const data: CampaignData[] = [
     currentAmount: 185450,
     targetAmount: 200000,
     targetDate: 1704145168566,
+    slug: "care-collective-2023",
+    description:
+      "Join us for a joyous evening as we come together to express our appreciation for the tireless dedication of our caregivers. Your gift helps us train and support more caregivers as we support them on their journey.",
   },
 ];
 
