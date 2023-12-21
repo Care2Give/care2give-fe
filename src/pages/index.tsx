@@ -1,4 +1,4 @@
-import { Inter, Montserrat } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import {
   Dialog,
@@ -11,7 +11,6 @@ import NavBar from "@/components/navbar";
 import { CampaignCard } from "@/components/shared/CampaignCard";
 import CartItem from "@/components/shared/CartItem";
 
-const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({
   subsets: ["latin"],
   style: ["normal"],
@@ -24,12 +23,8 @@ const araboto = localFont({
 
 export default function Home() {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between ${inter.className}`}
-    >
-      <div className="w-full">
-        <NavBar></NavBar>
-      </div>
+    <main className="flex min-h-screen flex-col items-center justify-between">
+      <NavBar />
 
       <Dialog>
         <DialogTrigger>Open</DialogTrigger>
