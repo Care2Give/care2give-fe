@@ -1,6 +1,7 @@
 import { Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import Image from "next/image";
+import { EyeOpenIcon } from "@radix-ui/react-icons";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -17,14 +18,11 @@ const Footer = () => {
     <>
       <footer className="flex flex-col gap-12 p-10 bg-blue-500">
         <div className="flex items-center gap-6">
-          <div className="flex flex-col gap-2 w-32">
-            <Image
-              src="/campaign-img.png"
-              width={48}
-              height={48}
-              alt="Our Vision"
-            />
-            <p className={`text-white text-xl ${arabotoBold.className}`}>
+          <div className="flex flex-col items-center gap-2 min-w-32">
+            <EyeOpenIcon width={80} height={80} color="white" />
+            <p
+              className={`text-white text-2xl text-center ${arabotoBold.className}`}
+            >
               Our Vision
             </p>
           </div>
@@ -40,11 +38,11 @@ const Footer = () => {
             health issues through education, support networks, crisis reports,
             tailored services, and self-care enablement.
           </p>
-          <div className="flex flex-col gap-2 min-w-32">
+          <div className="flex flex-col items-center gap-2 min-w-32">
             <Image
-              src="/campaign-img.png"
-              width={48}
-              height={48}
+              src="/footer/hand-heartshake.svg"
+              width={80}
+              height={80}
               alt="Our Mission"
             />
             <p className={`text-white text-xl ${arabotoBold.className}`}>
