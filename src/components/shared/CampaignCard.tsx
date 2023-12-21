@@ -29,8 +29,8 @@ export const CampaignCard = ({
   const daysLeftToTarget = Math.floor((targetDate - Date.now()) / 8.64e7);
 
   return (
-    <div className="pt-6 bg">
-      <div className="mx-6 rounded-lg overflow-hidden">
+    <div className="py-10 px-6 shadow-lg rounded-3xl">
+      <div className="rounded-lg overflow-hidden">
         <Image
           className="w-full h-auto max-h-60 object-cover"
           src={coverImageURL}
