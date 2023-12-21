@@ -1,5 +1,7 @@
 import localFont from "next/font/local";
 import { CampaignCard } from "@/components/shared/CampaignCard";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 const araboto = localFont({
   src: "../../../public/fonts/araboto/Araboto Medium 400.ttf",
@@ -17,11 +19,20 @@ const Featured = () => {
           <h4 className={`text-xl ${arabotoBold.className}`}>
             Featured Campaigns
           </h4>
-          <p
+          {/* <p
             className={`${araboto.className} text-md text-[#9D9D9D] underline`}
           >
             View More
-          </p>
+          </p> */}
+
+          <Button variant="link" className="justify-start p-0 underline w-fit">
+            <Link
+              href="/campaigns"
+              className={`${araboto.className} text-sm text-[#9D9D9D] underline flex items-center gap-2`}
+            >
+              View more
+            </Link>
+          </Button>
         </div>
         <CampaignCard
           campaignTitle={"Sample Title 1"}
