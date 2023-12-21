@@ -10,6 +10,7 @@ import {
 import NavBar from "@/components/navbar";
 import { CampaignCard } from "@/components/shared/CampaignCard";
 import CartItem from "@/components/shared/CartItem";
+import Image from "next/image";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -21,10 +22,27 @@ const araboto = localFont({
   src: "../../public/fonts/araboto/Araboto Medium 400.ttf",
 });
 
+const arabotoBold = localFont({
+  src: "../../public/fonts/araboto/Araboto Bold 400.ttf",
+});
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <NavBar />
+      <section className="h-full w-full bg-[#5185FF] flex flex-col gap-6 p-10">
+        <h2
+          className={`text-4xl text-white text-center ${arabotoBold.className}`}
+        >
+          Do Good with Caregivers Alliance
+        </h2>
+        <Image
+          src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
+          width={400}
+          height={264}
+          alt="placeholder"
+        />
+      </section>
 
       <Dialog>
         <DialogTrigger>Open</DialogTrigger>
