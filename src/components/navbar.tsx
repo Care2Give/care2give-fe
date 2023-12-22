@@ -31,7 +31,7 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
       {/* <div className="flex gap-2"> */}
       <Button variant="ghost" size="icon" className="w-fit">
         <Image
-          src="./navbar/gift_basket.svg"
+          src="/navbar/gift_basket.svg"
           alt="Gift basket icon"
           height={24}
           width={24}

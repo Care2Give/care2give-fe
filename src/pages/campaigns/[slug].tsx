@@ -1,3 +1,4 @@
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import NavBar from "@/components/navbar";
 import { CampaignData, data } from "@/lib/campaignSample";
 import { slugToTitle } from "@/lib/utils";
@@ -20,9 +21,11 @@ const arabotoBold = localFont({
   src: "../../../public/fonts/araboto/Araboto Bold 400.ttf",
 });
 
-const Campaign = () => {
-  const router = useRouter();
-  const title = router.asPath.replace("/campaigns/", "");
+interface CampaignProps {
+  campaign: CampaignData;
+}
+
+const Campaign = ({ campaign }: CampaignProps) => {
   const {
     title: campaignTitle,
     coverImageURL,
@@ -31,11 +34,11 @@ const Campaign = () => {
     targetDate,
     slug,
     description,
-  } = data.find((campaign) => campaign.slug === title) as CampaignData;
+  } = campaign;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      <NavBar title={campaignTitle || slugToTitle(title)} />
+      <NavBar title={campaignTitle || slugToTitle(campaignTitle)} />
       {/* IMAGE SLIDE PLACEHOLDER */}
       <section className="flex flex-col gap-4 px-10">
         <div className="flex justify-between items-center">
@@ -69,6 +72,17 @@ const Campaign = () => {
       <Footer />
     </main>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<CampaignProps> = async (
+  context
+) => {
+  const { slug } = context.params as { slug: string };
+  return {
+    props: {
+      campaign: data.find((campaign) => campaign.slug === slug) as CampaignData,
+    },
+  };
 };
 
 export default Campaign;
