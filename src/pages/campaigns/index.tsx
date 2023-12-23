@@ -10,8 +10,6 @@ export default function Campaigns() {
   const [sortIsIncreasing, setSortIsIncreasing] = useState(true); // order of sorting the campaigns by the sortKey
 
   useEffect(() => {
-    console.log(sortKey);
-    console.log(sortIsIncreasing);
     if (sortKey == "Campaign Title") {
       if (sortIsIncreasing) {
         setSortedCampaigns(
@@ -38,19 +36,16 @@ export default function Campaigns() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <NavBar title="All Campaigns" />
+      <DropdownMenuDemo
+        setSortKey={setSortKey}
+        setSortIsIncreasing={setSortIsIncreasing}
+      />
 
-      <div className="items-left">
-        {/* TODO: CREATE SORT BY FUNCTION BASED ON FE 
-      RATIONALE FOR DOING ON FE NOT BE -> NO. OF CAMPAIGNS SHOULD NOT BE A LOT. FE SHOULD BE OK TO HANDLE IT. */}
-        <DropdownMenuDemo
-          setSortKey={setSortKey}
-          setSortIsIncreasing={setSortIsIncreasing}
-        />
-
+      <div className="h-full w-full flex flex-col gap-6 p-10 py-0">
         {sortedCampaigns.map((campaign, i) => {
           const {
             title,
-            coverImageURL,
+            coverImagesURLs,
             currentAmount,
             targetAmount,
             targetDate,
@@ -60,7 +55,7 @@ export default function Campaigns() {
             <CampaignCard
               key={`campaign-${i}`}
               campaignTitle={title}
-              coverImageURL={coverImageURL}
+              coverImagesURLs={coverImagesURLs}
               currentAmount={currentAmount}
               targetAmount={targetAmount}
               targetDate={targetDate}

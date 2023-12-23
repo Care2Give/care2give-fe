@@ -1,8 +1,6 @@
 import Image from "next/image";
-
-import { useRef } from "react";
-
-import { register } from "swiper/element/bundle";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 
 import {
   CardContent,
@@ -15,6 +13,10 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/CampaignCardUI/progress";
 import Link from "next/link";
 
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 type CampaignCardProps = {
   campaignTitle?: string;
   coverImagesURLs?: string[];
@@ -24,50 +26,49 @@ type CampaignCardProps = {
   slug: string;
 };
 
-register()
-
 export const CampaignCard = ({
-  campaignTitle="Untitled",
-  coverImagesURLs=[],
-  currentAmount=0,
-  targetAmount=0,
-  targetDate=0,
+  campaignTitle = "Untitled",
+  coverImagesURLs = [],
+  currentAmount = 0,
+  targetAmount = 0,
+  targetDate = 0,
   slug,
 }: CampaignCardProps) => {
   const completionPercentage = Math.floor((currentAmount / targetAmount) * 100);
   const daysLeftToTarget = Math.floor((targetDate - Date.now()) / 8.64e7);
 
-  const swiperElRef = useRef(null)
-
   return (
-    <div className="pt-6 bg">
-      <div className="mx-6 rounded-lg overflow-hidden">
-        <swiper-container
-          ref={swiperElRef}
-          navigation="true"
-          pagination="true"
+    <div className="p-6 bg shadow-xl rounded-lg">
+      <div className=" rounded-lg overflow-hidden">
+        <Swiper
           style={{
-            "--swiper-pagination-bullet-inactive-color": "#CBD5E1",
-            "--swiper-pagination-color": "#F8FAFC",
-            "--swiper-navigation-color": "#F8FAFC",
-            "--swiper-navigation-size": "32px",
+            "--swiper-pagination-color": "#FFFFFF",
+            "--swiper-pagination-bullet-inactive-color": "#FFFFFF",
+            "--swiper-pagination-bullet-inactive-opacity": "0.7",
+            "--swiper-pagination-bullet-size": "12px",
+            "--swiper-pagination-bullet-inactive-size": "8px",
+            "--swiper-pagination-bullet-horizontal-gap": "3px",
+            "--swiper-navigation-color": "#FFFFFF",
+            "--swiper-navigation-size": "20px",
           }}
+          modules={[Navigation, Pagination, Scrollbar]}
+          navigation
+          pagination={{ clickable: true, dynamicBullets: true }}
+          loop
+          cssMode
         >
-          {
-            coverImagesURLs.map(url =>
-                <swiper-slide key={url}>
-                  <Image
-                    className="w-full h-auto max-h-60 object-cover"
-                    src={url}
-                    alt="campaign cover image"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                  />
-                </swiper-slide>
-              )
-          }
-        </swiper-container>
+          {coverImagesURLs.map((url, i) => (
+            <SwiperSlide key={`${url}_${i}`}>
+              <Image
+                className="max-h-64 object-cover"
+                src={url}
+                alt="campaign cover image"
+                width={352}
+                height={256}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
       <CardHeader>
         <CardTitle className="pb-2">{campaignTitle}</CardTitle>
@@ -82,7 +83,7 @@ export const CampaignCard = ({
           <CardTitle>{completionPercentage}%</CardTitle>
         </div>
         <CardDescription>
-          {daysLeftToTarget > 0 ? `${daysLeftToTarget} more days` : ''}
+          {daysLeftToTarget > 0 ? `${daysLeftToTarget} more days` : ""}
         </CardDescription>
       </CardHeader>
       <CardContent>

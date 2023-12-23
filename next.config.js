@@ -8,6 +8,12 @@ const nextConfig = {
         // port: "",
         // pathname: "/wikipedia",
       },
+      {
+        protocol: "https",
+        hostname: "www.techsmith.com",
+        // port: "",
+        // pathname: "/wikipedia",
+      },
     ],
   },
   reactStrictMode: true,

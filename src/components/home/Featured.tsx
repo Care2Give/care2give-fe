@@ -33,7 +33,7 @@ const Featured = () => {
         {campaigns.map((campaign, i) => {
           const {
             title,
-            coverImageURL,
+            coverImagesURLs,
             currentAmount,
             targetAmount,
             targetDate,
@@ -43,7 +43,7 @@ const Featured = () => {
             <CampaignCard
               key={`campaign-${i}`}
               campaignTitle={title}
-              coverImageURL={coverImageURL}
+              coverImagesURLs={coverImagesURLs}
               currentAmount={currentAmount}
               targetAmount={targetAmount}
               targetDate={targetDate}
