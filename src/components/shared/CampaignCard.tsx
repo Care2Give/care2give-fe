@@ -16,6 +16,7 @@ import Link from "next/link";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { HeartFilledIcon } from "@radix-ui/react-icons";
 
 type CampaignCardProps = {
   campaignTitle?: string;
@@ -87,8 +88,11 @@ export const CampaignCard = ({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Button className="mb-2">Make a Donation</Button>
-        <Button className="mt-2" variant="outline">
+        <Button className="mb-2 rounded-3xl flex items-center gap-2">
+          <span>Make a Donation</span>
+          <HeartFilledIcon />
+        </Button>
+        <Button className="mt-2 rounded-3xl" variant="outline">
           <Link href={`/campaigns/${encodeURIComponent(slug)}`}>
             Learn More
           </Link>
