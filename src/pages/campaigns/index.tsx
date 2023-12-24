@@ -1,5 +1,6 @@
 import { DropdownMenuDemo } from "@/components/home/SortButton";
 import NavBar from "@/components/navbar";
+import BackToTop from "@/components/shared/BackToTop";
 import { CampaignCard } from "@/components/shared/CampaignCard";
 import { CampaignData, data as campaigns } from "@/lib/campaignSample";
 import { useState, useEffect } from "react";
@@ -34,36 +35,39 @@ export default function Campaigns() {
   }, [sortKey, sortIsIncreasing]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      <NavBar title="All Campaigns" />
-      <DropdownMenuDemo
-        setSortKey={setSortKey}
-        setSortIsIncreasing={setSortIsIncreasing}
-      />
+    <>
+      <main className="flex min-h-screen flex-col items-center justify-between">
+        <NavBar title="All Campaigns" />
+        <DropdownMenuDemo
+          setSortKey={setSortKey}
+          setSortIsIncreasing={setSortIsIncreasing}
+        />
 
-      <div className="h-full w-full flex flex-col gap-6 p-10 py-0">
-        {sortedCampaigns.map((campaign, i) => {
-          const {
-            title,
-            coverImagesURLs,
-            currentAmount,
-            targetAmount,
-            targetDate,
-            slug,
-          } = campaign as CampaignData;
-          return (
-            <CampaignCard
-              key={`campaign-${i}`}
-              campaignTitle={title}
-              coverImagesURLs={coverImagesURLs}
-              currentAmount={currentAmount}
-              targetAmount={targetAmount}
-              targetDate={targetDate}
-              slug={slug}
-            />
-          );
-        })}
-      </div>
-    </main>
+        <div className="h-full w-full flex flex-col gap-6 p-10 py-0">
+          {sortedCampaigns.map((campaign, i) => {
+            const {
+              title,
+              coverImagesURLs,
+              currentAmount,
+              targetAmount,
+              targetDate,
+              slug,
+            } = campaign as CampaignData;
+            return (
+              <CampaignCard
+                key={`campaign-${i}`}
+                campaignTitle={title}
+                coverImagesURLs={coverImagesURLs}
+                currentAmount={currentAmount}
+                targetAmount={targetAmount}
+                targetDate={targetDate}
+                slug={slug}
+              />
+            );
+          })}
+        </div>
+      </main>
+      <BackToTop />
+    </>
   );
 }
