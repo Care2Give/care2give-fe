@@ -195,6 +195,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
                   name={`donation-option`}
                   value={option.value}
                   checked={i === currentOption}
+                  onChange={(e) => e.target.checked && setCurrentOption(i)}
                 />
               </div>
             </div>
