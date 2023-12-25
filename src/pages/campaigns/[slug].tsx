@@ -25,6 +25,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import Link from "next/link";
 import { useState } from "react";
 import { Gift } from "lucide-react";
+import { useCartStore } from "@/store/cartStore";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -59,6 +60,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
 
   const [currentOption, setCurrentOption] = useState<number>(-1);
   const [otherAmount, setOtherAmount] = useState<number | undefined>(undefined);
+  const { items, addItem } = useCartStore();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
@@ -209,6 +211,23 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
               `rounded-full flex gap-3 items-center text-2xl h-12 max-w-80`
             )}
             variant={"outline"}
+            onClick={() => {
+              if (
+                currentOption < 0 ||
+                currentOption >= donationOptions.length
+              ) {
+                return;
+              }
+              if (otherAmount && otherAmount < 10) {
+                return;
+              }
+              const option = donationOptions[currentOption];
+              addItem({
+                donationOption: option,
+                campaign,
+                otherAmount: otherAmount || 0,
+              });
+            }}
           >
             <span>Add to Gift Basket</span>
             <Gift height={24} width={24} />
