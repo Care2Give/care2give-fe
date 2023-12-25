@@ -21,7 +21,7 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
         <Button
           variant="ghost"
           size="icon"
-          className="w-fit"
+          className=""
           onClick={() => router.back()}
         >
           <ChevronLeftIcon height="24" width="24" color="black" />
@@ -29,7 +29,7 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
       )}
       <h1 className="text-2xl">{title}</h1>
       {/* <div className="flex gap-2"> */}
-      <Button variant="ghost" size="icon" className="w-fit">
+      <Button variant="ghost" size="icon" className="">
         <Image
           src="/navbar/gift_basket.svg"
           alt="Gift basket icon"

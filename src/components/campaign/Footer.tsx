@@ -13,7 +13,7 @@ const arabotoBold = localFont({
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col gap-4 p-10 bg-blue-500 text-white">
+    <footer className="flex flex-col gap-4 p-10 bg-gradient-to-b from-[#4ED2C2] via-[#5185ff] to-[#6164cf] text-white">
       <h4 className={`${arabotoBold.className} text-2xl`}>About the Charity</h4>
       <p className={`${montserrat.className} text-sm`}>
         Caregivers Alliance Limited (CAL) is a professional non-profit

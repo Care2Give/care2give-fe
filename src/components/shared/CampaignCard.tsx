@@ -59,7 +59,7 @@ export const CampaignCard = ({
       </CardHeader>
       <CardContent>
         <Button className="mb-2">Make a Donation</Button>
-        <Button className="mt-2" variant="outline">
+        <Button className="mt-2" variant="outline" asChild>
           <Link href={`/campaigns/${encodeURIComponent(slug)}`}>
             Learn More
           </Link>
