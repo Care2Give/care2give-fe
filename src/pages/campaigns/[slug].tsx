@@ -75,7 +75,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
         modules={[Navigation, Pagination]}
         className="mySwiper w-full"
       >
-        {/* Placeholder until multiple images is allowed */}
+        {/* TODO: Replace with actual images when multiple images are available */}
         {[1, 2, 3, 4].map((img) => (
           <SwiperSlide key={img}>
             <Image

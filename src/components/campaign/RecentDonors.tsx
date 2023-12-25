@@ -6,6 +6,7 @@ const montserrat = Montserrat({
   style: ["normal"],
 });
 
+// TODO: Replace with actual logic
 const RecentDonors = () => {
   return (
     <div className="w-full px-10 py-6">
