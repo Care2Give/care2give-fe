@@ -1,4 +1,4 @@
-import type { GetStaticPaths, GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 import Image from "next/image";
 import localFont from "next/font/local";
 import { Separator } from "@/components/ui/separator";
@@ -21,7 +21,9 @@ import { Montserrat } from "next/font/google";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import Link from "next/link";
 import { useState } from "react";
 import { Gift } from "lucide-react";
@@ -45,7 +47,7 @@ interface CampaignProps {
 const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
   const {
     title: campaignTitle,
-    coverImageURL,
+    coverImagesURLs,
     donors,
     currentAmount,
     targetAmount,
@@ -65,30 +67,40 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <NavBar title={campaignTitle || slugToTitle(slug)} />
-      <Swiper
-        navigation={true}
-        loop={true}
-        pagination={{
-          dynamicBullets: true,
-          clickable: true,
-        }}
-        modules={[Navigation, Pagination]}
-        className="mySwiper w-full"
-      >
-        {/* TODO: Replace with actual images when multiple images are available */}
-        {[1, 2, 3, 4].map((img) => (
-          <SwiperSlide key={img}>
-            <Image
-              src={coverImageURL}
-              alt="campaign cover image"
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: "100%", height: "auto" }}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="overflow-hidden w-screen">
+        <Swiper
+          style={{
+            "--swiper-pagination-color": "#FFFFFF",
+            "--swiper-pagination-bullet-inactive-color": "#FFFFFF",
+            "--swiper-pagination-bullet-inactive-opacity": "0.7",
+            "--swiper-pagination-bullet-size": "12px",
+            "--swiper-pagination-bullet-inactive-size": "8px",
+            "--swiper-pagination-bullet-horizontal-gap": "3px",
+            "--swiper-navigation-color": "#FFFFFF",
+            "--swiper-navigation-size": "20px",
+          }}
+          modules={[Navigation, Pagination, Scrollbar]}
+          navigation
+          pagination={{ clickable: true, dynamicBullets: true }}
+          loop
+          cssMode
+          className="w-full"
+        >
+          {coverImagesURLs.map((url, i) => (
+            <SwiperSlide key={`${url}_${i}`}>
+              <Image
+                className="max-h-64 object-cover"
+                src={url}
+                alt="campaign cover image"
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "100%", height: "auto" }}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
       <section className="flex flex-col gap-4 px-10 py-6">
         <div className="flex justify-between items-center">
           <h1 className={`${arabotoBold.className} text-2xl`}>

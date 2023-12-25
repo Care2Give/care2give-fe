@@ -16,8 +16,8 @@ const arabotoBold = localFont({
 
 const Introduction = () => {
   return (
-    <>
-      <section className="h-full w-full bg-[#5185FF] flex flex-col gap-6 p-10">
+    <div className="xl:flex">
+      <section className="h-full w-full bg-[#5185FF] flex flex-col gap-6 p-10 items-center xl:min-h-[688px]">
         <h2
           className={`text-4xl text-white text-center ${arabotoBold.className}`}
         >
@@ -30,7 +30,7 @@ const Introduction = () => {
           alt="placeholder"
         />
       </section>
-      <section className="h-full w-full bg-[#F8DF71] flex flex-col gap-3 p-10">
+      <section className="h-full w-full bg-[#F8DF71] flex flex-col gap-3 p-10 xl:min-h-[688px]">
         <h3 className={`text-2xl ${arabotoBold.className}`}>
           How Caregivers Alliance Changes Lives for the Better
         </h3>
@@ -46,7 +46,7 @@ const Introduction = () => {
           </a>
         </Button>
       </section>
-    </>
+    </div>
   );
 };
 export default Introduction;
