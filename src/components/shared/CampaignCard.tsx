@@ -92,7 +92,7 @@ export const CampaignCard = ({
           <span>Make a Donation</span>
           <HeartFilledIcon />
         </Button>
-        <Button className="mt-2 rounded-3xl" variant="outline">
+        <Button className="mt-2 rounded-3xl" variant="outline" asChild>
           <Link href={`/campaigns/${encodeURIComponent(slug)}`}>
             Learn More
           </Link>
