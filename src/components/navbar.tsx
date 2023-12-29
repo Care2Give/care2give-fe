@@ -29,7 +29,7 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
       )}
       <h1 className="text-2xl">{title}</h1>
       {/* <div className="flex gap-2"> */}
-      <Button variant="ghost" size="icon" className="">
+      <Button variant="ghost" size="icon" className="" onClick={() => router.push("/gift_basket")}>
         <Image
           src="/navbar/gift_basket.svg"
           alt="Gift basket icon"
