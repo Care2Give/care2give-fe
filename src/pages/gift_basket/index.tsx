@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, Dispatch } from "react";
+import React, { ReactNode, useState, Dispatch, Fragment } from "react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -13,9 +13,10 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
-import { HeartFilledIcon } from "@radix-ui/react-icons";
+import { HeartFilledIcon, TrashIcon } from "@radix-ui/react-icons";
 import NavBar from "@/components/navbar";
 import Image from "next/image";
+import { useCartStore, CartItem } from "@/store/cartStore";
 
 const emailSchema = z.string().regex(new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/));
 
@@ -147,7 +148,7 @@ const DonationForm = ({schemaIdx, setSchemaIdx}: {schemaIdx: number; setSchemaId
 
 const PaymentOption = ({children}: {children?: ReactNode}) => {
     return (
-        <div className={"border border-transparent rounded-md flex flex-row justify-center items-center gap-3 h-16 bg-[#E6F3FF] hover:bg-[#5185FF]"}>
+        <div className={"rounded-md flex flex-row justify-center items-center gap-3 h-16 bg-[#E6F3FF] hover:bg-[#5185FF]"}>
             {children}
         </div>
     )
@@ -173,13 +174,53 @@ const PaymentMethodSelect = () => {
     )
 }
 
+const GiftBasketCartItem = ({cartItem, removeItem}: {cartItem: CartItem; removeItem: (item: CartItem) => void}) => {
+    return (
+        <div className="flex flex-row gap-2 items-center bg-[#5185FF] text-white px-5 py-2 rounded-xl font-extralight">
+            <Image src={cartItem.campaign.coverImagesURLs[0]} alt="campaign_image" width={80} height={80} className="rounded" />
+            <div className="flex flex-col gap-1">
+                <h3 className="text-[13px] font-semibold">{cartItem.campaign.title}</h3>
+                <p className="text-[9px]" style={{
+                    maxWidth: '100%',
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    WebkitLineClamp: 2,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                }}>{cartItem.campaign.description}</p>
+                <div className="flex">
+                    <p className="border border-solid border-[#43D7AE] rounded-lg px-2 py-1 text-[11px] flex flex-row gap-1">
+                        <span className="font-semibold">$</span>
+                        {cartItem.donationOption.value + cartItem.otherAmount
+                    }</p>
+                </div>
+            </div>
+            <TrashIcon width={100} height={100} onClick={() => removeItem(cartItem)} />
+        </div>
+    )
+}
+
 const GiftBasketPage = () => {
+    const { items, removeItem } = useCartStore();
     const [schemaIdx, setSchemaIdx] = useState<number>(0);
+    
+    const giftBasketCartItems = items.map((i, idx) => <GiftBasketCartItem key={idx} cartItem={i} removeItem={removeItem} />);
+    const totalAmount = items.reduce((acc, c) => acc + c.donationOption.value + c.otherAmount ,0);
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
             <NavBar title="Gift Basket" />
             <div className="overflow-hidden w-screen px-2 mb-6">
+                <div className="flex flex-col gap-2">
+                    {giftBasketCartItems}
+                </div>
+                <div className="px-4">
+                    <hr className="my-4" />
+                    <div className="flex flex-row">
+                        <p>Total</p>
+                        <p className="ml-auto font-bold">${totalAmount}</p>
+                    </div>
+                </div>
                 <PaymentMethodSelect />
                 <DonationTypeSelect setSchemaIdx={setSchemaIdx} />
                 <DonationForm schemaIdx={schemaIdx} setSchemaIdx={setSchemaIdx} />

@@ -3,7 +3,7 @@ import { set } from "react-hook-form";
 import { create } from "zustand";
 import { combine, devtools, persist } from "zustand/middleware";
 
-interface CartItem {
+export interface CartItem {
   campaign: CampaignData;
   donationOption: DonationOption;
   otherAmount: number;
