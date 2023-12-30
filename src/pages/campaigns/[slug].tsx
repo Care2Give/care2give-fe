@@ -25,7 +25,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import Link from "next/link";
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import { Gift } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 
@@ -69,20 +69,21 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
       <NavBar title={campaignTitle || slugToTitle(slug)} />
       <div className="overflow-hidden w-screen">
         <Swiper
-          style={{
-            "--swiper-pagination-color": "#FFFFFF",
-            "--swiper-pagination-bullet-inactive-color": "#FFFFFF",
-            "--swiper-pagination-bullet-inactive-opacity": "0.7",
-            "--swiper-pagination-bullet-size": "12px",
-            "--swiper-pagination-bullet-inactive-size": "8px",
-            "--swiper-pagination-bullet-horizontal-gap": "3px",
-            "--swiper-navigation-color": "#FFFFFF",
-            "--swiper-navigation-size": "20px",
-          }}
+          style={
+            {
+              "--swiper-pagination-color": "#FFFFFF",
+              "--swiper-pagination-bullet-inactive-color": "#FFFFFF",
+              "--swiper-pagination-bullet-inactive-opacity": "0.7",
+              "--swiper-pagination-bullet-size": "12px",
+              "--swiper-pagination-bullet-inactive-size": "8px",
+              "--swiper-pagination-bullet-horizontal-gap": "3px",
+              "--swiper-navigation-color": "#FFFFFF",
+              "--swiper-navigation-size": "20px",
+            } as CSSProperties
+          }
           modules={[Navigation, Pagination, Scrollbar]}
           navigation
           pagination={{ clickable: true, dynamicBullets: true }}
-          loop
           cssMode
           className="w-full"
         >

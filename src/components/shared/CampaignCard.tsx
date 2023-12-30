@@ -17,6 +17,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
+import { CSSProperties } from "react";
 
 type CampaignCardProps = {
   campaignTitle?: string;
@@ -42,20 +43,21 @@ export const CampaignCard = ({
     <div className="p-6 bg shadow-xl rounded-lg">
       <div className=" rounded-lg overflow-hidden">
         <Swiper
-          style={{
-            "--swiper-pagination-color": "#FFFFFF",
-            "--swiper-pagination-bullet-inactive-color": "#FFFFFF",
-            "--swiper-pagination-bullet-inactive-opacity": "0.7",
-            "--swiper-pagination-bullet-size": "12px",
-            "--swiper-pagination-bullet-inactive-size": "8px",
-            "--swiper-pagination-bullet-horizontal-gap": "3px",
-            "--swiper-navigation-color": "#FFFFFF",
-            "--swiper-navigation-size": "20px",
-          }}
+          style={
+            {
+              "--swiper-pagination-color": "#FFFFFF",
+              "--swiper-pagination-bullet-inactive-color": "#FFFFFF",
+              "--swiper-pagination-bullet-inactive-opacity": "0.7",
+              "--swiper-pagination-bullet-size": "12px",
+              "--swiper-pagination-bullet-inactive-size": "8px",
+              "--swiper-pagination-bullet-horizontal-gap": "3px",
+              "--swiper-navigation-color": "#FFFFFF",
+              "--swiper-navigation-size": "20px",
+            } as CSSProperties
+          }
           modules={[Navigation, Pagination, Scrollbar]}
           navigation
           pagination={{ clickable: true, dynamicBullets: true }}
-          loop
           cssMode
         >
           {coverImagesURLs.map((url, i) => (
