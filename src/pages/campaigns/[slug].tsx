@@ -27,7 +27,7 @@ import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import Link from "next/link";
 import { CSSProperties, useState } from "react";
 import { Gift } from "lucide-react";
-import { useCartStore } from "@/store/cartStore";
+import { useCartStore } from "@/store/useCartStore";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -62,7 +62,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
 
   const [currentOption, setCurrentOption] = useState<number>(-1);
   const [otherAmount, setOtherAmount] = useState<number | undefined>(undefined);
-  const { items, addItem } = useCartStore();
+  const { addItem } = useCartStore();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">

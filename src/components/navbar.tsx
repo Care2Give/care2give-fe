@@ -14,9 +14,6 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
 
   return (
     <nav className="w-full flex justify-between items-center px-6 py-4">
-      {/* <Button variant="ghost" size="icon">
-        <HamburgerMenuIcon height="24" width="24" color="white" />
-      </Button> */}
       {!titleIsCenterAligned && (
         <Button
           variant="ghost"
@@ -27,8 +24,17 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
           <ChevronLeftIcon height="24" width="24" color="black" />
         </Button>
       )}
-      <h1 className="text-2xl">{title}</h1>
-      {/* <div className="flex gap-2"> */}
+      <div className="flex items-center gap-2">
+        {router.pathname === "/" && (
+          <Image
+            src="./navbar/logo.svg"
+            alt="Caregivers Alliance Logo"
+            height={32}
+            width={32}
+          />
+        )}
+        <h1 className="text-2xl">{title}</h1>
+      </div>
       <Button variant="ghost" size="icon" className="">
         <Image
           src="/navbar/gift_basket.svg"
@@ -37,15 +43,6 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
           width={24}
         />
       </Button>
-      {/* <Button variant="ghost" size="icon">
-        <Image
-          src="./navbar/profile.svg"
-          alt="Profile icon"
-          height={24}
-          width={24}
-        />
-      </Button> */}
-      {/* </div> */}
     </nav>
   );
 };
