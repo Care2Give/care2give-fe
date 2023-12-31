@@ -9,6 +9,7 @@ import {
 import localFont from "next/font/local";
 import Image from "next/image";
 import { Share1Icon } from "@radix-ui/react-icons";
+import { useState } from "react";
 
 const araboto = localFont({
   src: "../../../public/fonts/araboto/Araboto Medium 400.ttf",
@@ -21,9 +22,16 @@ const montserrat = Montserrat({
 });
 
 const HelpBySharing = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setOpen(false);
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
         <Share1Icon height={28} width={28} color="black" />
       </DialogTrigger>
       <DialogContent className="border-none overflow-hidden p-0 rounded-xl sm:rounded-xl w-96">
@@ -34,8 +42,8 @@ const HelpBySharing = () => {
                 className="object-cover h-[300px] w-full"
                 src="/popup/popup_image.png"
                 alt="popup image"
-                width={32}
-                height={32}
+                width={384}
+                height={300}
               />
               <div className="leading-5 p-10">
                 <h2
@@ -49,7 +57,7 @@ const HelpBySharing = () => {
                   Share the love; let&apos;s show our support together!
                 </p>
                 <div className="flex gap-8 pt-16 justify-center">
-                  <button>
+                  <button onClick={handleCopyToClipboard}>
                     <Image
                       src="/popup/clipboard-copy.svg"
                       className="min-w-10 min-h-12 aspect-square object-contain object-center w-11 fill-white overflow-hidden self-stretch max-w-full"
