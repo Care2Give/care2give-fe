@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 import { HeartFilledIcon, TrashIcon } from "@radix-ui/react-icons";
@@ -80,7 +81,10 @@ const DonationTypeSelect = ({setSchemaIdx}: {setSchemaIdx: Dispatch<React.SetSta
     )
 }
 
-const DonationForm = ({schemaIdx, setSchemaIdx}: {schemaIdx: number; setSchemaIdx: Dispatch<React.SetStateAction<number>>}) => {
+const DonationForm = (
+    {schemaIdx, setSchemaIdx, disabled}: 
+    {schemaIdx: number; setSchemaIdx: Dispatch<React.SetStateAction<number>>; disabled: boolean}
+) => {
     const form = useForm<z.infer<typeof schemas[typeof schemaIdx]>>({
         resolver: zodResolver(schemas[schemaIdx]),
     });
@@ -137,7 +141,7 @@ const DonationForm = ({schemaIdx, setSchemaIdx}: {schemaIdx: number; setSchemaId
                         </div>
                     </div>
                 }
-                <Button type="submit" className="rounded-full flex flex-row items-center gap-1 mx-auto mt-4 w-8/12">
+                <Button type="submit" className="rounded-full flex flex-row items-center gap-1 mx-auto mt-4 w-8/12" disabled={disabled}>
                     <p>Donate</p>
                     <HeartFilledIcon />
                 </Button>
@@ -184,9 +188,19 @@ const PaymentMethodSelect = () => {
     )
 }
 
-const GiftBasketCartItem = ({cartItem, removeItem}: {cartItem: CartItem; removeItem: (item: CartItem) => void}) => {
+const GiftBasketCartItem = (
+    {cartItem, removeItem, toggleItem}: 
+    {cartItem: CartItem; removeItem: (item: CartItem) => void; toggleItem: (item: CartItem) => void}
+) => {
     return (
-        <div className="flex flex-row gap-2 items-center bg-[#5185FF] text-white px-5 py-2 rounded-xl font-extralight">
+        <div 
+            className="flex flex-row gap-2 items-center px-5 py-2 rounded-xl font-extralight"
+            style={{
+                backgroundColor: cartItem.isSelected ? "#5185FF" : "white",
+                color: cartItem.isSelected ? "white" : "black"
+            }}
+        >
+            <Checkbox checked={cartItem.isSelected} onCheckedChange={() => toggleItem(cartItem)} />
             <Image src={cartItem.campaign.coverImagesURLs[0]} alt="campaign_image" width={80} height={80} className="rounded" />
             <div className="flex flex-col gap-1">
                 <h3 className="text-[13px] font-semibold">{cartItem.campaign.title}</h3>
@@ -205,26 +219,32 @@ const GiftBasketCartItem = ({cartItem, removeItem}: {cartItem: CartItem; removeI
                     }</p>
                 </div>
             </div>
-            <TrashIcon width={100} height={100} onClick={() => removeItem(cartItem)} />
+            <div 
+                style={{
+                    color: cartItem.isSelected ? "white" : "#5185FF"
+                }}
+            >
+                <TrashIcon onClick={() => removeItem(cartItem)} width="25" height="25" />
+            </div>
         </div>
     )
 }
 
 const GiftBasketPage = () => {
-    const { items, removeItem } = useCartStore();
+    const { items, removeItem, toggleItem } = useCartStore();
     const [schemaIdx, setSchemaIdx] = useState<number>(0);
-    const [totalAmount, setTotalAmount] = useState<number>(0);
-    
+    const [totalAmount, setTotalAmount] = useState<number>(-1);
+
     useEffect(() => {
-        setTotalAmount(items.reduce((acc, c) => acc + c.donationOption.value + c.otherAmount ,0));
+        setTotalAmount(items.filter(i => i.isSelected).reduce((acc, c) => acc + c.donationOption.value + c.otherAmount ,0));
     }, [items]);
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
             <NavBar title="Gift Basket" />
             <div className="overflow-hidden w-screen px-2 mb-6">
-                {totalAmount !== 0 && <div className="flex flex-col gap-2">
-                    {items.map((i, idx) => <GiftBasketCartItem key={idx} cartItem={i} removeItem={removeItem} />)}
+                {totalAmount !== -1 && <div className="flex flex-col gap-2">
+                    {items.map((i, idx) => <GiftBasketCartItem key={idx} cartItem={i} removeItem={removeItem} toggleItem={toggleItem} />)}
                 </div>}
                 <div className="px-4">
                     <hr className="my-4" />
@@ -235,7 +255,7 @@ const GiftBasketPage = () => {
                 </div>
                 <PaymentMethodSelect />
                 <DonationTypeSelect setSchemaIdx={setSchemaIdx} />
-                <DonationForm schemaIdx={schemaIdx} setSchemaIdx={setSchemaIdx} />
+                <DonationForm schemaIdx={schemaIdx} setSchemaIdx={setSchemaIdx} disabled={totalAmount === 0} />
             </div>
         </main>
     )

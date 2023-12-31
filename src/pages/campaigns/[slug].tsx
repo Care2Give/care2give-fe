@@ -239,6 +239,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
                 donationOption: option,
                 campaign,
                 otherAmount: otherAmount || 0,
+                isSelected: true,
               });
             }}
           >
