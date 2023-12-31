@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, Dispatch, Fragment } from "react";
+import React, { ReactNode, useState, Dispatch, Fragment, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -160,11 +160,21 @@ const PaymentMethodSelect = () => {
             <h1 className="text-xl font-semibold text-center">Payment Method</h1>
             <div className="flex flex-col gap-2">
                 <PaymentOption>
-                    <Image src="/gift_basket/visa_logo.png" alt="visa_logo" width={200} height={40} />
+                    <Image 
+                        src="/gift_basket/visa_logo.png" 
+                        alt="visa_logo" 
+                        width={200} 
+                        height={50} 
+                    />
                 </PaymentOption>
                 <PaymentOption>
                     <Image src="/gift_basket/dbs_logo.png" alt="dbs_logo" width={40} height={40} />
-                    <Image src="/gift_basket/paynow_logo.png" alt="paynow_logo" width={80} height={40} />
+                    <Image 
+                        src="/gift_basket/paynow_logo.png" 
+                        alt="paynow_logo" 
+                        width={80} 
+                        height={80} 
+                    />
                 </PaymentOption>
                 <PaymentOption>
                     <Image src="/gift_basket/bank_icon.png" alt="bank_icon" width={40} height={40} />
@@ -203,17 +213,19 @@ const GiftBasketCartItem = ({cartItem, removeItem}: {cartItem: CartItem; removeI
 const GiftBasketPage = () => {
     const { items, removeItem } = useCartStore();
     const [schemaIdx, setSchemaIdx] = useState<number>(0);
+    const [totalAmount, setTotalAmount] = useState<number>(0);
     
-    const giftBasketCartItems = items.map((i, idx) => <GiftBasketCartItem key={idx} cartItem={i} removeItem={removeItem} />);
-    const totalAmount = items.reduce((acc, c) => acc + c.donationOption.value + c.otherAmount ,0);
+    useEffect(() => {
+        setTotalAmount(items.reduce((acc, c) => acc + c.donationOption.value + c.otherAmount ,0));
+    }, [items]);
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
             <NavBar title="Gift Basket" />
             <div className="overflow-hidden w-screen px-2 mb-6">
-                <div className="flex flex-col gap-2">
-                    {giftBasketCartItems}
-                </div>
+                {totalAmount !== 0 && <div className="flex flex-col gap-2">
+                    {items.map((i, idx) => <GiftBasketCartItem key={idx} cartItem={i} removeItem={removeItem} />)}
+                </div>}
                 <div className="px-4">
                     <hr className="my-4" />
                     <div className="flex flex-row">
