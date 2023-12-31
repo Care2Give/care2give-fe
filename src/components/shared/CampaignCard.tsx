@@ -91,8 +91,13 @@ export const CampaignCard = ({
       </CardHeader>
       <CardContent>
         <Button className="mb-2 rounded-3xl flex items-center gap-2">
-          <span>Make a Donation</span>
-          <HeartFilledIcon />
+          <Link
+            href={`/campaigns/${encodeURIComponent(slug)}?expanded=true`}
+            className="flex items-center gap-2"
+          >
+            <span>Make a Donation</span>
+            <HeartFilledIcon />
+          </Link>
         </Button>
         <Button className="mt-2 rounded-3xl" variant="outline" asChild>
           <Link href={`/campaigns/${encodeURIComponent(slug)}`}>

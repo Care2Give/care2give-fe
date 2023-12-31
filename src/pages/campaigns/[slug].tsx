@@ -28,6 +28,7 @@ import Link from "next/link";
 import { CSSProperties, useState } from "react";
 import { Gift } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
+import HelpBySharing from "@/components/shared/HelpBySharing";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -109,7 +110,8 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
               {campaignTitle}
             </h1>
             <Button variant="ghost" size="icon">
-              <Share1Icon height={28} width={28} color="black" />
+              {/* <Share1Icon height={28} width={28} color="black" /> */}
+              <HelpBySharing />
             </Button>
           </div>
           <p className={`${montserrat.className} text-sm`}>{description}</p>

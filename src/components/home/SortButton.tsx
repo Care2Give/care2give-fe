@@ -23,7 +23,7 @@ interface Setters {
 
 export function DropdownMenuDemo({ setSortKey, setSortIsIncreasing }: Setters) {
   return (
-    <div className="flex justify-start items-start w-full px-10 mb-6">
+    <div className="flex justify-start items-start w-full px-10 my-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="h-8 w-24 bg-[#f8e071] text-black text-sm font-light flex items-center gap-2">

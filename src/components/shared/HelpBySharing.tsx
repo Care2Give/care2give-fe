@@ -8,9 +8,10 @@ import {
 } from "@/components/ui/dialog";
 import localFont from "next/font/local";
 import Image from "next/image";
+import { Share1Icon } from "@radix-ui/react-icons";
 
 const araboto = localFont({
-  src: "../../public/fonts/araboto/Araboto Medium 400.ttf",
+  src: "../../../public/fonts/araboto/Araboto Medium 400.ttf",
 });
 
 const montserrat = Montserrat({
@@ -22,15 +23,19 @@ const montserrat = Montserrat({
 const HelpBySharing = () => {
   return (
     <Dialog>
-      <DialogTrigger>Open</DialogTrigger>
-      <DialogContent className="border-none overflow-hidden p-0 rounded-xl sm:rounded-xl">
+      <DialogTrigger>
+        <Share1Icon height={28} width={28} color="black" />
+      </DialogTrigger>
+      <DialogContent className="border-none overflow-hidden p-0 rounded-xl sm:rounded-xl w-96">
         <DialogHeader>
           <DialogDescription className="p-0 overflow-auto bg-white text-black">
             <div className="grid grid-rows-2">
               <Image
                 className="object-cover h-[300px] w-full"
-                src="./popup/popup_image.png"
+                src="/popup/popup_image.png"
                 alt="popup image"
+                width={32}
+                height={32}
               />
               <div className="leading-5 p-10">
                 <h2
@@ -43,37 +48,41 @@ const HelpBySharing = () => {
                 >
                   Share the love; let&apos;s show our support together!
                 </p>
-                <div className="flex gap-16 pt-16 justify-center">
+                <div className="flex gap-8 pt-16 justify-center">
                   <button>
                     <Image
-                      loading="lazy"
-                      src="./popup/clipboard-copy.svg"
-                      className="aspect-square object-contain object-center w-11 fill-white overflow-hidden self-stretch max-w-full"
+                      src="/popup/clipboard-copy.svg"
+                      className="min-w-10 min-h-12 aspect-square object-contain object-center w-11 fill-white overflow-hidden self-stretch max-w-full"
                       alt="clipboard copy"
+                      width={32}
+                      height={32}
                     />
                   </button>
                   <button>
                     <Image
-                      loading="lazy"
-                      src="./popup/instagram.svg"
-                      className="aspect-square object-contain object-center w-11 overflow-hidden self-stretch max-w-full"
+                      src="/popup/instagram.svg"
+                      className="min-w-10 min-h-12 aspect-square object-contain object-center w-11 overflow-hidden self-stretch max-w-full"
                       alt="instagram"
+                      width={32}
+                      height={32}
                     />
                   </button>
                   <button>
                     <Image
-                      loading="lazy"
-                      src="./popup/twitter.svg"
-                      className="aspect-[1.21] object-contain object-center w-[41px] stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
+                      src="/popup/twitter.svg"
+                      className="min-w-10 min-h-12 aspect-[1.21] object-contain object-center w-[41px] stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
                       alt="twitter"
+                      width={32}
+                      height={32}
                     />
                   </button>
                   <button>
                     <Image
-                      loading="lazy"
-                      src="./popup/facebook.svg"
-                      className="aspect-[0.53] object-contain object-center w-5 stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
+                      src="/popup/facebook.svg"
+                      className="min-w-6 min-h-12 aspect-[0.53] object-contain object-center w-5 stroke-2 stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
                       alt="facebook"
+                      width={32}
+                      height={32}
                     />
                   </button>
                 </div>
