@@ -13,7 +13,7 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
   const router = useRouter();
 
   return (
-    <nav className="w-full flex justify-between items-center px-6 py-4">
+    <nav className="w-full flex justify-between items-center px-6 py-4 fixed bg-white z-50">
       {!titleIsCenterAligned && (
         <Button
           variant="ghost"

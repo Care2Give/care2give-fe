@@ -15,7 +15,7 @@ const arabotoBold = localFont({
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col gap-12 p-10 bg-blue-500">
+    <footer className="flex flex-col gap-4 p-10 bg-gradient-to-b from-[#4ED2C2] via-[#5185ff] to-[#6164cf] text-white">
       <div className="flex items-center gap-6">
         <div className="flex flex-col items-center gap-2 min-w-32">
           <EyeOpenIcon width={80} height={80} color="white" />
