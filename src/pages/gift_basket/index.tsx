@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, Dispatch, Fragment, useEffect } from "react";
+import React, { ReactNode, useState, Dispatch, useEffect, forwardRef, PropsWithChildren, HTMLProps } from "react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -9,6 +9,16 @@ import {
     FormItem,
     FormLabel,
 } from "@/components/ui/form"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -150,13 +160,80 @@ const DonationForm = (
     )
 }
 
-const PaymentOption = ({children}: {children?: ReactNode}) => {
+const DialogLayout = ({title, triggerElement, children}: {title: string; triggerElement: ReactNode, children?: ReactNode}) => {
     return (
-        <div className={"rounded-md flex flex-row justify-center items-center gap-3 h-16 bg-[#E6F3FF] hover:bg-[#5185FF]"}>
-            {children}
-        </div>
+        <Dialog>
+            <DialogTrigger>
+                { triggerElement }
+            </DialogTrigger>
+            <DialogContent className="w-11/12 rounded-lg">
+                <DialogHeader>
+                <DialogTitle>{title}</DialogTitle>
+                </DialogHeader>
+                { children }
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button className="rounded-full">Done</Button>
+                    </DialogClose>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog> 
     )
 }
+
+const QRScanDialog = () => {
+    return (
+        <DialogLayout
+            title="Scan to donate" 
+            triggerElement={
+                <PaymentOption>
+                    <Image src="/gift_basket/dbs_logo.png" alt="dbs_logo" width={40} height={40} />
+                    <Image 
+                        src="/gift_basket/paynow_logo.png" 
+                        alt="paynow_logo" 
+                        width={80} 
+                        height={80} 
+                    />
+                </PaymentOption> 
+            }
+        >
+            <div className="flex flex-col items-center justify-center gap-2"> 
+                <Image src="/gift_basket/qrcode.png" alt="qrcode" height={150} width={150} />
+                <p className="text-[9px] text-center">QR Code is only valid for 5 minutes. Please do not use your BACK or RELOAD/REFRESH browser functions.</p>
+            </div>
+        </DialogLayout>
+    )
+}
+
+const BankTransferDialog = () => {
+    return (
+        <DialogLayout 
+            title="Bank Transfer Details"
+            triggerElement={
+                <PaymentOption>
+                    <Image src="/gift_basket/bank_icon.png" alt="bank_icon" width={40} height={40} />
+                </PaymentOption> 
+            }
+        >
+            <div>
+                <Label htmlFor="recipient_name">Recipient&apos;s Name</Label>
+                <Input id="dialog_recipient_name" type="text" />
+                <Label htmlFor="dialog_nric">NRIC</Label>
+                <Input id="dialog_nric" type="text" />
+                <Label htmlFor="dialog_email">Email</Label>
+                <Input id="dialog_email" type="text" />
+            </div>
+        </DialogLayout>
+    )
+}
+
+const PaymentOption = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(function PaymentOption(props: PropsWithChildren, ref) {
+    return (
+        <div className={"rounded-md flex flex-row justify-center items-center gap-3 h-16 bg-[#E6F3FF] hover:bg-[#5185FF]"} ref={ref}>
+            {props.children}
+        </div>
+    )
+})
 
 const PaymentMethodSelect = () => {
     return (
@@ -171,18 +248,8 @@ const PaymentMethodSelect = () => {
                         height={50} 
                     />
                 </PaymentOption>
-                <PaymentOption>
-                    <Image src="/gift_basket/dbs_logo.png" alt="dbs_logo" width={40} height={40} />
-                    <Image 
-                        src="/gift_basket/paynow_logo.png" 
-                        alt="paynow_logo" 
-                        width={80} 
-                        height={80} 
-                    />
-                </PaymentOption>
-                <PaymentOption>
-                    <Image src="/gift_basket/bank_icon.png" alt="bank_icon" width={40} height={40} />
-                </PaymentOption> 
+                <QRScanDialog />
+                <BankTransferDialog />
             </div>
         </div>
     )
@@ -213,10 +280,12 @@ const GiftBasketCartItem = (
                     textOverflow: 'ellipsis',
                 }}>{cartItem.campaign.description}</p>
                 <div className="flex">
-                    <p className="border border-solid border-[#43D7AE] rounded-lg px-2 py-1 text-[11px] flex flex-row gap-1">
-                        <span className="font-semibold">$</span>
-                        {cartItem.donationOption.value + cartItem.otherAmount
-                    }</p>
+                    <div className={`rounded-md p-0.5 w-16 ${cartItem.isSelected ? "bg-[#43D7AE]" : "bg-gradient-to-b from-[#4ED2C2] via-[#5185FF] to-[#6164CF]"}`}>
+                        <p className={`px-2 py-0.5 text-[11px] flex flex-row gap-1 rounded ${cartItem.isSelected ? "bg-[#5185FF]" : "bg-white"}`}>
+                            <span className="font-semibold">$</span>
+                            {cartItem.donationOption.value + cartItem.otherAmount}
+                        </p>
+                    </div>
                 </div>
             </div>
             <div 
@@ -242,6 +311,7 @@ const GiftBasketPage = () => {
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
             <NavBar title="Gift Basket" />
+
             <div className="overflow-hidden w-screen px-2 mb-6">
                 {totalAmount !== -1 && <div className="flex flex-col gap-2">
                     {items.map((i, idx) => <GiftBasketCartItem key={idx} cartItem={i} removeItem={removeItem} toggleItem={toggleItem} />)}
