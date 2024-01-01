@@ -1,7 +1,6 @@
 import { CampaignData, DonationOption } from "@/lib/campaignSample";
-import { set } from "react-hook-form";
 import { create } from "zustand";
-import { combine, devtools, persist } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 
 interface CartItem {
   campaign: CampaignData;
@@ -17,21 +16,21 @@ interface CartStore {
 }
 
 export const useCartStore = create<CartStore>()(
-  devtools(
-    persist(
-      (set) => ({
-        items: [] as CartItem[],
-        addItem: (item: CartItem) => {
-          set((state) => ({ items: [...state.items, item] }));
-        },
-        removeItem: (item: CartItem) => {
-          set((state) => ({ items: state.items.filter((i) => i !== item) }));
-        },
-        clearCart: () => {
-          set({ items: [] });
-        },
-      }),
-      { name: "cart-store" }
-    )
-  )
+  // devtools(
+  //   persist(
+  (set) => ({
+    items: [],
+    addItem: (item: CartItem) => {
+      set((state) => ({ items: [...state.items, item] }));
+    },
+    removeItem: (item: CartItem) => {
+      set((state) => ({ items: state.items.filter((i) => i !== item) }));
+    },
+    clearCart: () => {
+      set({ items: [] });
+    },
+  })
+  //     { name: "cart-store" }
+  //   )
+  // )
 );
