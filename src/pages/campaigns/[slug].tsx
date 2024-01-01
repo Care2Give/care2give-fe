@@ -12,7 +12,6 @@ import {
 } from "@/lib/campaignSample";
 import { cn, slugToTitle } from "@/lib/utils";
 import { useRouter } from "next/router";
-import { Share1Icon } from "@radix-ui/react-icons";
 import Footer from "@/components/campaign/Footer";
 import RecentDonors from "@/components/campaign/RecentDonors";
 import { Button } from "@/components/ui/button";
@@ -27,7 +26,7 @@ import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import Link from "next/link";
 import { CSSProperties, useState } from "react";
 import { Gift } from "lucide-react";
-import { useCartStore } from "@/store/useCartStore";
+import { useCartStore } from "@/stores/useCartStore";
 import HelpBySharing from "@/components/shared/HelpBySharing";
 
 const montserrat = Montserrat({
@@ -250,7 +249,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
               <Gift height={24} width={24} />
             </Button>
           </div>
-          <form className={cn("px-10 py-6")}>
+          <form className="px-10 py-6">
             <h2 className="text-2xl font-bold mb-3">Other Amount (Min. $10)</h2>
             <div className="bg-gradient-to-b from-[#4ED2C2] via-[#5185ff] to-[#6164cf] p-1 rounded-[12px] relative">
               <label
