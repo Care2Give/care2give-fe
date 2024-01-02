@@ -21,13 +21,13 @@ import {
   } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
-import { HeartFilledIcon, TrashIcon } from "@radix-ui/react-icons";
+import { HeartFilledIcon } from "@radix-ui/react-icons";
 import NavBar from "@/components/navbar";
+import Cart from "@/components/gift_basket/Cart";
 import Image from "next/image";
-import { useCartStore, CartItem } from "@/store/cartStore";
+import { useRouter } from "next/router";
 
 const emailSchema = z.string().regex(new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/));
 
@@ -93,14 +93,16 @@ const DonationTypeSelect = ({setSchemaIdx}: {setSchemaIdx: Dispatch<React.SetSta
 
 const DonationForm = (
     {schemaIdx, setSchemaIdx, disabled}: 
-    {schemaIdx: number; setSchemaIdx: Dispatch<React.SetStateAction<number>>; disabled: boolean}
+    {schemaIdx: number; setSchemaIdx: Dispatch<React.SetStateAction<number>>; disabled?: boolean}
 ) => {
+    const router = useRouter();
     const form = useForm<z.infer<typeof schemas[typeof schemaIdx]>>({
         resolver: zodResolver(schemas[schemaIdx]),
     });
 
     const onSubmit = (data: z.infer<typeof schemas[typeof schemaIdx]>) => {
         console.log(data); //TODO: add http call 
+        router.push("/checkout");
     }
 
     const formTitle = (i: number) : string => {
@@ -255,77 +257,18 @@ const PaymentMethodSelect = () => {
     )
 }
 
-const GiftBasketCartItem = (
-    {cartItem, removeItem, toggleItem}: 
-    {cartItem: CartItem; removeItem: (item: CartItem) => void; toggleItem: (item: CartItem) => void}
-) => {
-    return (
-        <div 
-            className="flex flex-row gap-2 items-center px-5 py-2 rounded-xl font-extralight"
-            style={{
-                backgroundColor: cartItem.isSelected ? "#5185FF" : "white",
-                color: cartItem.isSelected ? "white" : "black"
-            }}
-        >
-            <Checkbox checked={cartItem.isSelected} onCheckedChange={() => toggleItem(cartItem)} />
-            <Image src={cartItem.campaign.coverImagesURLs[0]} alt="campaign_image" width={80} height={80} className="rounded" />
-            <div className="flex flex-col gap-1">
-                <h3 className="text-[13px] font-semibold">{cartItem.campaign.title}</h3>
-                <p className="text-[9px]" style={{
-                    maxWidth: '100%',
-                    display: '-webkit-box',
-                    WebkitBoxOrient: 'vertical',
-                    WebkitLineClamp: 2,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                }}>{cartItem.campaign.description}</p>
-                <div className="flex">
-                    <div className={`rounded-md p-0.5 w-16 ${cartItem.isSelected ? "bg-[#43D7AE]" : "bg-gradient-to-b from-[#4ED2C2] via-[#5185FF] to-[#6164CF]"}`}>
-                        <p className={`px-2 py-0.5 text-[11px] flex flex-row gap-1 rounded ${cartItem.isSelected ? "bg-[#5185FF]" : "bg-white"}`}>
-                            <span className="font-semibold">$</span>
-                            {cartItem.donationOption.value + cartItem.otherAmount}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div 
-                style={{
-                    color: cartItem.isSelected ? "white" : "#5185FF"
-                }}
-            >
-                <TrashIcon onClick={() => removeItem(cartItem)} width="25" height="25" />
-            </div>
-        </div>
-    )
-}
-
 const GiftBasketPage = () => {
-    const { items, removeItem, toggleItem } = useCartStore();
     const [schemaIdx, setSchemaIdx] = useState<number>(0);
-    const [totalAmount, setTotalAmount] = useState<number>(-1);
-
-    useEffect(() => {
-        setTotalAmount(items.filter(i => i.isSelected).reduce((acc, c) => acc + c.donationOption.value + c.otherAmount ,0));
-    }, [items]);
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
             <NavBar title="Gift Basket" />
 
             <div className="overflow-hidden w-screen px-2 mb-6">
-                {totalAmount !== -1 && <div className="flex flex-col gap-2">
-                    {items.map((i, idx) => <GiftBasketCartItem key={idx} cartItem={i} removeItem={removeItem} toggleItem={toggleItem} />)}
-                </div>}
-                <div className="px-4">
-                    <hr className="my-4" />
-                    <div className="flex flex-row">
-                        <p>Total</p>
-                        <p className="ml-auto font-bold">${totalAmount}</p>
-                    </div>
-                </div>
+                <Cart />
                 <PaymentMethodSelect />
                 <DonationTypeSelect setSchemaIdx={setSchemaIdx} />
-                <DonationForm schemaIdx={schemaIdx} setSchemaIdx={setSchemaIdx} disabled={totalAmount === 0} />
+                <DonationForm schemaIdx={schemaIdx} setSchemaIdx={setSchemaIdx} />
             </div>
         </main>
     )
