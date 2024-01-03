@@ -1,4 +1,4 @@
-import { useCartStore, CartItem } from "@/store/cartStore";
+import { useCartStore, CartItem } from "@/stores/useCartStore";
 import Image from "next/image";
 import { Checkbox } from "@/components/ui/checkbox"
 import { TrashIcon } from "@radix-ui/react-icons";
@@ -57,7 +57,7 @@ const Cart = () => {
     }, [items]);
 
     return (
-        <Fragment>
+        <div className="mt-[4.7rem]">
             {totalAmount !== -1 && <div className="flex flex-col gap-2">
                 {items.map((i, idx) => <GiftBasketCartItem key={idx} cartItem={i} removeItem={removeItem} toggleItem={toggleItem} />)}
             </div>}
@@ -68,7 +68,7 @@ const Cart = () => {
                     <p className="ml-auto font-bold text-xl">${totalAmount}</p>
                 </div>
             </div>
-        </Fragment>
+        </div>
     )
 }
 

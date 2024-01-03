@@ -23,10 +23,10 @@ interface Setters {
 
 export function DropdownMenuDemo({ setSortKey, setSortIsIncreasing }: Setters) {
   return (
-    <div className="flex justify-start items-start w-full px-10 mb-6">
+    <div className="flex justify-start items-start w-full px-10 my-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="h-8 w-24 bg-[#f8e071] text-black text-sm font-light flex items-center gap-2">
+          <Button className="w-24 md:w-32 h-8 md:h-10 bg-[#f8e071] text-black text-sm md:text-lg font-light flex items-center gap-2">
             <span>Sort By</span>
             <ChevronDownIcon height={12} width={12} className="min-w-3" />
           </Button>
@@ -36,32 +36,35 @@ export function DropdownMenuDemo({ setSortKey, setSortIsIncreasing }: Setters) {
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>
                 <Text className="mr-2 h-4 w-4" />
-                <span>Campaign Title</span>
+                <span className="text-xs md:text-base">Campaign Title</span>
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                   <DropdownMenuItem>
-                    <ArrowUp className="mr-2 h-4 w-4" />
-                    <button
+                    <Button
                       onClick={() => {
                         setSortKey("Campaign Title");
                         setSortIsIncreasing(true);
                       }}
+                      variant="ghost"
+                      className="text-xs text-left p-0 justify-start h-6 md:text-base"
                     >
-                      A - Z
-                    </button>
+                      <ArrowUp className="mr-2 h-4 w-4" />
+                      <span>A - Z</span>
+                    </Button>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <ArrowDown className="mr-2 h-4 w-4" />
-                    <button
+                    <Button
                       onClick={() => {
-                        // toggleSorted();
                         setSortKey("Campaign Title");
                         setSortIsIncreasing(false);
                       }}
+                      variant="ghost"
+                      className="text-xs text-left p-0 justify-start h-6 md:text-base"
                     >
-                      Z - A
-                    </button>
+                      <ArrowDown className="mr-2 h-4 w-4" />
+                      <span>Z - A</span>
+                    </Button>
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
@@ -69,33 +72,35 @@ export function DropdownMenuDemo({ setSortKey, setSortIsIncreasing }: Setters) {
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>
                 <Calendar className="mr-2 h-4 w-4" />
-                <span>End Date</span>
+                <span className="text-xs md:text-base">End Date</span>
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                   <DropdownMenuItem>
-                    <ArrowUp className="mr-2 h-4 w-4" />
-                    <button
+                    <Button
                       onClick={() => {
-                        // toggleSorted();
                         setSortKey("End Date");
                         setSortIsIncreasing(false);
                       }}
+                      variant="ghost"
+                      className="text-xs text-left p-0 justify-start h-6 md:text-base"
                     >
-                      Latest First
-                    </button>
+                      <ArrowUp className="mr-2 h-4 w-4" />
+                      <span>Latest First</span>
+                    </Button>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <ArrowDown className="mr-2 h-4 w-4" />
-                    <button
+                    <Button
                       onClick={() => {
-                        // toggleSorted();
                         setSortKey("End Date");
                         setSortIsIncreasing(true);
                       }}
+                      variant="ghost"
+                      className="text-xs text-left p-0 justify-start h-6 md:text-base"
                     >
-                      Earliest First
-                    </button>
+                      <ArrowDown className="mr-2 h-4 w-4" />
+                      <span>Earliest First</span>
+                    </Button>
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>

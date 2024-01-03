@@ -6,13 +6,14 @@ import Footer from "@/components/home/Footer";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <>
       <NavBar title="Caregivers Alliance Limited" titleIsCenterAligned />
-      <Introduction />
-      <Featured />
-      <Footer />
+      <main className="flex min-h-screen flex-col items-center justify-between pt-[72px]">
+        <Introduction />
+        <Featured />
+        <Footer />
 
-      {/* <CartItem
+        {/* <CartItem
         id="Campaign-1"
         title="Charity Dinner 2023"
         image="/campaign-img.png"
@@ -27,6 +28,7 @@ export default function Home() {
         description="Support us by buying a Silver table for 10 guests"
         price={10000}
       /> */}
-    </main>
+      </main>
+    </>
   );
 }

@@ -36,8 +36,8 @@ export default function Campaigns() {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between">
-        <NavBar title="All Campaigns" />
+      <NavBar title="All Campaigns" />
+      <main className="flex min-h-screen flex-col items-center justify-between pt-[72px]">
         <DropdownMenuDemo
           setSortKey={setSortKey}
           setSortIsIncreasing={setSortIsIncreasing}

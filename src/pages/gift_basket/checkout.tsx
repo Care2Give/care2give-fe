@@ -27,7 +27,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import React, { ReactNode, forwardRef, HTMLProps, Fragment } from "react";
 import { emailSchema } from ".";
-import { useTaxDeductionStore, TaxDeductionForm } from "@/store/taxDeductionStore";
+import { useTaxDeductionStore, TaxDeductionForm } from "@/stores/useTaxDeductionStore";
 import Image from "next/image";
 
 

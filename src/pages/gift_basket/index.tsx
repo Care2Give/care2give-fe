@@ -28,7 +28,7 @@ import NavBar from "@/components/navbar";
 import Cart from "@/components/gift_basket/Cart";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useTaxDeductionStore } from "@/store/taxDeductionStore";
+import { useTaxDeductionStore } from "@/stores/useTaxDeductionStore";
 
 export const emailSchema = z.string().regex(new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/));
 
