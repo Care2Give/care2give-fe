@@ -28,6 +28,7 @@ import NavBar from "@/components/navbar";
 import Cart from "@/components/gift_basket/Cart";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useTaxDeductionStore } from "@/store/taxDeductionStore";
 
 export const emailSchema = z.string().regex(new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/));
 
@@ -80,28 +81,31 @@ const DonationTypeSelect = ({setSchemaIdx}: {setSchemaIdx: Dispatch<React.SetSta
     return (
         <div className="px-3">
             <RadioGroup defaultValue="0" onValueChange={(v) => setSchemaIdx(parseInt(v))} className="flex flex-col mb-6 gap-3">
-                <RadioOption value="0" label="I want this donation to be anonymous" labelClassName="text-md" />
+                <RadioOption value="0" label="I want this donation to be anonymous" labelClassName="text-[15px]" />
                 <p className="text-[#d3d3d3] text-[10px]">
                     If you choose to donate anonymously, please note that you will not be eligible to claim a tax deduction for your contribution.
                 </p>
-                <RadioOption value="1" label="Request for tax deduction" labelClassName="text-md" />
-                <RadioOption value="3" label="Donating on behalf of an organisation" labelClassName="text-md" />
+                <RadioOption value="1" label="Request for tax deduction" labelClassName="text-[15px]" />
+                <RadioOption value="3" label="Donating on behalf of an organisation" labelClassName="text-[15px]" />
             </RadioGroup>
         </div>
     )
 }
 
 const DonationForm = (
-    {schemaIdx, setSchemaIdx, disabled}: 
-    {schemaIdx: number; setSchemaIdx: Dispatch<React.SetStateAction<number>>; disabled?: boolean}
+    {schemaIdx, setSchemaIdx}: 
+    {schemaIdx: number; setSchemaIdx: Dispatch<React.SetStateAction<number>>}
 ) => {
     const router = useRouter();
+    const { checkout } = useTaxDeductionStore();
+
     const form = useForm<z.infer<typeof schemas[typeof schemaIdx]>>({
         resolver: zodResolver(schemas[schemaIdx]),
     });
 
     const onSubmit = (data: z.infer<typeof schemas[typeof schemaIdx]>) => {
-        console.log(data); //TODO: add http call 
+        console.log(data); 
+        checkout(data);
         router.push("/gift_basket/checkout");
     }
 
@@ -110,7 +114,7 @@ const DonationForm = (
         else if (i === 3) return "Your Details";
         return "";
     }
-
+    
     const formFields = Object.entries(schemas[schemaIdx].shape)
         .map(s => <FormField 
                 key={s[0]}
@@ -124,8 +128,10 @@ const DonationForm = (
                             <FormLabel className="font-light">{ inputTitle }</FormLabel>
                             <FormControl>
                             <Input 
+                                {...field}
+                                value={field.value || ""}
                                 className="rounded-xl text-xs" 
-                                placeholder={ inputPlaceholder } {...field} 
+                                placeholder={ inputPlaceholder } 
                             />
                             </FormControl>
                             { form.formState.errors[s[0]] && <p className="text-red-600">Invalid { inputTitle }</p> }
@@ -153,7 +159,7 @@ const DonationForm = (
                         </div>
                     </div>
                 }
-                <Button type="submit" className="rounded-full flex flex-row items-center gap-1 mx-auto mt-4 w-8/12" disabled={disabled}>
+                <Button type="submit" className="rounded-full flex flex-row items-center gap-1 mx-auto mt-4 w-8/12">
                     <p>Donate</p>
                     <HeartFilledIcon />
                 </Button>

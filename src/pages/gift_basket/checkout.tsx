@@ -27,6 +27,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import React, { ReactNode, forwardRef, HTMLProps } from "react";
 import { emailSchema } from ".";
+import { useTaxDeductionStore, TaxDeductionForm } from "@/store/taxDeductionStore";
 
 type Country = typeof countries[number]["name"];
 const COUNTRIES: [Country, ...Country[]] = [
@@ -56,99 +57,115 @@ const CustomInput = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(fu
     )
 }) 
 
-const CheckoutForm = () => {
+const CheckoutForm = ({taxDeductionDetails}: {taxDeductionDetails: TaxDeductionForm}) => {
+
     const form = useForm<z.infer<typeof checkoutFormSchema>>({
         resolver: zodResolver(checkoutFormSchema),
     })
 
     const onSubmit = (values: z.infer<typeof checkoutFormSchema>) => {
+        console.log(taxDeductionDetails)
         console.log(values);
     }
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2 mt-5 pt-1 px-4 pb-2">
-                <FormField 
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <CustomFormLabel>Email</CustomFormLabel>
-                            <FormControl>
-                                <CustomInput placeholder="Enter your email" {...field} />
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-                <FormField 
-                    control={form.control}
-                    name="cardHolderName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <CustomFormLabel>Card holder name</CustomFormLabel>
-                            <FormControl>
-                                <CustomInput placeholder="Enter card holder name" {...field} />
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-                <FormField 
-                    control={form.control}
-                    name="cardNumber"
-                    render={({ field }) => (
-                        <FormItem>
-                            <CustomFormLabel>Card number</CustomFormLabel>
-                            <FormControl>
-                                <CustomInput placeholder="1234 1234 1234 1234" {...field} />
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-                <FormField 
-                    control={form.control}
-                    name="expiryDate"
-                    render={({ field }) => (
-                        <FormItem>
-                            <CustomFormLabel>Expiry date</CustomFormLabel>
-                            <FormControl>
-                                <CustomInput placeholder="MM/YY" {...field} />
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-                <FormField 
-                    control={form.control}
-                    name="country"
-                    render={({ field }) => (
-                        <FormItem>
-                            <CustomFormLabel>Country or region</CustomFormLabel>
-                            <FormControl>
-                                <Select onValueChange={field.onChange}>
-                                    <SelectTrigger className="text-xs font-light h-7 text-[#7E7E7E]">
-                                        <SelectValue placeholder="Select a country" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            { COUNTRIES.map(c => <SelectItem key={c} value={c} className="text-xs font-light">{c}</SelectItem >) }
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-                <FormField 
-                    control={form.control}
-                    name="zip"
-                    render={({ field }) => (
-                        <FormItem>
-                            <CustomFormLabel>ZIP</CustomFormLabel>
-                            <FormControl>
-                                <CustomInput placeholder="ZIP" {...field} />
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 mt-4 px-4">
+                    <FormField 
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <CustomFormLabel>Email</CustomFormLabel>
+                                <FormControl>
+                                    <CustomInput placeholder="Enter your email" {...field} value={field.value || ""} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField 
+                        control={form.control}
+                        name="cardHolderName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <CustomFormLabel>Card holder name</CustomFormLabel>
+                                <FormControl>
+                                    <CustomInput placeholder="Enter card holder name" {...field} value={field.value || ""} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField 
+                        control={form.control}
+                        name="cardNumber"
+                        render={({ field }) => (
+                            <FormItem>
+                                <CustomFormLabel>Card number</CustomFormLabel>
+                                <FormControl>
+                                    <CustomInput placeholder="1234 1234 1234 1234" {...field} value={field.value || ""} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField 
+                        control={form.control}
+                        name="expiryDate"
+                        render={({ field }) => (
+                            <FormItem>
+                                <CustomFormLabel>Expiry date</CustomFormLabel>
+                                <FormControl>
+                                    <CustomInput placeholder="MM/YY" {...field} value={field.value || ""} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField 
+                        control={form.control}
+                        name="cvc"
+                        render={({ field }) => (
+                            <FormItem>
+                                <CustomFormLabel>CVC</CustomFormLabel>
+                                <FormControl>
+                                    <CustomInput placeholder="CVC" {...field} value={field.value || ""} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField 
+                        control={form.control}
+                        name="country"
+                        render={({ field }) => (
+                            <FormItem>
+                                <CustomFormLabel>Country or region</CustomFormLabel>
+                                <FormControl>
+                                    <Select onValueChange={field.onChange}>
+                                        <SelectTrigger className="text-xs font-light h-7 text-[#7E7E7E]">
+                                            <SelectValue placeholder="Select a country" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                { COUNTRIES.map(c => <SelectItem key={c} value={c} className="text-xs font-light">{c}</SelectItem >) }
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField 
+                        control={form.control}
+                        name="zip"
+                        render={({ field }) => (
+                            <FormItem>
+                                <CustomFormLabel>ZIP</CustomFormLabel>
+                                <FormControl>
+                                    <CustomInput placeholder="ZIP" {...field} value={field.value || ""} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                </div>
                 <Button type="submit" className="rounded-full flex flex-row items-center gap-1 mx-auto mt-7 w-8/12">
                     <p>Donate</p>
                     <HeartFilledIcon />
@@ -159,12 +176,14 @@ const CheckoutForm = () => {
 }
 
 const CheckoutPage = () => {
+    const { isCheckout, taxDeductionDetails } = useTaxDeductionStore();
+
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
             <NavBar title="Gift Basket" />
             <div className="overflow-hidden w-screen px-2 mb-4">
                 <Cart />
-                <CheckoutForm />
+                <CheckoutForm taxDeductionDetails={taxDeductionDetails} />
             </div>
         </main>
     )
