@@ -25,9 +25,11 @@ import { countries } from 'country-list-json';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import React, { ReactNode, forwardRef, HTMLProps } from "react";
+import React, { ReactNode, forwardRef, HTMLProps, Fragment } from "react";
 import { emailSchema } from ".";
 import { useTaxDeductionStore, TaxDeductionForm } from "@/store/taxDeductionStore";
+import Image from "next/image";
+
 
 type Country = typeof countries[number]["name"];
 const COUNTRIES: [Country, ...Country[]] = [
@@ -51,9 +53,23 @@ const CustomFormLabel = ({children}: {children: ReactNode}) => {
     )
 }
 
-const CustomInput = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(function CustomInput(props: InputProps, ref) {
+interface CustomInputProps extends InputProps {
+    className?: string;
+    children?: ReactNode;
+}
+
+const CustomInput = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(function CustomInput(props: CustomInputProps, ref) {
+    const inputProps = {...props}
+    delete inputProps.children;
+    delete inputProps.className;
+
     return (
-        <Input className="text-xs font-light h-7 text-[#7e7e7e]" {...props} ref={ref} />
+        <div className="flex border rounded-md">
+            <Input className={`text-xs font-light h-7 text-[#7e7e7e] border-none ${props.className}`} {...inputProps} ref={ref} />
+            {props.children && <div className="flex ml-auto mr-2.5 gap-1 items-center">
+                { props.children }
+            </div>}
+        </div>
     )
 }) 
 
@@ -103,7 +119,12 @@ const CheckoutForm = ({taxDeductionDetails}: {taxDeductionDetails: TaxDeductionF
                             <FormItem>
                                 <CustomFormLabel>Card number</CustomFormLabel>
                                 <FormControl>
-                                    <CustomInput placeholder="1234 1234 1234 1234" {...field} value={field.value || ""} />
+                                    <CustomInput placeholder="1234 1234 1234 1234" {...field} value={field.value || ""} className="w-8/12">
+                                        <Image src="/gift_basket/Visa.svg" alt="visa" width={22} height={22} />
+                                        <Image src="/gift_basket/Mastercard.svg" alt="mastercard" width={22} height={22} />
+                                        <Image src="/gift_basket/American_Express.svg" alt="american_express" width={22} height={22} />
+                                        <Image src="/gift_basket/Discover.svg" alt="discover" width={22} height={22} />
+                                    </CustomInput>
                                 </FormControl>
                             </FormItem>
                         )}
@@ -127,7 +148,9 @@ const CheckoutForm = ({taxDeductionDetails}: {taxDeductionDetails: TaxDeductionF
                             <FormItem>
                                 <CustomFormLabel>CVC</CustomFormLabel>
                                 <FormControl>
-                                    <CustomInput placeholder="CVC" {...field} value={field.value || ""} />
+                                    <CustomInput placeholder="CVC" {...field} value={field.value || ""}>
+                                        <Image src="/gift_basket/cvc.svg" alt="card" width={22} height={22} />
+                                    </CustomInput>
                                 </FormControl>
                             </FormItem>
                         )}
