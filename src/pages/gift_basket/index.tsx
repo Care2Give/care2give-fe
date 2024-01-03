@@ -29,7 +29,7 @@ import Cart from "@/components/gift_basket/Cart";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-const emailSchema = z.string().regex(new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/));
+export const emailSchema = z.string().regex(new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/));
 
 const anonymousSchema = z.object({});
 
@@ -102,7 +102,7 @@ const DonationForm = (
 
     const onSubmit = (data: z.infer<typeof schemas[typeof schemaIdx]>) => {
         console.log(data); //TODO: add http call 
-        router.push("/checkout");
+        router.push("/gift_basket/checkout");
     }
 
     const formTitle = (i: number) : string => {

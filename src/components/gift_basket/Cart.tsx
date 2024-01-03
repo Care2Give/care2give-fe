@@ -10,14 +10,14 @@ const GiftBasketCartItem = (
 ) => {
     return (
         <div 
-            className="flex flex-row gap-2 items-center px-5 py-2 rounded-xl font-extralight"
+            className="flex flex-row gap-2 items-center px-5 py-2 rounded-xl font-extralight h-28"
             style={{
                 backgroundColor: cartItem.isSelected ? "#5185FF" : "white",
                 color: cartItem.isSelected ? "white" : "black"
             }}
         >
             <Checkbox checked={cartItem.isSelected} onCheckedChange={() => toggleItem(cartItem)} />
-            <Image src={cartItem.campaign.coverImagesURLs[0]} alt="campaign_image" width={80} height={80} className="rounded" />
+            <Image src={cartItem.campaign.coverImagesURLs[0]} alt="campaign_image" width={90} height={90} className="rounded" />
             <div className="flex flex-col gap-1">
                 <h3 className="text-[13px] font-semibold">{cartItem.campaign.title}</h3>
                 <p className="text-[9px]" style={{
@@ -64,8 +64,8 @@ const Cart = () => {
             <div className="px-4">
                 <hr className="my-4" />
                 <div className="flex flex-row">
-                    <p>Total</p>
-                    <p className="ml-auto font-bold">${totalAmount}</p>
+                    <p className="text-lg">Total</p>
+                    <p className="ml-auto font-bold text-xl">${totalAmount}</p>
                 </div>
             </div>
         </Fragment>
