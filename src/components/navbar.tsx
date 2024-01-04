@@ -13,7 +13,6 @@ type NavBarProps = {
 const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
   const { items } = useCartStore();
   const router = useRouter();
-  console.log(items);
 
   return (
     <nav className="w-full flex justify-between items-center px-6 py-4 fixed bg-white z-50">
@@ -38,7 +37,11 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
         )}
         <h1 className="text-2xl">{title}</h1>
       </div>
-      <Button variant="ghost" size="icon" onClick={() => router.push("/gift_basket")}>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => router.push("/gift_basket")}
+      >
         <Image
           src="/navbar/gift_basket.svg"
           alt="Gift basket icon"
