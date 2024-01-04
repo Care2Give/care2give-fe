@@ -60,7 +60,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
   const router = useRouter();
   const isExpanded = router.query.expanded === "true";
 
-  const [currentOption, setCurrentOption] = useState<number>(-1);
+  const [currentOption, setCurrentOption] = useState<number>(1);
   const [otherAmount, setOtherAmount] = useState<number | undefined>(undefined);
   const { addItem } = useCartStore();
 
@@ -217,11 +217,12 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
             ))}
           </form>
           <div className="px-10 py-2 flex flex-col items-center gap-4">
-            <Button
-              className={cn(`rounded-full items-center text-2xl h-12 max-w-80`)}
-            >
-              Check Out
-            </Button>
+            <Link href="/gift-basket" className="max-w-80 w-full">
+              <Button className="rounded-full items-center text-2xl h-12 max-w-80 w-full">
+                Check Out
+              </Button>
+            </Link>
+
             <Button
               className={cn(
                 `rounded-full flex gap-3 items-center text-2xl h-12 max-w-80`

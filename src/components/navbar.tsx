@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/stores/useCartStore";
+import Link from "next/link";
 
 type NavBarProps = {
   title: String;
@@ -37,21 +38,19 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
         )}
         <h1 className="text-2xl">{title}</h1>
       </div>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => router.push("/gift_basket")}
-      >
-        <Image
-          src="/navbar/gift_basket.svg"
-          alt="Gift basket icon"
-          height={24}
-          width={24}
-        />
-      </Button>
-      <Badge className="absolute right-3 top-3 bg-blue-500 opacity-80">
-        {items.length}
-      </Badge>
+      <Link href="/gift-basket">
+        <Button variant="ghost" size="icon">
+          <Image
+            src="/navbar/gift_basket.svg"
+            alt="Gift basket icon"
+            height={24}
+            width={24}
+          />
+        </Button>
+        <Badge className="absolute right-3 top-3 bg-blue-500 opacity-80 hover:bg-blue-500">
+          {items.length}
+        </Badge>
+      </Link>
     </nav>
   );
 };
