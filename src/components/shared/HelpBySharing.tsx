@@ -10,6 +10,7 @@ import localFont from "next/font/local";
 import Image from "next/image";
 import { Share1Icon } from "@radix-ui/react-icons";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
 const araboto = localFont({
   src: "../../../public/fonts/araboto/Araboto Medium 400.ttf",
@@ -32,7 +33,9 @@ const HelpBySharing = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Share1Icon height={28} width={28} color="black" />
+        <Button variant="ghost" size="icon">
+          <Share1Icon height={28} width={28} color="black" />
+        </Button>
       </DialogTrigger>
       <DialogContent className="border-none overflow-hidden p-0 rounded-xl sm:rounded-xl w-96">
         <DialogHeader>
