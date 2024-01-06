@@ -28,7 +28,9 @@ function MakeDonationBtn({ hidden = false, link }: MakeDonationBtnProps) {
       )}
     >
       <Button
-        className={cn(`rounded-full flex gap-3 items-center text-2xl h-12`)}
+        className={cn(
+          `rounded-full flex gap-3 items-center text-2xl h-12 md:w-fit md:px-20`
+        )}
         asChild
       >
         <Link href={link} scroll={false}>

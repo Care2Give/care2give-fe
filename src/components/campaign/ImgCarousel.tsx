@@ -12,7 +12,7 @@ interface ImgCarouselProps {
 
 function ImgCarousel({ coverImagesURLs }: ImgCarouselProps) {
   return (
-    <div className="overflow-hidden w-screen md:w-[640px]">
+    <div className="overflow-hidden w-screen md:w-[640px] md:rounded-3xl">
       <Swiper
         style={
           {

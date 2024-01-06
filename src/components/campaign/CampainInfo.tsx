@@ -36,7 +36,7 @@ function CampainInfo({ campaign }: CampaignInfoProps) {
   const daysLeftToTarget = Math.floor((targetDate - Date.now()) / 8.64e7);
 
   return (
-    <div>
+    <div className="md:shadow-[0px_0px_16px_0px_rgba(0,0,0,0.15)] md:p-8 rounded-2xl md:mb-6">
       <section className="flex flex-col gap-4 py-6">
         <div className="flex justify-between items-center">
           <h1 className={`${arabotoBold.className} text-2xl`}>
@@ -45,17 +45,20 @@ function CampainInfo({ campaign }: CampaignInfoProps) {
           <HelpBySharing />
         </div>
         <p className={`${montserrat.className} text-sm`}>{description}</p>
-        <div className="flex items-stretch gap-4 text-xl">
-          <p className="text-center py-1">
-            <strong>{donors}</strong> Donors
+        <div className="flex items-stretch justify-evenly text-xl">
+          <p className="text-center py-1 flex flex-col justify-center">
+            <strong>{donors.toLocaleString("en-US")}</strong>
+            <span>Donors</span>
           </p>
           <Separator orientation="vertical" className={"h-auto"} />
-          <p className="text-center py-1">
-            <strong>${currentAmount.toLocaleString("en-US")}</strong> Raised
+          <p className="text-center py-1 flex flex-col justify-center">
+            <strong>${currentAmount.toLocaleString("en-US")}</strong>
+            <span>Raised</span>
           </p>
           <Separator orientation="vertical" className={"h-auto"} />
-          <p className="text-center py-1">
-            <strong>${targetAmount.toLocaleString("en-US")}</strong> Goal
+          <p className="text-center py-1 flex flex-col justify-center">
+            <strong>${targetAmount.toLocaleString("en-US")}</strong>
+            <span>Goal</span>
           </p>
         </div>
       </section>

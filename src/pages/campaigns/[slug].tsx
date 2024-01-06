@@ -27,7 +27,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
   return (
     <>
       <NavBar title={campaignTitle || slugToTitle(slug)} />
-      <main className="flex min-h-screen flex-col items-center justify-between pt-[72px]">
+      <main className=" min-h-screen pt-[72px]">
         <div className="md:flex md:gap-4 md:px-16 md:py-10">
           <ImgCarousel coverImagesURLs={coverImagesURLs} />
           <div className="px-8 flex-1">
