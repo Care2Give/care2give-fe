@@ -1,6 +1,6 @@
 import type { GetServerSideProps } from "next";
 import Image from "next/image";
-import localFont from "next/font/local";
+import { arabotoBold } from "@/lib/font";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import NavBar from "@/components/navbar";
@@ -33,10 +33,6 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   style: ["normal"],
   weight: ["400"],
-});
-
-const arabotoBold = localFont({
-  src: "../../../public/fonts/araboto/Araboto Bold 400.ttf",
 });
 
 interface CampaignProps {

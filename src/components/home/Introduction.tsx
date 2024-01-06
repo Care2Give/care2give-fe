@@ -1,17 +1,13 @@
 import { Montserrat } from "next/font/google";
-import localFont from "next/font/local";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
+import { arabotoBold } from "@/lib/font";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   style: ["normal"],
   weight: ["400"],
-});
-
-const arabotoBold = localFont({
-  src: "../../../public/fonts/araboto/Araboto Bold 400.ttf",
 });
 
 const Introduction = () => {

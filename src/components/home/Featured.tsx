@@ -1,16 +1,8 @@
-import localFont from "next/font/local";
 import { CampaignCard } from "@/components/shared/CampaignCard";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { CampaignData, data as campaigns } from "@/lib/campaignSample";
-
-const araboto = localFont({
-  src: "../../../public/fonts/araboto/Araboto Medium 400.ttf",
-});
-
-const arabotoBold = localFont({
-  src: "../../../public/fonts/araboto/Araboto Bold 400.ttf",
-});
+import { araboto, arabotoBold } from "@/lib/font";
 
 const Featured = () => {
   return (
