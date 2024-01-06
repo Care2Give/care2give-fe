@@ -9,7 +9,7 @@ const Featured = () => {
     <>
       <section className="h-full w-full flex flex-col gap-6 p-10">
         <div className="flex justify-between items-center">
-          <h4 className={`text-xl ${arabotoBold.className}`}>
+          <h4 className={`text-2xl ${arabotoBold.className}`}>
             Featured Campaigns
           </h4>
           <Button variant="link" className="justify-start p-0 underline w-fit">
