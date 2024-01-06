@@ -3,8 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 
 import {
-  CardContent,
-  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/CampaignCardUI/card";
@@ -28,6 +27,13 @@ type CampaignCardProps = {
   slug: string;
 };
 
+function constructDaysLeftString(daysLeft: number): string {
+  if (daysLeft <= 0) {
+    return "Campaign is over";
+  }
+  return [daysLeft, `${daysLeft > 1 ? "Days" : "Day"}`, "Left"].join(" ");
+}
+
 export const CampaignCard = ({
   campaignTitle = "Untitled",
   coverImagesURLs = [],
@@ -40,8 +46,8 @@ export const CampaignCard = ({
   const daysLeftToTarget = Math.floor((targetDate - Date.now()) / 8.64e7);
 
   return (
-    <div className="p-6 bg shadow-xl rounded-lg">
-      <div className=" rounded-lg overflow-hidden">
+    <div className="flex flex-col gap-6 md:flex-row md:items-center md:h-[300px] p-6 bg shadow-[0_0_16px_0_rgba(0,0,0,0.15)] rounded-lg">
+      <div className="rounded-lg overflow-hidden md:w-[352px] md:h-[256px]">
         <Swiper
           style={
             {
@@ -73,38 +79,40 @@ export const CampaignCard = ({
           ))}
         </Swiper>
       </div>
-      <CardHeader>
-        <CardTitle className="pb-2">{campaignTitle}</CardTitle>
-        <Progress value={completionPercentage} />
-        <div className="flex justify-between pt-2">
-          <div className="flex">
-            <CardTitle>${currentAmount.toLocaleString("en-US")}</CardTitle>
-            <CardTitle className="text-gray-400">
-              /{targetAmount.toLocaleString("en-US")}
-            </CardTitle>
+      <div className="flex flex-col justify-between grow gap-6">
+        <CardHeader className="p-0">
+          <CardTitle className="pb-2">{campaignTitle}</CardTitle>
+          <Progress value={completionPercentage} />
+          <div className="flex justify-between pt-2">
+            <div className="flex">
+              <CardTitle>${currentAmount.toLocaleString("en-US")}</CardTitle>
+              <CardTitle className="text-gray-400">
+                /{targetAmount.toLocaleString("en-US")}
+              </CardTitle>
+            </div>
+            <CardTitle>{completionPercentage}%</CardTitle>
           </div>
-          <CardTitle>{completionPercentage}%</CardTitle>
-        </div>
-        <CardDescription>
-          {daysLeftToTarget > 0 ? `${daysLeftToTarget} more days` : ""}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Button className="mb-2 rounded-3xl flex items-center gap-2">
-          <Link
-            href={`/campaigns/${encodeURIComponent(slug)}?expanded=true`}
-            className="flex items-center gap-2"
-          >
-            <span>Make a Donation</span>
-            <HeartFilledIcon />
-          </Link>
-        </Button>
-        <Button className="mt-2 rounded-3xl" variant="outline" asChild>
-          <Link href={`/campaigns/${encodeURIComponent(slug)}`}>
-            Learn More
-          </Link>
-        </Button>
-      </CardContent>
+          <CardTitle className="text-[#1DCF9E] text-md font-semibold">
+            {constructDaysLeftString(daysLeftToTarget)}
+          </CardTitle>
+        </CardHeader>
+        <CardFooter className="flex flex-col md:flex-row items-center gap-4 p-0">
+          <Button className="rounded-3xl flex items-center gap-2">
+            <Link
+              href={`/campaigns/${encodeURIComponent(slug)}?expanded=true`}
+              className="flex items-center gap-2"
+            >
+              <span>Make a Donation</span>
+              <HeartFilledIcon />
+            </Link>
+          </Button>
+          <Button className="rounded-3xl" variant="outline" asChild>
+            <Link href={`/campaigns/${encodeURIComponent(slug)}`}>
+              Learn More
+            </Link>
+          </Button>
+        </CardFooter>
+      </div>
     </div>
   );
 };
