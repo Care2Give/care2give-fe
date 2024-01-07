@@ -21,7 +21,10 @@ interface Setters {
   setSortIsIncreasing: Dispatch<SetStateAction<boolean>>;
 }
 
-export function DropdownMenuDemo({ setSortKey, setSortIsIncreasing }: Setters) {
+export default function SortButton({
+  setSortKey,
+  setSortIsIncreasing,
+}: Setters) {
   return (
     <div className="flex justify-start items-start w-full px-10 my-2">
       <DropdownMenu>

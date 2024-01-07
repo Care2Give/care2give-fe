@@ -20,7 +20,7 @@ import { CSSProperties } from "react";
 
 type CampaignCardProps = {
   campaignTitle?: string;
-  coverImagesURLs?: string[];
+  imageUrl?: string[];
   currentAmount?: number;
   targetAmount?: number;
   targetDate?: number;
@@ -36,7 +36,7 @@ function constructDaysLeftString(daysLeft: number): string {
 
 export const CampaignCard = ({
   campaignTitle = "Untitled",
-  coverImagesURLs = [],
+  imageUrl = [],
   currentAmount = 0,
   targetAmount = 0,
   targetDate = 0,
@@ -66,7 +66,7 @@ export const CampaignCard = ({
           pagination={{ clickable: true, dynamicBullets: true }}
           cssMode
         >
-          {coverImagesURLs.map((url, i) => (
+          {imageUrl.map((url, i) => (
             <SwiperSlide key={`${url}_${i}`}>
               <Image
                 className="max-h-64 object-cover"

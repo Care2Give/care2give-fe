@@ -20,7 +20,7 @@ interface CampaignProps {
 }
 
 const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
-  const { title: campaignTitle, coverImagesURLs, slug } = campaign;
+  const { title: campaignTitle, imageUrl, slug } = campaign;
   const router = useRouter();
   const isExpanded = router.query.expanded === "true";
 
@@ -29,7 +29,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
       <NavBar title={campaignTitle || slugToTitle(slug)} />
       <main className=" min-h-screen pt-[72px]">
         <div className="md:flex md:gap-4 md:px-16 md:py-10">
-          <ImgCarousel coverImagesURLs={coverImagesURLs} />
+          <ImgCarousel imageUrl={imageUrl} />
           <div className="px-8 flex-1">
             <CampainInfo campaign={campaign} />
             <MakeDonationBtn

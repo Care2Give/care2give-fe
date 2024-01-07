@@ -25,7 +25,7 @@ const Featured = () => {
         {campaigns.map((campaign, i) => {
           const {
             title,
-            coverImagesURLs,
+            imageUrl,
             currentAmount,
             targetAmount,
             targetDate,
@@ -35,7 +35,7 @@ const Featured = () => {
             <CampaignCard
               key={`campaign-${i}`}
               campaignTitle={title}
-              coverImagesURLs={coverImagesURLs}
+              imageUrl={imageUrl}
               currentAmount={currentAmount}
               targetAmount={targetAmount}
               targetDate={targetDate}
