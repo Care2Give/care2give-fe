@@ -1,23 +1,15 @@
-import localFont from "next/font/local";
 import { CampaignCard } from "@/components/shared/CampaignCard";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { CampaignData, data as campaigns } from "@/lib/campaignSample";
-
-const araboto = localFont({
-  src: "../../../public/fonts/araboto/Araboto Medium 400.ttf",
-});
-
-const arabotoBold = localFont({
-  src: "../../../public/fonts/araboto/Araboto Bold 400.ttf",
-});
+import { araboto, arabotoBold } from "@/lib/font";
 
 const Featured = () => {
   return (
     <>
       <section className="h-full w-full flex flex-col gap-6 p-10">
         <div className="flex justify-between items-center">
-          <h4 className={`text-xl ${arabotoBold.className}`}>
+          <h4 className={`text-2xl ${arabotoBold.className}`}>
             Featured Campaigns
           </h4>
           <Button variant="link" className="justify-start p-0 underline w-fit">
