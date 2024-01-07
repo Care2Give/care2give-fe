@@ -16,6 +16,7 @@ export default function CampaignList({
           targetAmount,
           targetDate,
           slug,
+          id,
         } = campaign as CampaignData;
         return (
           <CampaignCard
@@ -26,6 +27,7 @@ export default function CampaignList({
             targetAmount={targetAmount}
             targetDate={targetDate}
             slug={slug}
+            id={id}
           />
         );
       })}

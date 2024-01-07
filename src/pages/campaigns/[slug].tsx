@@ -55,6 +55,7 @@ const Campaign = ({ campaign, donationOptions }: CampaignProps) => {
 export const getServerSideProps: GetServerSideProps<CampaignProps> = async (
   context
 ) => {
+  console.log(context);
   const { slug } = context.params as { slug: string };
   const idx = data.findIndex((campaign) => campaign.slug === slug);
   return {
@@ -66,3 +67,13 @@ export const getServerSideProps: GetServerSideProps<CampaignProps> = async (
 };
 
 export default Campaign;
+
+// export const getServerSideProps = (async () => {
+//   // Fetch data from external API
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_API_URL}/v1/campaign/list`
+//   );
+//   const campaigns: CampaignData[] = await res.json();
+//   // Pass data to the page via props
+//   return { props: { campaigns } };
+// }) satisfies GetServerSideProps<{ campaigns: CampaignData[] }>;

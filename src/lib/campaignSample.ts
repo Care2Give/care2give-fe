@@ -7,6 +7,7 @@ export type CampaignData = {
   targetDate: number;
   slug: string;
   description: string;
+  id: string;
 };
 
 export type DonationOption = {
@@ -28,6 +29,7 @@ const data: CampaignData[] = [
     slug: "caring-hearts-initiative",
     description:
       "Join us for a joyous evening as we come together to express our appreciation for the tireless dedication of our caregivers. Your gift helps us train and support more caregivers as we support them on their journey.",
+    id: "1",
   },
   {
     title: "Charity Dinner 2023",
@@ -41,6 +43,7 @@ const data: CampaignData[] = [
     slug: "charity-dinner-2023",
     description:
       "Join us for a joyous evening as we come together to express our appreciation for the tireless dedication of our caregivers. Your gift helps us train and support more caregivers as we support them on their journey.",
+    id: "2",
   },
   {
     title: "Care Collective 2023",
@@ -55,6 +58,7 @@ const data: CampaignData[] = [
     slug: "care-collective-2023",
     description:
       "Join us for a joyous evening as we come together to express our appreciation for the tireless dedication of our caregivers. Your gift helps us train and support more caregivers as we support them on their journey.",
+    id: "3",
   },
 ];
 

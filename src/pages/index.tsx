@@ -12,22 +12,6 @@ export default function Home() {
         <Introduction />
         <Featured />
         <Footer />
-
-        {/* <CartItem
-        id="Campaign-1"
-        title="Charity Dinner 2023"
-        image="/campaign-img.png"
-        defaultChecked={true}
-        description="Support us by buying a Silver table for 10 guests"
-        price={8000}
-      />
-      <CartItem
-        id="Campaign-2"
-        title="Charity Dinner 2023"
-        image="/campaign-img.png"
-        description="Support us by buying a Silver table for 10 guests"
-        price={10000}
-      /> */}
       </main>
     </>
   );

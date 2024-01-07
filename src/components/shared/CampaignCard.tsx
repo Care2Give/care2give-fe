@@ -25,6 +25,7 @@ type CampaignCardProps = {
   targetAmount?: number;
   targetDate?: number;
   slug: string;
+  id: string;
 };
 
 function constructDaysLeftString(daysLeft: number): string {
@@ -41,6 +42,7 @@ export const CampaignCard = ({
   targetAmount = 0,
   targetDate = 0,
   slug,
+  id,
 }: CampaignCardProps) => {
   const completionPercentage = Math.floor((currentAmount / targetAmount) * 100);
   const daysLeftToTarget = Math.floor((targetDate - Date.now()) / 8.64e7);
@@ -107,7 +109,10 @@ export const CampaignCard = ({
             </Link>
           </Button>
           <Button className="rounded-3xl" variant="outline" asChild>
-            <Link href={`/campaigns/${encodeURIComponent(slug)}`}>
+            <Link
+              href={`/campaigns/${id}`}
+              as={`/campaigns/${encodeURIComponent(slug)}`}
+            >
               Learn More
             </Link>
           </Button>
