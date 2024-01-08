@@ -3,7 +3,7 @@ import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { Badge } from "@/components/ui/badge";
-import { useCartStore } from "@/stores/useCartStore";
+import useCartStore from "@/stores/useCartStore";
 import Link from "next/link";
 
 type NavBarProps = {

@@ -41,6 +41,7 @@ function ImgCarousel({ imageUrl }: ImgCarouselProps) {
               width={0}
               height={0}
               sizes="100vw"
+              priority={i === 0}
               style={{ width: "100%", height: "100%" }}
             />
           </SwiperSlide>

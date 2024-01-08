@@ -1,11 +1,8 @@
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/router";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "../ui/button";
-import Link from "next/link";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import { Montserrat } from "next/font/google";
-import { Url } from "next/dist/shared/lib/router/router";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -15,10 +12,13 @@ const montserrat = Montserrat({
 
 interface MakeDonationBtnProps {
   hidden?: boolean;
-  link: Url;
+  setExpanded: Dispatch<SetStateAction<boolean>>;
 }
 
-function MakeDonationBtn({ hidden = false, link }: MakeDonationBtnProps) {
+function MakeDonationBtn({
+  hidden = false,
+  setExpanded,
+}: MakeDonationBtnProps) {
   return (
     <div
       className={cn(
@@ -32,11 +32,12 @@ function MakeDonationBtn({ hidden = false, link }: MakeDonationBtnProps) {
           `rounded-full flex gap-3 items-center text-2xl h-12 md:w-fit md:px-20`
         )}
         asChild
+        onClick={() => setExpanded(true)}
       >
-        <Link href={link} scroll={false}>
+        <span>
           <span>Make a Donation</span>
           <HeartFilledIcon height={24} width={24} />
-        </Link>
+        </span>
       </Button>
       <span
         className={`${montserrat.className} text-sm text-[#7E7E7E] pb-6 pt-2 text-center text-balance`}

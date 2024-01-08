@@ -1,13 +1,15 @@
 import React from "react";
 
 interface OtherAmountFormProps {
-  otherAmount: number | undefined;
-  setOtherAmount: (amount: number) => void;
+  setCurrentOption: React.Dispatch<React.SetStateAction<number>>;
+  donationAmount: number;
+  setDonationAmount: (amount: number) => void;
 }
 
 function OtherAmountForm({
-  otherAmount,
-  setOtherAmount,
+  setCurrentOption,
+  donationAmount,
+  setDonationAmount,
 }: OtherAmountFormProps) {
   return (
     <form className="px-10 py-6">
@@ -27,9 +29,10 @@ function OtherAmountForm({
           name="other-amount"
           type="number"
           min={10}
-          value={otherAmount || ""}
-          onChange={(e) => setOtherAmount(Number(e.target.value))}
+          value={donationAmount || ""}
+          onChange={(e) => setDonationAmount(Number(e.target.value))}
           placeholder="0"
+          onClick={() => setCurrentOption(-1)}
         />
       </div>
     </form>

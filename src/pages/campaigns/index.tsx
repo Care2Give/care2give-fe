@@ -2,9 +2,9 @@ import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import SortButton from "@/components/home/SortButton";
 import NavBar from "@/components/navbar";
 import BackToTop from "@/components/shared/BackToTop";
-import { CampaignData } from "@/lib/campaignSample";
 import { useState, useEffect } from "react";
 import CampaignList from "@/components/all-campaigns/CampaignList";
+import { CampaignsWithDonations } from "@/types/CampaignsWithDonations";
 
 export default function Campaigns({
   campaigns,
@@ -27,11 +27,17 @@ export default function Campaigns({
     } else if (sortKey == "End Date") {
       if (sortIsIncreasing) {
         setSortedCampaigns(
-          [...campaigns].sort((a, b) => a.targetDate - b.targetDate)
+          [...campaigns].sort(
+            (a, b) =>
+              new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
+          )
         );
       } else {
         setSortedCampaigns(
-          [...campaigns].sort((a, b) => b.targetDate - a.targetDate)
+          [...campaigns].sort(
+            (a, b) =>
+              new Date(b.endDate).getTime() - new Date(a.endDate).getTime()
+          )
         );
       }
     }
@@ -53,11 +59,10 @@ export default function Campaigns({
 }
 
 export const getServerSideProps = (async () => {
-  // Fetch data from external API
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/campaign/list`
   );
-  const campaigns: CampaignData[] = await res.json();
-  // Pass data to the page via props
+  const campaigns: CampaignsWithDonations[] = await res.json();
+
   return { props: { campaigns } };
-}) satisfies GetServerSideProps<{ campaigns: CampaignData[] }>;
+}) satisfies GetServerSideProps<{ campaigns: CampaignsWithDonations[] }>;

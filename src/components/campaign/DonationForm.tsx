@@ -1,40 +1,35 @@
-import { CampaignData, DonationOption } from "@/lib/campaignSample";
 import { cn } from "@/lib/utils";
-import { useCartStore } from "@/stores/useCartStore";
+import useCartStore from "@/stores/useCartStore";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import router from "next/router";
 import { Gift } from "lucide-react";
 import DonationOptions from "./DonationOptions";
 import OtherAmountForm from "./OtherAmountForm";
+import { CampaignDetails } from "@/types/CampaignDetails";
+import { CampaignDonationAmount } from "@/types/prismaSchema";
 
 interface DonationFormProps {
-  donationOptions: DonationOption[];
-  campaign: CampaignData;
+  donationOptions: Array<{ value: number } & CampaignDonationAmount>;
+  campaign: CampaignDetails;
   isExpanded: boolean;
 }
 
-function DonationForm({
+export default function DonationForm({
   donationOptions,
   campaign,
   isExpanded,
 }: DonationFormProps) {
+  const [donationAmount, setDonationAmount] = useState<number>(0);
   const [currentOption, setCurrentOption] = useState<number>(1);
-  const [otherAmount, setOtherAmount] = useState<number | undefined>(undefined);
   const { addItem } = useCartStore();
 
   const handleAddToGiftBasket = () => {
-    if (currentOption < 0 || currentOption >= donationOptions.length) {
-      return;
-    }
-    if (otherAmount && otherAmount < 10) {
-      return;
-    }
     const option = donationOptions[currentOption];
     addItem({
       donationOption: option,
       campaign,
-      otherAmount: otherAmount || 0,
+      donationAmount: donationAmount,
       isSelected: true,
     });
   };
@@ -51,6 +46,7 @@ function DonationForm({
           donationOptions={donationOptions}
           currentOption={currentOption}
           setCurrentOption={setCurrentOption}
+          setDonationAmount={setDonationAmount}
         />
       </div>
       <div className="md:flex md:flex-col-reverse justify-end md:flex-1 md:min-w-[400px]">
@@ -77,12 +73,11 @@ function DonationForm({
           </div>
         </div>
         <OtherAmountForm
-          otherAmount={otherAmount}
-          setOtherAmount={setOtherAmount}
+          setCurrentOption={setCurrentOption}
+          donationAmount={donationAmount}
+          setDonationAmount={setDonationAmount}
         />
       </div>
     </section>
   );
 }
-
-export default DonationForm;

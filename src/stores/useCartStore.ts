@@ -1,11 +1,12 @@
-import { CampaignData, DonationOption } from "@/lib/campaignSample";
+import { CampaignDetails } from "@/types/CampaignDetails";
+import { CampaignDonationAmount } from "@/types/prismaSchema";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 export interface CartItem {
-  campaign: CampaignData;
-  donationOption: DonationOption;
-  otherAmount: number;
+  campaign: CampaignDetails;
+  donationOption: { value: number } & CampaignDonationAmount;
+  donationAmount: number;
   isSelected: boolean;
 }
 
@@ -17,10 +18,8 @@ interface CartStore {
   clearCart: () => void;
 }
 
-export const useCartStore = create<CartStore>()(
-  // devtools(
-  //   persist(
-  (set) => ({
+const useCartStore = create<CartStore>()(
+  devtools((set) => ({
     items: [],
     addItem: (item: CartItem) => {
       set((state) => ({ items: [...state.items, item] }));
@@ -29,13 +28,15 @@ export const useCartStore = create<CartStore>()(
       set((state) => ({ items: state.items.filter((i) => i !== item) }));
     },
     toggleItem: (item: CartItem) => {
-      set((state) => ({ items: state.items.map((i) => i !== item ? i : {...i, isSelected: !i.isSelected})}));
+      set((state) => ({
+        items: state.items.map((i) =>
+          i !== item ? i : { ...i, isSelected: !i.isSelected }
+        ),
+      }));
     },
     clearCart: () => {
       set({ items: [] });
     },
-  })
-  //     { name: "cart-store" }
-  //   )
-  // )
+  }))
 );
+export default useCartStore;

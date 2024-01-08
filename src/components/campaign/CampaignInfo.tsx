@@ -1,12 +1,11 @@
-import { GetServerSideProps } from "next";
 import React from "react";
-import { CampaignData, data } from "@/lib/campaignSample";
 import RecentDonors from "./RecentDonors";
 import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
 import HelpBySharing from "../shared/HelpBySharing";
 import { Separator } from "../ui/separator";
 import { Progress } from "../ui/progress";
+import { CampaignDetails } from "@/types/CampaignDetails";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -18,11 +17,11 @@ const arabotoBold = localFont({
   src: "../../../public/fonts/araboto/Araboto Bold 400.ttf",
 });
 
-interface CampaignInfoProps {
-  campaign: CampaignData;
-}
-
-function CampainInfo({ campaign }: CampaignInfoProps) {
+export default function CampaignInfo({
+  campaign,
+}: {
+  campaign: CampaignDetails;
+}) {
   const {
     title: campaignTitle,
     description,
@@ -33,7 +32,9 @@ function CampainInfo({ campaign }: CampaignInfoProps) {
   } = campaign;
 
   const completionPercentage = Math.floor((currentAmount / targetAmount) * 100);
-  const daysLeftToTarget = Math.floor((targetDate - Date.now()) / 8.64e7);
+  const daysLeftToTarget = Math.floor(
+    (new Date(targetDate).getTime() - Date.now()) / 8.64e7
+  );
 
   return (
     <div className="md:shadow-[0px_0px_16px_0px_rgba(0,0,0,0.15)] md:p-8 rounded-2xl md:mb-6">
@@ -75,17 +76,3 @@ function CampainInfo({ campaign }: CampaignInfoProps) {
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<CampaignInfoProps> = async (
-  context
-) => {
-  const { slug } = context.params as { slug: string };
-  const idx = data.findIndex((campaign) => campaign.slug === slug);
-  return {
-    props: {
-      campaign: data[idx] as CampaignData,
-    },
-  };
-};
-
-export default CampainInfo;
