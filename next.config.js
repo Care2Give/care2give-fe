@@ -14,6 +14,10 @@ const nextConfig = {
         // port: "",
         // pathname: "/wikipedia",
       },
+      {
+        protocol: "https",
+        hostname: "i.imgur.com",
+      },
     ],
   },
   reactStrictMode: true,

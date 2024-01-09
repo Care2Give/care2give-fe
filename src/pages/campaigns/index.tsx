@@ -1,11 +1,14 @@
-import { DropdownMenuDemo } from "@/components/home/SortButton";
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import SortButton from "@/components/home/SortButton";
 import NavBar from "@/components/navbar";
 import BackToTop from "@/components/shared/BackToTop";
-import { CampaignCard } from "@/components/shared/CampaignCard";
-import { CampaignData, data as campaigns } from "@/lib/campaignSample";
 import { useState, useEffect } from "react";
+import CampaignList from "@/components/all-campaigns/CampaignList";
+import { CampaignsWithDonations } from "@/types/CampaignsWithDonations";
 
-export default function Campaigns() {
+export default function Campaigns({
+  campaigns,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [sortedCampaigns, setSortedCampaigns] = useState(campaigns); // stores sorted campaigns
   const [sortKey, setSortKey] = useState(""); // sort by campaign title or date
   const [sortIsIncreasing, setSortIsIncreasing] = useState(true); // order of sorting the campaigns by the sortKey
@@ -24,11 +27,17 @@ export default function Campaigns() {
     } else if (sortKey == "End Date") {
       if (sortIsIncreasing) {
         setSortedCampaigns(
-          [...campaigns].sort((a, b) => a.targetDate - b.targetDate)
+          [...campaigns].sort(
+            (a, b) =>
+              new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
+          )
         );
       } else {
         setSortedCampaigns(
-          [...campaigns].sort((a, b) => b.targetDate - a.targetDate)
+          [...campaigns].sort(
+            (a, b) =>
+              new Date(b.endDate).getTime() - new Date(a.endDate).getTime()
+          )
         );
       }
     }
@@ -38,36 +47,22 @@ export default function Campaigns() {
     <>
       <NavBar title="All Campaigns" />
       <main className="flex min-h-screen flex-col items-center justify-between pt-[72px]">
-        <DropdownMenuDemo
+        <SortButton
           setSortKey={setSortKey}
           setSortIsIncreasing={setSortIsIncreasing}
         />
-
-        <div className="h-full w-full flex flex-col gap-6 p-10 py-0">
-          {sortedCampaigns.map((campaign, i) => {
-            const {
-              title,
-              coverImagesURLs,
-              currentAmount,
-              targetAmount,
-              targetDate,
-              slug,
-            } = campaign as CampaignData;
-            return (
-              <CampaignCard
-                key={`campaign-${i}`}
-                campaignTitle={title}
-                coverImagesURLs={coverImagesURLs}
-                currentAmount={currentAmount}
-                targetAmount={targetAmount}
-                targetDate={targetDate}
-                slug={slug}
-              />
-            );
-          })}
-        </div>
+        <CampaignList campaigns={sortedCampaigns} />
       </main>
       <BackToTop />
     </>
   );
 }
+
+export const getServerSideProps = (async () => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/v1/campaign/list`
+  );
+  const campaigns: CampaignsWithDonations[] = await res.json();
+
+  return { props: { campaigns } };
+}) satisfies GetServerSideProps<{ campaigns: CampaignsWithDonations[] }>;

@@ -11,3 +11,10 @@ export function slugToTitle(slug: string) {
     .map((word) => word.length > 0 ? word[0].toUpperCase() + word.slice(1) : "")
     .join(" ");
 }
+
+export function constructDaysLeftString(daysLeft: number): string {
+  if (daysLeft <= 0) {
+    return "Campaign is over";
+  }
+  return [daysLeft, `${daysLeft > 1 ? "Days" : "Day"}`, "Left"].join(" ");
+}

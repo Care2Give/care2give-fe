@@ -3,7 +3,8 @@ import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { Badge } from "@/components/ui/badge";
-import { useCartStore } from "@/stores/useCartStore";
+import useCartStore from "@/stores/useCartStore";
+import Link from "next/link";
 
 type NavBarProps = {
   title: String;
@@ -13,7 +14,6 @@ type NavBarProps = {
 const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
   const { items } = useCartStore();
   const router = useRouter();
-  console.log(items);
 
   return (
     <nav className="w-full flex justify-between items-center px-6 py-4 fixed bg-white z-50">
@@ -38,17 +38,19 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
         )}
         <h1 className="text-2xl">{title}</h1>
       </div>
-      <Button variant="ghost" size="icon">
-        <Image
-          src="/navbar/gift_basket.svg"
-          alt="Gift basket icon"
-          height={24}
-          width={24}
-        />
-      </Button>
-      <Badge className="absolute right-3 top-3 bg-blue-500 opacity-80">
-        {items.length}
-      </Badge>
+      <Link href="/gift-basket">
+        <Button variant="ghost" size="icon">
+          <Image
+            src="/navbar/gift_basket.svg"
+            alt="Gift basket icon"
+            height={24}
+            width={24}
+          />
+        </Button>
+        <Badge className="absolute right-3 top-3 bg-blue-500 opacity-80 hover:bg-blue-500">
+          {items.length}
+        </Badge>
+      </Link>
     </nav>
   );
 };

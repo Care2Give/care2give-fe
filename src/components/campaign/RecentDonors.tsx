@@ -9,7 +9,7 @@ const montserrat = Montserrat({
 // TODO: Replace with actual logic
 const RecentDonors = () => {
   return (
-    <div className="w-full px-10 py-6">
+    <div className="w-full py-6">
       <h3 className={"text-lg font-bold mb-3"}>Recent Donors</h3>
       <div className="grid grid-cols-[repeat(auto-fill,_minmax(50px,_1fr))] gap-5">
         {[0, 1, 2].map((donor) => (
