@@ -1,14 +1,12 @@
 import { useSearchParams } from "next/navigation";
-import Campaign from "@/pages/campaigns/[slug]";
-import {DonationOption, CampaignData} from "@/lib/campaignSample";
+import {DonationOption } from "@/lib/campaignSample";
+import Campaign from "@/pages/campaigns/[...slug]";
 
 export default function CampaignPreview() {
     const searchParams = useSearchParams();
     let campaignData;
-    let donationOptions;
     try {
         campaignData = getCampaignData(searchParams);
-        donationOptions = getDonationOptions(searchParams);
     } catch(err) {
         return(
         <div>
@@ -18,13 +16,13 @@ export default function CampaignPreview() {
     }
 
     return (
-        <Campaign campaign={campaignData} donationOptions={donationOptions} />
+        <Campaign campaign={campaignData} />
     );
 }
 
-function getCampaignData(searchParams: URLSearchParams): CampaignData {
+function getCampaignData(searchParams: URLSearchParams) {
     const requiredParameters: string[] =
-        ["title", "donors", "coverImagesURLs", "currentAmount", "targetAmount", "targetDate", "slug", "description"];
+        ["title", "donors", "imageUrl", "currentAmount", "targetAmount", "targetDate", "slug", "description"];
     for (let i = 0; i < requiredParameters.length; i++) {
         const parameter = requiredParameters[i];
         if (!searchParams.has(parameter)) {
@@ -42,7 +40,7 @@ function getCampaignData(searchParams: URLSearchParams): CampaignData {
 
     const title: string = searchParams?.get("title") || "";
     const donors: number = parseInt(searchParams?.get("donors") || "0");
-    const coverImagesURLs: string[] = searchParams.getAll("coverImagesURLs");
+    const imageUrl: string[] = searchParams.getAll("imageUrl");
     const currentAmount: number = parseInt(searchParams.get("currentAmount") || "0");
     const targetAmount: number = parseInt(searchParams.get("targetAmount") || "0");
     const targetDate: number = parseInt(searchParams.get("targetDate") || "0");
@@ -51,12 +49,14 @@ function getCampaignData(searchParams: URLSearchParams): CampaignData {
     return {
         title: title,
         donors: donors,
-        coverImagesURLs: coverImagesURLs,
+        imageUrl: imageUrl,
         currentAmount: currentAmount,
         targetAmount: targetAmount,
         targetDate: targetDate,
         slug: slug,
-        description: description
+        description: description,
+        id: "",
+        donationAmounts: getDonationOptions(searchParams)
     };
 }
 
@@ -72,8 +72,8 @@ function getDonationOptions(searchParams: URLSearchParams): DonationOption[] {
 }
 
 /*
-http://localhost:3000/campaigns/preview?title=Caring+Hearts+Initiative&donors=327
-&coverImagesURLs=https://www.techsmith.com/blog/wp-content/uploads/2017/12/color-picker.png
+http://localhost:3001/campaigns/preview?title=Caring+Hearts+Initiative&donors=327
+&imageUrl=https://www.techsmith.com/blog/wp-content/uploads/2017/12/color-picker.png
 &currentAmount=37500&targetAmount=50000&targetDate=1704145168566&slug=caring-hearts-initiative&description=Join+us+for+a+joyous+evening+as+we+come+together+to+express+our+appreciation+for+the+tireless+dedication+of+our+caregivers.+Your+gift+helps+us+train+and+support+more+caregivers+as+we+support+them+on+their+journey.
 &donationOptionValue=1&donationOptionDescription=description1
 &donationOptionValue=2&donationOptionDescription=description2
