@@ -23,6 +23,7 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
           size="icon"
           className=""
           onClick={() => router.back()}
+          disabled={router.pathname.includes("/campaigns/preview")}
         >
           <ChevronLeftIcon height="24" width="24" color="black" />
         </Button>
