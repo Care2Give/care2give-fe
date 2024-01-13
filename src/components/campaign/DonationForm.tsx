@@ -20,14 +20,14 @@ export default function DonationForm({
   campaign,
   isExpanded,
 }: DonationFormProps) {
-  const [donationAmount, setDonationAmount] = useState<number>(0);
-  const [currentOption, setCurrentOption] = useState<number>(1);
+  const [currOptionIndex, setCurrOptionIndex] = useState<number>(0);
+  const [donationAmount, setDonationAmount] = useState<number>(
+    donationOptions[currOptionIndex].value
+  );
   const { addItem } = useCartStore();
 
   const handleAddToGiftBasket = () => {
-    const option = donationOptions[currentOption];
     addItem({
-      donationOption: option,
       campaign,
       donationAmount: donationAmount,
       isSelected: true,
@@ -44,8 +44,14 @@ export default function DonationForm({
         </h2>
         <DonationOptions
           donationOptions={donationOptions}
-          currentOption={currentOption}
-          setCurrentOption={setCurrentOption}
+          currOptionIndex={currOptionIndex}
+          setCurrOptionIndex={setCurrOptionIndex}
+          setDonationAmount={setDonationAmount}
+        />
+        <OtherAmountForm
+          donationOptions={donationOptions}
+          setCurrOptionIndex={setCurrOptionIndex}
+          donationAmount={donationAmount}
           setDonationAmount={setDonationAmount}
         />
       </div>
@@ -72,11 +78,6 @@ export default function DonationForm({
             </Button>
           </div>
         </div>
-        <OtherAmountForm
-          setCurrentOption={setCurrentOption}
-          donationAmount={donationAmount}
-          setDonationAmount={setDonationAmount}
-        />
       </div>
     </section>
   );

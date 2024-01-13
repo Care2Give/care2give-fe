@@ -1,16 +1,25 @@
+import { CampaignDonationAmount } from "@/types/prismaSchema";
 import React from "react";
 
 interface OtherAmountFormProps {
-  setCurrentOption: React.Dispatch<React.SetStateAction<number>>;
+  donationOptions: Array<{ value: number } & CampaignDonationAmount>;
+  setCurrOptionIndex: React.Dispatch<React.SetStateAction<number>>;
   donationAmount: number;
   setDonationAmount: (amount: number) => void;
 }
 
 function OtherAmountForm({
-  setCurrentOption,
+  donationOptions,
+  setCurrOptionIndex,
   donationAmount,
   setDonationAmount,
 }: OtherAmountFormProps) {
+  // Helper to auto-select option if it matches pre-existing options
+  const amountToOptionIndexMap: any = {};
+  donationOptions.forEach(
+    ({ value }, i) => (amountToOptionIndexMap[value] = i)
+  );
+
   return (
     <form className="px-10 py-6">
       <h2 className="text-2xl font-bold mb-3">Other Amount (Min. $10)</h2>
@@ -30,9 +39,14 @@ function OtherAmountForm({
           type="number"
           min={10}
           value={donationAmount || ""}
-          onChange={(e) => setDonationAmount(Number(e.target.value))}
+          onChange={(e) => {
+            const val = Number(e.target.value);
+            setDonationAmount(val);
+            val
+              ? setCurrOptionIndex(amountToOptionIndexMap[val])
+              : setCurrOptionIndex(0);
+          }}
           placeholder="0"
-          onClick={() => setCurrentOption(-1)}
         />
       </div>
     </form>

@@ -5,7 +5,6 @@ import { devtools, persist } from "zustand/middleware";
 
 export interface CartItem {
   campaign: CampaignDetails;
-  donationOption: { value: number } & CampaignDonationAmount;
   donationAmount: number;
   isSelected: boolean;
 }

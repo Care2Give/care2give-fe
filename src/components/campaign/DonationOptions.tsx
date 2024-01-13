@@ -17,15 +17,15 @@ const arabotoBold = localFont({
 
 interface DonationOptionsProps {
   donationOptions: Array<{ value: number } & CampaignDonationAmount>;
-  currentOption: number;
-  setCurrentOption: (i: number) => void;
+  currOptionIndex: number;
+  setCurrOptionIndex: (i: number) => void;
   setDonationAmount: (amount: number) => void;
 }
 
 function DonationOptions({
   donationOptions,
-  currentOption,
-  setCurrentOption,
+  currOptionIndex,
+  setCurrOptionIndex,
   setDonationAmount,
 }: DonationOptionsProps) {
   return (
@@ -36,16 +36,16 @@ function DonationOptions({
           <div
             key={i}
             role="radio"
-            aria-checked={i === currentOption}
+            aria-checked={i === currOptionIndex}
             onClick={() => {
-              setCurrentOption(i);
+              setCurrOptionIndex(i);
               setDonationAmount(value);
             }}
             className={cn(
               "bg-[#D3D3D3] p-1.5 flex-none rounded-[24px] cursor-pointer basis-44 md:basis-56",
-              i === currentOption &&
+              i === currOptionIndex &&
                 "bg-gradient-to-b from-[#4ED2C2] via-[#5185ff] to-[#6164cf]",
-              i !== currentOption && "opacity-70"
+              i !== currOptionIndex && "opacity-70"
             )}
           >
             <div className="w-full h-full bg-white flex flex-col justify-between gap-6 items-center rounded-[18px] px-5 py-8 relative">
@@ -74,8 +74,8 @@ function DonationOptions({
                 id={`donation-option-${value}`}
                 name={`donation-option`}
                 value={value}
-                checked={i === currentOption}
-                onChange={(e) => e.target.checked && setCurrentOption(i)}
+                checked={i === currOptionIndex}
+                onChange={(e) => e.target.checked && setCurrOptionIndex(i)}
               />
             </div>
           </div>
