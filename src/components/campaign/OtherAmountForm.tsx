@@ -22,7 +22,9 @@ function OtherAmountForm({
 
   return (
     <form className="px-10 py-6">
-      <h2 className="text-2xl font-bold mb-3">Other Amount (Min. $10)</h2>
+      <h2 className="text-2xl text-center font-bold mb-3">
+        Other Amount (Min. $10)
+      </h2>
       <div className="bg-gradient-to-b from-[#4ED2C2] via-[#5185ff] to-[#6164cf] p-1 rounded-[12px] relative">
         <label
           htmlFor="other-amount"
