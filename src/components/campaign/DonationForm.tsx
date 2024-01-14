@@ -20,14 +20,14 @@ export default function DonationForm({
   campaign,
   isExpanded,
 }: DonationFormProps) {
-  const [donationAmount, setDonationAmount] = useState<number>(0);
-  const [currentOption, setCurrentOption] = useState<number>(1);
+  const [currOptionIndex, setCurrOptionIndex] = useState<number>(0);
+  const [donationAmount, setDonationAmount] = useState<number>(
+    donationOptions[currOptionIndex].value
+  );
   const { addItem } = useCartStore();
 
   const handleAddToGiftBasket = () => {
-    const option = donationOptions[currentOption];
     addItem({
-      donationOption: option,
       campaign,
       donationAmount: donationAmount,
       isSelected: true,
@@ -36,47 +36,47 @@ export default function DonationForm({
 
   return (
     <section
-      className={cn("py-6 md:px-16 md:flex", !isExpanded && "hidden md:hidden")}
+      className={cn(
+        "py-6 md:px-16 md:flex md:justify-center",
+        !isExpanded && "hidden md:hidden"
+      )}
     >
       <div className="md:shrink-1 md:basis-[800px] min-w-0">
-        <h2 className="text-2xl font-bold text-center md:text-left">
+        <h2 className="text-2xl font-bold text-center">
           Select Donation Amount
         </h2>
         <DonationOptions
           donationOptions={donationOptions}
-          currentOption={currentOption}
-          setCurrentOption={setCurrentOption}
+          currOptionIndex={currOptionIndex}
+          setCurrOptionIndex={setCurrOptionIndex}
           setDonationAmount={setDonationAmount}
         />
-      </div>
-      <div className="md:flex md:flex-col-reverse justify-end md:flex-1 md:min-w-[400px]">
-        <div className="w-full">
-          <div className="px-10 py-2 flex flex-col items-center gap-4">
-            <Button
-              className="rounded-full items-center text-2xl h-12 max-w-80 w-full"
-              onClick={() => {
-                handleAddToGiftBasket();
-                router.push("/gift-basket");
-              }}
-            >
-              Check Out
-            </Button>
-
-            <Button
-              className="rounded-full flex gap-3 items-center text-2xl h-12 max-w-80 w-full"
-              variant="outline"
-              onClick={handleAddToGiftBasket}
-            >
-              <span>Add to Gift Basket</span>
-              <Gift height={24} width={24} />
-            </Button>
-          </div>
-        </div>
         <OtherAmountForm
-          setCurrentOption={setCurrentOption}
+          donationOptions={donationOptions}
+          setCurrOptionIndex={setCurrOptionIndex}
           donationAmount={donationAmount}
           setDonationAmount={setDonationAmount}
         />
+        <div className="px-10 py-2 flex flex-col md:flex-row md:justify-center items-center gap-4">
+          <Button
+            className="rounded-full items-center text-2xl h-12 max-w-80 w-full"
+            onClick={() => {
+              handleAddToGiftBasket();
+              router.push("/gift-basket");
+            }}
+          >
+            Check Out
+          </Button>
+
+          <Button
+            className="rounded-full flex gap-3 items-center text-2xl h-12 max-w-80 w-full"
+            variant="outline"
+            onClick={handleAddToGiftBasket}
+          >
+            <span>Add to Gift Basket</span>
+            <Gift height={24} width={24} />
+          </Button>
+        </div>
       </div>
     </section>
   );

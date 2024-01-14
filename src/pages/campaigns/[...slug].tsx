@@ -21,7 +21,7 @@ export default function Campaign({
   return (
     <>
       <NavBar title={title} />
-      <main className=" min-h-screen pt-[72px]">
+      <main className="min-h-screen pt-[72px]">
         <div className="md:flex md:gap-4 md:px-16 md:py-10">
           <ImgCarousel imageUrl={imageUrl} />
           <div className="px-8 flex-1">
