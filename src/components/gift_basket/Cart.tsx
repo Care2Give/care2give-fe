@@ -26,7 +26,7 @@ const GiftBasketCartItem = ({
         onCheckedChange={() => toggleItem(cartItem)}
       />
       <Image
-        src={cartItem.campaign.imageUrl[0]}
+        src={cartItem.campaign.imageUrls[0]}
         alt="campaign_image"
         width={90}
         height={90}

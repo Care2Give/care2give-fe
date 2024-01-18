@@ -22,7 +22,7 @@ function getCampaignData(searchParams: URLSearchParams) {
   const requiredParameters: string[] = [
     "title",
     "donors",
-    "imageUrl",
+    "imageUrls",
     "currentAmount",
     "targetAmount",
     "targetDate",
@@ -51,7 +51,7 @@ function getCampaignData(searchParams: URLSearchParams) {
 
   const title: string = searchParams?.get("title") || "";
   const donors: number = parseInt(searchParams?.get("donors") || "0");
-  const imageUrl: string[] = searchParams.getAll("imageUrl");
+  const imageUrls: string[] = searchParams.getAll("imageUrls");
   const currentAmount: number = parseInt(
     searchParams.get("currentAmount") || "0"
   );
@@ -64,7 +64,7 @@ function getCampaignData(searchParams: URLSearchParams) {
   return {
     title: title,
     donors: donors,
-    imageUrl: imageUrl,
+    imageUrls: imageUrls,
     currentAmount: currentAmount,
     targetAmount: targetAmount,
     targetDate: targetDate,
@@ -92,7 +92,7 @@ function getDonationOptions(searchParams: URLSearchParams): DonationOption[] {
 
 /*
 http://localhost:3001/campaigns/preview?title=Caring+Hearts+Initiative&donors=327
-&imageUrl=https://www.techsmith.com/blog/wp-content/uploads/2017/12/color-picker.png
+&imageUrls=https://www.techsmith.com/blog/wp-content/uploads/2017/12/color-picker.png
 &currentAmount=37500&targetAmount=50000&targetDate=1704145168566&slug=caring-hearts-initiative&description=Join+us+for+a+joyous+evening+as+we+come+together+to+express+our+appreciation+for+the+tireless+dedication+of+our+caregivers.+Your+gift+helps+us+train+and+support+more+caregivers+as+we+support+them+on+their+journey.
 &donationOptionValue=1&donationOptionDescription=description1
 &donationOptionValue=2&donationOptionDescription=description2

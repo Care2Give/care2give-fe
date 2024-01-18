@@ -13,7 +13,7 @@ import { useState } from "react";
 export default function Campaign({
   campaign,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { title, imageUrl, donationAmounts } = campaign;
+  const { title, imageUrls, donationAmounts } = campaign;
   const router = useRouter();
   const isExpanded = router.query.expanded === "true";
   const [expanded, setExpanded] = useState<boolean>(isExpanded);
@@ -23,7 +23,7 @@ export default function Campaign({
       <NavBar title={title} />
       <main className="min-h-screen pt-[72px]">
         <div className="md:flex md:gap-4 md:px-16 md:py-10">
-          <ImgCarousel imageUrl={imageUrl} />
+          <ImgCarousel imageUrls={imageUrls} />
           <div className="px-8 flex-1">
             <CampaignInfo campaign={campaign} />
             <MakeDonationBtn hidden={expanded} setExpanded={setExpanded} />

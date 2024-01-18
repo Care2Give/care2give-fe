@@ -30,7 +30,7 @@ export const CampaignCard = ({
     dollars,
     cents,
     endDate,
-    imageUrl,
+    imageUrls,
     id,
     currentAmount,
     targetAmount,
@@ -43,7 +43,7 @@ export const CampaignCard = ({
   return (
     <div className="flex flex-col gap-6 md:flex-row md:items-center md:h-[300px] p-6 bg shadow-[0_0_16px_0_rgba(0,0,0,0.15)] rounded-lg">
       <div className="rounded-lg overflow-hidden md:w-[352px] md:h-[256px]">
-        {imageUrl?.length > 0 && (
+        {imageUrls?.length > 0 && (
           <Swiper
             style={
               {
@@ -62,7 +62,7 @@ export const CampaignCard = ({
             pagination={{ clickable: true, dynamicBullets: true }}
             cssMode
           >
-            {imageUrl.map((url, i) => (
+            {imageUrls.map((url, i) => (
               <SwiperSlide key={`${url}_${i}`}>
                 <Image
                   className="max-h-64 object-cover"
