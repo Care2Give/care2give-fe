@@ -46,7 +46,7 @@ export default function Campaigns({
   return (
     <>
       <NavBar title="All Campaigns" />
-      <main className="flex min-h-screen flex-col items-center justify-between pt-[72px]">
+      <main className="flex min-h-screen flex-col items-center justify-between py-[72px]">
         <SortButton
           setSortKey={setSortKey}
           setSortIsIncreasing={setSortIsIncreasing}
