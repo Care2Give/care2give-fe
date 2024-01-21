@@ -7,10 +7,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 interface ImgCarouselProps {
-  imageUrl: string[];
+  imageUrls: string[];
 }
 
-function ImgCarousel({ imageUrl }: ImgCarouselProps) {
+function ImgCarousel({ imageUrls }: ImgCarouselProps) {
   return (
     <div className="overflow-hidden w-screen md:w-[640px] md:rounded-3xl">
       <Swiper
@@ -32,7 +32,7 @@ function ImgCarousel({ imageUrl }: ImgCarouselProps) {
         cssMode
         className="w-full md:w-auto md:h-full"
       >
-        {imageUrl.map((url, i) => (
+        {imageUrls.map((url, i) => (
           <SwiperSlide key={`${url}_${i}`}>
             <Image
               className="object-cover"
