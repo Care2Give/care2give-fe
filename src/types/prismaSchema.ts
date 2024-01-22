@@ -12,7 +12,6 @@ export interface Campaign {
   cents: number;
   createdBy: string;
   editedBy: string;
-  imageNames: string[];
   imageUrls: string[];
 }
 
