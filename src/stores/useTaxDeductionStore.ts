@@ -1,24 +1,16 @@
+import {
+  TaxDeductionForm,
+  TaxDeductionType,
+  anonymousSchema,
+} from "@/types/taxDeductionTypes";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-
-interface IndividualTaxDeductionForm {
-
-}
-
-interface OrganisationTaxDeductionForm {
-  
-}
-
-interface NoTaxDeductionForm {
-  
-}
-
-export type TaxDeductionForm = IndividualTaxDeductionForm | OrganisationTaxDeductionForm | NoTaxDeductionForm | {};
-
 
 interface TaxDeductionStore {
   isCheckout: boolean;
   taxDeductionDetails: TaxDeductionForm;
+  taxDeductionType: TaxDeductionType;
+  setTaxDeductionType: (type: TaxDeductionType) => void;
   checkout: (form: TaxDeductionForm) => void;
 }
 
@@ -27,10 +19,14 @@ export const useTaxDeductionStore = create<TaxDeductionStore>()(
     persist(
       (set) => ({
         isCheckout: false,
-        taxDeductionDetails: {},
+        taxDeductionType: TaxDeductionType.ANONYMOUS,
+        setTaxDeductionType: (type: TaxDeductionType) => {
+          set({ taxDeductionType: type });
+        },
+        taxDeductionDetails: anonymousSchema.parse({}),
         checkout: (form: TaxDeductionForm) => {
-          set({ isCheckout: true, taxDeductionDetails: form })
-        }
+          set({ isCheckout: true, taxDeductionDetails: form });
+        },
       }),
       { name: "tax-deduction-store" }
     )

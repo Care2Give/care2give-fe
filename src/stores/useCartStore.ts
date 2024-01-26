@@ -18,24 +18,30 @@ interface CartStore {
 }
 
 const useCartStore = create<CartStore>()(
-  devtools((set) => ({
-    items: [],
-    addItem: (item: CartItem) => {
-      set((state) => ({ items: [...state.items, item] }));
-    },
-    removeItem: (item: CartItem) => {
-      set((state) => ({ items: state.items.filter((i) => i !== item) }));
-    },
-    toggleItem: (item: CartItem) => {
-      set((state) => ({
-        items: state.items.map((i) =>
-          i !== item ? i : { ...i, isSelected: !i.isSelected }
-        ),
-      }));
-    },
-    clearCart: () => {
-      set({ items: [] });
-    },
-  }))
+  devtools(
+    persist(
+      (set) => ({
+        items: [],
+        addItem: (item: CartItem) => {
+          set((state) => ({ items: [...state.items, item] }));
+        },
+        removeItem: (item: CartItem) => {
+          set((state) => ({ items: state.items.filter((i) => i !== item) }));
+        },
+        toggleItem: (item: CartItem) => {
+          set((state) => ({
+            items: state.items.map((i) =>
+              i !== item ? i : { ...i, isSelected: !i.isSelected }
+            ),
+          }));
+        },
+        clearCart: () => {
+          set({ items: [] });
+        },
+      }),
+      { name: "cart-store" }
+    )
+  )
 );
+
 export default useCartStore;

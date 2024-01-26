@@ -37,37 +37,27 @@ import Cart from "@/components/gift_basket/Cart";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTaxDeductionStore } from "@/stores/useTaxDeductionStore";
+import {
+  TaxDeductionType,
+  anonymousSchema,
+  individualTaxDeductionFormSchema,
+  noTaxDeductionFormSchema,
+  organisationTaxDeductionFormSchema,
+  taxDeductionFormSchema,
+} from "@/types/taxDeductionTypes";
 
-export const emailSchema = z
-  .string()
-  .regex(new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/));
-
-const anonymousSchema = z.object({});
-
-const individualTaxDeductionFormSchema = z.object({
-  salutation: z.enum(["Mr", "Mrs", "Ms", "Miss"]),
-  firstName: z.string(),
-  lastName: z.string(),
-  nric: z.string().regex(new RegExp(/^[A-Z]\d{7}[A-Z]$/)),
-  email: emailSchema,
-});
-
-const organisationTaxDeductionFormSchema = z.object({
-  name: z.string(),
-  uen: z.string(),
-  email: emailSchema,
-});
-
-const noTaxDeductionFormSchema = z.object({
-  name: z.string(),
-  email: emailSchema,
-});
-
-const schemas: z.SomeZodObject[] = [
+const schemas = [
   anonymousSchema,
   individualTaxDeductionFormSchema,
   organisationTaxDeductionFormSchema,
   noTaxDeductionFormSchema,
+];
+
+const taxDeductionTypes = [
+  TaxDeductionType.ANONYMOUS,
+  TaxDeductionType.INDIVIDUAL,
+  TaxDeductionType.ORGANISATION,
+  TaxDeductionType.NO_TAX_DEDUCTION,
 ];
 
 const camelCaseToTitle = (str: string): string => {
@@ -95,13 +85,11 @@ const RadioOption = ({
   label: string;
   labelClassName?: string;
 }) => {
+  const elementId = `option-${label.replace(/ +/g, "-").toLowerCase()}`;
   return (
     <div className="flex items-center space-x-2">
-      <RadioGroupItem value={value} id={`option-${value}`} />
-      <Label
-        htmlFor={`option-${value}`}
-        className={"font-light " + labelClassName}
-      >
+      <RadioGroupItem value={value} id={elementId} />
+      <Label htmlFor={elementId} className={"font-light " + labelClassName}>
         {label}
       </Label>
     </div>
@@ -134,11 +122,7 @@ const DonationTypeSelect = ({
           label="Request for tax deduction"
           labelClassName="text-[15px]"
         />
-        <RadioOption
-          value="3"
-          label="Donating on behalf of an organisation"
-          labelClassName="text-[15px]"
-        />
+        <RadioOption value="3" label="Proceed without tax deduction" />
       </RadioGroup>
     </div>
   );
@@ -152,7 +136,8 @@ const DonationForm = ({
   setSchemaIdx: Dispatch<React.SetStateAction<number>>;
 }) => {
   const router = useRouter();
-  const { checkout } = useTaxDeductionStore();
+  const { checkout, setTaxDeductionType, taxDeductionType } =
+    useTaxDeductionStore();
 
   const form = useForm<z.infer<(typeof schemas)[typeof schemaIdx]>>({
     resolver: zodResolver(schemas[schemaIdx]),
@@ -160,6 +145,7 @@ const DonationForm = ({
 
   const onSubmit = (data: z.infer<(typeof schemas)[typeof schemaIdx]>) => {
     console.log(data);
+    setTaxDeductionType(taxDeductionTypes[schemaIdx]);
     checkout(data);
     router.push("/gift-basket/checkout");
   };
@@ -170,11 +156,11 @@ const DonationForm = ({
     return "";
   };
 
-  const formFields = Object.entries(schemas[schemaIdx].shape).map((s) => (
+  const formFields = Object.entries(schemas[schemaIdx].shape).map((s: any) => (
     <FormField
       key={s[0]}
       control={form.control}
-      name={s[0]}
+      name={s[0] as keyof (typeof schemas)[number]["shape"]}
       render={({ field }) => {
         const inputTitle =
           camelCaseToTitle(s[0]) +
@@ -196,9 +182,9 @@ const DonationForm = ({
                 placeholder={inputPlaceholder}
               />
             </FormControl>
-            {form.formState.errors[s[0]] && (
-              <p className="text-red-600">Invalid {inputTitle}</p>
-            )}
+            {form.formState.errors[
+              s[0] as keyof (typeof schemas)[number]["shape"]
+            ] && <p className="text-red-600">Invalid {inputTitle}</p>}
           </FormItem>
         );
       }}
@@ -222,8 +208,13 @@ const DonationForm = ({
                 onValueChange={(v) => setSchemaIdx(parseInt(v))}
                 className="flex flex-col mb-6 gap-3"
               >
-                <RadioOption value="1" label="Request for tax deduction" />
-                <RadioOption value="2" label="Proceed without tax deduction" />
+                <RadioOption value="1" label="Donating as an individual" />
+
+                <RadioOption
+                  value="2"
+                  label="Donating on behalf of an organisation"
+                  labelClassName="text-[15px]"
+                />
               </RadioGroup>
             )}
             <div className="flex flex-col gap-3">{formFields}</div>
@@ -376,7 +367,7 @@ const GiftBasketPage = () => {
 
       <div className="overflow-hidden w-screen px-2 mb-6">
         <Cart />
-        <PaymentMethodSelect />
+        {/* <PaymentMethodSelect /> */}
         <DonationTypeSelect setSchemaIdx={setSchemaIdx} />
         <DonationForm schemaIdx={schemaIdx} setSchemaIdx={setSchemaIdx} />
       </div>

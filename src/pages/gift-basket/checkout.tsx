@@ -25,13 +25,34 @@ import { countries } from "country-list-json";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import React, { ReactNode, forwardRef, HTMLProps } from "react";
-import { emailSchema } from ".";
-import {
-  useTaxDeductionStore,
-  TaxDeductionForm,
-} from "@/stores/useTaxDeductionStore";
+import React, {
+  ReactNode,
+  forwardRef,
+  HTMLProps,
+  useState,
+  FormEvent,
+  useEffect,
+} from "react";
+import { useTaxDeductionStore } from "@/stores/useTaxDeductionStore";
 import Image from "next/image";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+  PaymentElement,
+  LinkAuthenticationElement,
+  CardElement,
+} from "@stripe/react-stripe-js";
+import useCartStore from "@/stores/useCartStore";
+import {
+  AnonymousDonationForm,
+  IndividualTaxDeductionForm,
+  NoTaxDeductionForm,
+  OrganisationTaxDeductionForm,
+  TaxDeductionForm,
+  TaxDeductionType,
+} from "@/types/taxDeductionTypes";
 
 type Country = (typeof countries)[number]["name"];
 const COUNTRIES: [Country, ...Country[]] = [
@@ -40,7 +61,7 @@ const COUNTRIES: [Country, ...Country[]] = [
 ];
 
 const checkoutFormSchema = z.object({
-  email: emailSchema,
+  email: z.string().email(),
   cardHolderName: z.string(),
   cardNumber: z.string().regex(new RegExp(/^\d{16}$/)),
   expiryDate: z.string().regex(new RegExp(/^\d{2}\/\d{2}$/)),
@@ -273,15 +294,221 @@ const CheckoutForm = ({
   );
 };
 
-const CheckoutPage = () => {
-  const { isCheckout, taxDeductionDetails } = useTaxDeductionStore();
+const PaymentForm = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [message, setMessage] = useState<string | undefined>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      // Make sure to disable form submission until Stripe.js has loaded.
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: `${window.location.origin}/donation/success`,
+      },
+    });
+
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Otherwise, your customer will be redirected to
+    // your `return_url`. For some payment methods like iDEAL, your customer will
+    // be redirected to an intermediate site first to authorize the payment, then
+    // redirected to the `return_url`.
+
+    if (error) {
+      setMessage(error?.message || "An unexpected error occured.");
+    }
+
+    setIsLoading(false);
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <PaymentElement />
+      <Button disabled={isLoading || !stripe || !elements} id="submit">
+        {isLoading ? "Loading..." : "Pay now"}
+      </Button>
+      {/* Show any error or success messages */}
+      {message && <div id="payment-message">{message}</div>}
+    </form>
+  );
+};
+
+interface PaymentConfig {
+  publishableKey: string;
+}
+
+export const getServerSideProps = (async () => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/payment/config`
+    );
+    const { publishable_key: publishableKey }: { publishable_key: string } =
+      await res.json();
+    console.log(publishableKey);
+    return {
+      props: {
+        publishableKey,
+      },
+    };
+  } catch (error) {
+    // TODO: handle error
+    console.log(error);
+    return {
+      props: {
+        publishableKey: "",
+      },
+    };
+  }
+}) satisfies GetServerSideProps<PaymentConfig>;
+
+const CheckoutPage = ({
+  publishableKey,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { isCheckout, taxDeductionDetails, taxDeductionType } =
+    useTaxDeductionStore();
+  const { items } = useCartStore();
+  const [clientSecret, setClientSecret] = useState<string>("");
+
+  const stripePromise = loadStripe(publishableKey);
+
+  //   Joi.object().keys({
+  //     donationCartItems: Joi.array().items(Joi.object({
+  //         campaignId: Joi.string().required(),
+  //         dollars: Joi.number().required(),
+  //         cents: Joi.number().required(),
+  //     })).min(1).required(),
+  //     donationType: Joi.string().valid(
+  //         'ANONYMOUS',
+  //         'INDIVIDUAL_WITH_TAX_DEDUCTION',
+  //         'GROUP_WITH_TAX_DEDUCTION',
+  //         'WITHOUT_TAX_DEDUCTION').required(),
+  //     donorFirstName: Joi.string().allow(null).required(),
+  //     donorLastName: Joi.string().allow(null).required(),
+  //     donorEmail: Joi.string().email().allow(null).required(),
+  //     donorNricA: Joi.string().allow(null).required(),
+  //     donorNricB: Joi.string().allow(null).required(),
+  //     donorTrainingPrograms: Joi.array().items(Joi.string()).min(0).required(),
+  //     currency: Joi.string().required(),
+  // }),
+
+  useEffect(() => {
+    const fetchClientSecret = async () => {
+      let reqBody: any = {};
+      if (taxDeductionType === TaxDeductionType.INDIVIDUAL) {
+        let t = taxDeductionDetails as IndividualTaxDeductionForm;
+        reqBody = {
+          donationCartItems: items.map((item) => ({
+            campaignId: item.campaign.id,
+            dollars: Math.floor(item.donationAmount),
+            cents: Math.floor((item.donationAmount % 1) * 100),
+          })),
+          donationType: TaxDeductionType.INDIVIDUAL,
+          donorFirstName: t.firstName,
+          donorLastName: t.lastName,
+          donorEmail: t.email,
+          donorNricA: t.nric.slice(0, t.nric.length - 4),
+          donorNricB: t.nric.slice(t.nric.length - 4),
+          donorTrainingPrograms: [],
+          currency: "SGD",
+        };
+      } else if (taxDeductionType === TaxDeductionType.ANONYMOUS) {
+        reqBody = {
+          donationCartItems: items.map((item) => ({
+            campaignId: item.campaign.id,
+            dollars: Math.floor(item.donationAmount),
+            cents: Math.floor((item.donationAmount % 1) * 100),
+          })),
+          donationType: TaxDeductionType.ANONYMOUS,
+          donorFirstName: null,
+          donorLastName: null,
+          donorEmail: null,
+          donorNricA: null,
+          donorNricB: null,
+          donorTrainingPrograms: [],
+          currency: "SGD",
+        };
+      } else if (taxDeductionType === TaxDeductionType.NO_TAX_DEDUCTION) {
+        const t = taxDeductionDetails as NoTaxDeductionForm;
+        reqBody = {
+          donationCartItems: items.map((item) => ({
+            campaignId: item.campaign.id,
+            dollars: Math.floor(item.donationAmount),
+            cents: Math.floor((item.donationAmount % 1) * 100),
+          })),
+          donationType: TaxDeductionType.NO_TAX_DEDUCTION,
+          donorFirstName: null,
+          donorLastName: t.name,
+          donorEmail: t.email,
+          donorNricA: null,
+          donorNricB: null,
+          donorTrainingPrograms: [],
+          currency: "SGD",
+        };
+      } else if (taxDeductionType === TaxDeductionType.ORGANISATION) {
+        const t = taxDeductionDetails as OrganisationTaxDeductionForm;
+        reqBody = {
+          donationCartItems: items.map((item) => ({
+            campaignId: item.campaign.id,
+            dollars: Math.floor(item.donationAmount),
+            cents: Math.floor((item.donationAmount % 1) * 100),
+          })),
+          donationType: TaxDeductionType.ORGANISATION,
+          donorFirstName: null,
+          donorLastName: t.name,
+          donorEmail: t.email,
+          donorNricA: null,
+          donorNricB: null,
+          donorTrainingPrograms: [],
+          currency: "SGD",
+        };
+      }
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/payment/createPaymentIntent`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reqBody),
+        }
+      ).catch((err) => console.log(err));
+      if (!res) return;
+      const { clientSecret: secret } = await res.json();
+      setClientSecret(secret);
+      console.log("secret ", secret);
+    };
+    fetchClientSecret();
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <NavBar title="Gift Basket" />
       <div className="overflow-hidden w-screen px-2 mb-4">
         <Cart />
-        <CheckoutForm taxDeductionDetails={taxDeductionDetails} />
+        {/* <CheckoutForm taxDeductionDetails={taxDeductionDetails} /> */}
+        <h1>Payment</h1>
+        {clientSecret && stripePromise ? (
+          <Elements
+            stripe={stripePromise}
+            options={{
+              clientSecret,
+            }}
+          >
+            <PaymentForm />
+          </Elements>
+        ) : (
+          <span>Loading...</span>
+        )}
       </div>
     </main>
   );
