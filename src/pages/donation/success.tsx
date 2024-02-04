@@ -1,13 +1,21 @@
 import AppBar from "@/components/shared/AppBar";
 import { Button } from "@/components/ui/button";
+import useCartStore from "@/stores/useCartStore";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 type Props = {};
 
 export default function Success({}: Props) {
+  const { clearCart } = useCartStore();
+
+  useEffect(() => {
+    // clear cart on donation success
+    clearCart();
+  }, []);
+
   return (
     <div>
       <AppBar title="Donation Successful" backLink={"/"} />
