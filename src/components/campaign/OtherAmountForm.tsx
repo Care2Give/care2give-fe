@@ -45,7 +45,7 @@ function OtherAmountForm({
             const val = Number(e.target.value);
             setDonationAmount(val);
             val
-              ? setCurrOptionIndex(amountToOptionIndexMap[val])
+              ? setCurrOptionIndex(null)
               : setCurrOptionIndex(0);
           }}
           placeholder="0"
