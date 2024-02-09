@@ -3,7 +3,7 @@ import React from "react";
 
 interface OtherAmountFormProps {
   donationOptions: Array<{ value: number } & CampaignDonationAmount>;
-  setCurrOptionIndex: React.Dispatch<React.SetStateAction<number>>;
+  setCurrOptionIndex: React.Dispatch<React.SetStateAction<number | null>>;
   donationAmount: number;
   setDonationAmount: (amount: number) => void;
 }

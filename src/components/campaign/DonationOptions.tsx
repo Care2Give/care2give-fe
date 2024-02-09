@@ -18,7 +18,7 @@ const arabotoBold = localFont({
 interface DonationOptionsProps {
   donationOptions: Array<{ value: number } & CampaignDonationAmount>;
   currOptionIndex: number | null;
-  setCurrOptionIndex: (i: number) => void;
+  setCurrOptionIndex: (i: number | null) => void;
   setDonationAmount: (amount: number) => void;
 }
 
