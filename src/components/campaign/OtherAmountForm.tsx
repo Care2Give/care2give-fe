@@ -44,9 +44,7 @@ function OtherAmountForm({
           onChange={(e) => {
             const val = Number(e.target.value);
             setDonationAmount(val);
-            val
-              ? setCurrOptionIndex(null)
-              : setCurrOptionIndex(0);
+            setCurrOptionIndex(val ? amountToOptionIndexMap[val] : 0);
           }}
           placeholder="0"
         />
