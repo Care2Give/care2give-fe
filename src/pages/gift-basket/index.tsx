@@ -208,7 +208,11 @@ const DonationForm = ({
                 onValueChange={(v) => setSchemaIdx(parseInt(v))}
                 className="flex flex-col mb-6 gap-3"
               >
-                <RadioOption value="1" label="Donating as an individual" />
+                <RadioOption
+                  value="1"
+                  label="Donating as an individual"
+                  labelClassName="text-[15px]"
+                />
 
                 <RadioOption
                   value="2"
