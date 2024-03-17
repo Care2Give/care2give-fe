@@ -113,7 +113,7 @@ const DonationTypeSelect = ({
           label="I want this donation to be anonymous"
           labelClassName="text-[15px]"
         />
-        <p className="text-[#d3d3d3] text-[10px]">
+        <p className="text-[10px]">
           If you choose to donate anonymously, please note that you will not be
           eligible to claim a tax deduction for your contribution.
         </p>
@@ -208,7 +208,11 @@ const DonationForm = ({
                 onValueChange={(v) => setSchemaIdx(parseInt(v))}
                 className="flex flex-col mb-6 gap-3"
               >
-                <RadioOption value="1" label="Donating as an individual" />
+                <RadioOption
+                  value="1"
+                  label="Donating as an individual"
+                  labelClassName="text-[15px]"
+                />
 
                 <RadioOption
                   value="2"
