@@ -8,12 +8,19 @@ import DonationOptions from "./DonationOptions";
 import OtherAmountForm from "./OtherAmountForm";
 import { CampaignDetails } from "@/types/CampaignDetails";
 import { CampaignDonationAmount } from "@/types/prismaSchema";
+import { Montserrat } from "next/font/google";
 
 interface DonationFormProps {
   donationOptions: Array<{ value: number } & CampaignDonationAmount>;
   campaign: CampaignDetails;
   isExpanded: boolean;
 }
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  style: ["normal"],
+  weight: ["400"],
+});
 
 export default function DonationForm({
   donationOptions,
@@ -77,6 +84,11 @@ export default function DonationForm({
             <Gift height={24} width={24} />
           </Button>
         </div>
+        <p
+          className={`${montserrat.className} text-sm text-[#7E7E7E] text-center text-balance pt-4 px-4`}
+        >
+          TDR will be issued for donations of $50 and above.
+        </p>
       </div>
     </section>
   );
