@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TrashIcon } from "@radix-ui/react-icons";
 import React, { useState, useEffect } from "react";
+import { Input } from "../ui/input";
 
 const GiftBasketCartItem = ({
   cartItem,
@@ -13,6 +14,7 @@ const GiftBasketCartItem = ({
   removeItem: (item: CartItem) => void;
   toggleItem: (item: CartItem) => void;
 }) => {
+  const { mutateItemPrice } = useCartStore();
   return (
     <div
       className="flex flex-row gap-2 items-center px-5 py-2 rounded-xl font-extralight h-28"
@@ -55,14 +57,16 @@ const GiftBasketCartItem = ({
                 : "bg-gradient-to-b from-[#4ED2C2] via-[#5185FF] to-[#6164CF]"
             }`}
           >
-            <p
-              className={`px-2 py-0.5 text-[11px] flex flex-row gap-1 rounded ${
+            <Input
+              type="number"
+              onChange={(e) =>
+                mutateItemPrice(cartItem, parseInt(e.target.value))
+              }
+              value={cartItem.donationAmount}
+              className={`px-2 h-6 text-[11px] flex flex-row gap-1 rounded font-semibold focus-visible:ring-inherit ${
                 cartItem.isSelected ? "bg-[#5185FF]" : "bg-white"
               }`}
-            >
-              <span className="font-semibold">$</span>
-              {cartItem.donationAmount}
-            </p>
+            />
           </div>
         </div>
       </div>
@@ -89,7 +93,12 @@ const Cart = () => {
     setTotalAmount(
       items
         .filter((i) => i.isSelected)
-        .reduce((acc, c) => acc + c.donationAmount, 0)
+        .reduce((acc, c) => {
+          if (isNaN(c?.donationAmount)) {
+            return acc;
+          }
+          return acc + c.donationAmount;
+        }, 0)
     );
   }, [items]);
 

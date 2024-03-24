@@ -15,6 +15,7 @@ interface CartStore {
   removeItem: (item: CartItem) => void;
   toggleItem: (item: CartItem) => void;
   clearCart: () => void;
+  mutateItemPrice: (item: CartItem, donationAmount: number) => void;
 }
 
 const useCartStore = create<CartStore>()(
@@ -37,6 +38,15 @@ const useCartStore = create<CartStore>()(
         },
         clearCart: () => {
           set({ items: [] });
+        },
+        mutateItemPrice: (item: CartItem, donationAmount: number) => {
+          set((state) => ({
+            items: state.items.map((i) =>
+              i.campaign !== item.campaign
+                ? i
+                : { ...i, donationAmount: donationAmount }
+            ),
+          }));
         },
       }),
       { name: "cart-store" }
