@@ -332,9 +332,13 @@ const PaymentForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="px-2">
       <PaymentElement />
-      <Button disabled={isLoading || !stripe || !elements} id="submit">
+      <Button
+        disabled={isLoading || !stripe || !elements}
+        id="submit"
+        className="mt-2"
+      >
         {isLoading ? "Loading..." : "Pay now"}
       </Button>
       {/* Show any error or success messages */}
@@ -496,7 +500,7 @@ const CheckoutPage = ({
       <div className="overflow-hidden w-screen px-2 mb-4">
         <Cart />
         {/* <CheckoutForm taxDeductionDetails={taxDeductionDetails} /> */}
-        <h1>Payment</h1>
+        <h1 className="flex justify-center mb-4">Payment</h1>
         {clientSecret && stripePromise ? (
           <Elements
             stripe={stripePromise}
@@ -507,7 +511,7 @@ const CheckoutPage = ({
             <PaymentForm />
           </Elements>
         ) : (
-          <span>Loading...</span>
+          <span className="flex justify-center">Loading...</span>
         )}
       </div>
     </main>
