@@ -20,16 +20,11 @@ function MakeDonationBtn({
   setExpanded,
 }: MakeDonationBtnProps) {
   return (
-    <div
-      className={cn(
-        "flex flex-col items-center gap-1",
-        hidden && "hidden",
-        "md:flex"
-      )}
-    >
+    <div className={cn("flex flex-col items-center gap-1", "md:flex")}>
       <Button
         className={cn(
-          `rounded-full flex gap-3 items-center text-2xl h-12 md:w-fit md:px-20`
+          `rounded-full flex gap-3 items-center text-2xl h-12 md:w-fit md:px-20 hover:cursor-pointer`,
+          hidden && "hidden"
         )}
         asChild
         onClick={() => setExpanded(true)}
@@ -39,11 +34,14 @@ function MakeDonationBtn({
           <HeartFilledIcon height={24} width={24} />
         </span>
       </Button>
-      <span
-        className={`${montserrat.className} text-sm text-[#7E7E7E] pb-6 pt-2 text-center text-balance`}
+      <p
+        className={cn(
+          `${montserrat.className} text-sm text-[#7E7E7E] pb-6 pt-2 text-center text-balance`,
+          hidden && "hidden"
+        )}
       >
         TDR will be issued for donations of $50 and above.
-      </span>
+      </p>
     </div>
   );
 }
