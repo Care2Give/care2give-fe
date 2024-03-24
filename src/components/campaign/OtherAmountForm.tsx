@@ -3,7 +3,7 @@ import React from "react";
 
 interface OtherAmountFormProps {
   donationOptions: Array<{ value: number } & CampaignDonationAmount>;
-  setCurrOptionIndex: React.Dispatch<React.SetStateAction<number>>;
+  setCurrOptionIndex: React.Dispatch<React.SetStateAction<number | null>>;
   donationAmount: number;
   setDonationAmount: (amount: number) => void;
 }
@@ -44,9 +44,7 @@ function OtherAmountForm({
           onChange={(e) => {
             const val = Number(e.target.value);
             setDonationAmount(val);
-            val
-              ? setCurrOptionIndex(amountToOptionIndexMap[val])
-              : setCurrOptionIndex(0);
+            setCurrOptionIndex(val ? amountToOptionIndexMap[val] : 0);
           }}
           placeholder="0"
         />
