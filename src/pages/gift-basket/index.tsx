@@ -108,21 +108,27 @@ const DonationTypeSelect = ({
         onValueChange={(v) => setSchemaIdx(parseInt(v))}
         className="flex flex-col mb-6 gap-3"
       >
-        <RadioOption
-          value="0"
-          label="I want this donation to be anonymous"
-          labelClassName="text-[15px]"
-        />
-        <p className="text-[10px]">
-          If you choose to donate anonymously, please note that you will not be
-          eligible to claim a tax deduction for your contribution.
-        </p>
+        <div>
+          <RadioOption
+            value="0"
+            label="I want this donation to be anonymous"
+            labelClassName="text-[15px]"
+          />
+          <p className="text-[12px] ml-6 mt-1">
+            If you choose to donate anonymously, please note that you will not
+            be eligible to claim a tax deduction for your contribution.
+          </p>
+        </div>
         <RadioOption
           value="1"
-          label="Request for tax deduction"
+          label="Request for tax deductions"
           labelClassName="text-[15px]"
         />
-        <RadioOption value="3" label="Proceed without tax deduction" />
+        <RadioOption
+          value="3"
+          label="Proceed without tax deduction"
+          labelClassName="text-[15px]"
+        />
       </RadioGroup>
     </div>
   );
@@ -151,7 +157,7 @@ const DonationForm = ({
   };
 
   const formTitle = (i: number): string => {
-    if (i === 1 || i === 2) return "Request of tax deduction";
+    if (i === 1 || i === 2) return "Request for tax deductions";
     else if (i === 3) return "Your Details";
     return "";
   };
@@ -369,7 +375,7 @@ const GiftBasketPage = () => {
     <main className="flex min-h-screen flex-col items-center justify-between">
       <NavBar title="Gift Basket" />
 
-      <div className="overflow-hidden w-screen px-2 mb-6">
+      <div className="overflow-hidden w-screen px-4 mb-6">
         <Cart />
         {/* <PaymentMethodSelect /> */}
         <DonationTypeSelect setSchemaIdx={setSchemaIdx} />

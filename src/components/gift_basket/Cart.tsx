@@ -94,7 +94,7 @@ const Cart = () => {
   }, [items]);
 
   return (
-    <div className="mt-[4.7rem]">
+    <div className="mt-20">
       {totalAmount !== -1 && (
         <div className="flex flex-col gap-2">
           {items.map((i, idx) => (
