@@ -19,8 +19,9 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
 
   useEffect(() => {
     setNumItems(items.length);
-  }, []);
+  }, [items]);
 
+  if (!items) return null;
   return (
     <nav className="w-full flex justify-between items-center px-6 py-4 fixed bg-white z-50">
       {!titleIsCenterAligned && (
