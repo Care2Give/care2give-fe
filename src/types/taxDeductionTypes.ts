@@ -12,10 +12,10 @@ export const anonymousSchema = z.object({
 });
 
 export const individualTaxDeductionFormSchema = z.object({
-  salutation: z.enum(["Mr", "Mrs", "Ms", "Miss"]),
+  salutation: z.enum(["Mr", "Mrs", "Ms", "Miss", "mr", "mrs", "ms", "miss"]),
   firstName: z.string(),
   lastName: z.string(),
-  nric: z.string().regex(new RegExp(/^[A-Z]\d{7}[A-Z]$/)),
+  nric: z.string().regex(new RegExp(/^[A-Z]\d{7}[A-Z]$/i)),
   email: z.string().email(),
 });
 
