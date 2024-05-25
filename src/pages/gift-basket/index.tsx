@@ -45,6 +45,7 @@ import {
   organisationTaxDeductionFormSchema,
   taxDeductionFormSchema,
 } from "@/types/taxDeductionTypes";
+import useCartStore from "@/stores/useCartStore";
 
 const schemas = [
   anonymousSchema,
@@ -142,6 +143,7 @@ const DonationForm = ({
   setSchemaIdx: Dispatch<React.SetStateAction<number>>;
 }) => {
   const router = useRouter();
+  const { items } = useCartStore();
   const { checkout, setTaxDeductionType, taxDeductionType } =
     useTaxDeductionStore();
 
@@ -150,7 +152,6 @@ const DonationForm = ({
   });
 
   const onSubmit = (data: z.infer<(typeof schemas)[typeof schemaIdx]>) => {
-    console.log(data);
     setTaxDeductionType(taxDeductionTypes[schemaIdx]);
     checkout(data);
     router.push("/gift-basket/checkout");
@@ -162,22 +163,30 @@ const DonationForm = ({
     return "";
   };
 
-  const formFields = Object.entries(schemas[schemaIdx].shape).map((s: any) => (
-    <FormField
-      key={s[0]}
-      control={form.control}
-      name={s[0] as keyof (typeof schemas)[number]["shape"]}
-      render={({ field }) => {
-        const inputTitle =
-          camelCaseToTitle(s[0]) +
-          (s[0] === "salutation" ? " (Mr / Mrs / Ms / Miss)" : "");
-        const inputPlaceholder =
-          "Enter your " +
-          (schemas[schemaIdx] == organisationTaxDeductionFormSchema
-            ? "organisation "
-            : "") +
-          camelCaseToSentence(s[0]);
-        return (
+  const formFields = Object.entries(schemas[schemaIdx].shape).map((s: any) => {
+    let inputTitle = camelCaseToTitle(s[0]);
+    if (s[0] === "salutation") {
+      inputTitle += " (Mr / Mrs / Ms / Miss)";
+    } else if (s[0] === "nric" || s[0] === "uen") {
+      inputTitle = inputTitle.toUpperCase();
+    }
+
+    let inputPlaceholder = "Enter your ";
+    if (schemas[schemaIdx] === organisationTaxDeductionFormSchema) {
+      inputPlaceholder += "organisation ";
+    }
+    if (s[0] === "nric" || s[0] === "uen") {
+      inputPlaceholder += s[0].toUpperCase();
+    } else {
+      inputPlaceholder += camelCaseToSentence(s[0]);
+    }
+
+    return (
+      <FormField
+        key={s[0]}
+        control={form.control}
+        name={s[0] as keyof (typeof schemas)[number]["shape"]}
+        render={({ field }) => (
           <FormItem>
             <FormLabel className="font-light">{inputTitle}</FormLabel>
             <FormControl>
@@ -192,10 +201,10 @@ const DonationForm = ({
               s[0] as keyof (typeof schemas)[number]["shape"]
             ] && <p className="text-red-600">Invalid {inputTitle}</p>}
           </FormItem>
-        );
-      }}
-    />
-  ));
+        )}
+      />
+    );
+  });
 
   return (
     <Form {...form}>
@@ -233,6 +242,7 @@ const DonationForm = ({
         <Button
           type="submit"
           className="rounded-full flex flex-row items-center gap-1 mx-auto mt-4 w-8/12"
+          disabled={form.formState.isSubmitting || items.length === 0}
         >
           <p>Donate</p>
           <HeartFilledIcon />

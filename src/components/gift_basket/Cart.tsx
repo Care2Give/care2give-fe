@@ -3,7 +3,9 @@ import Image from "next/image";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TrashIcon } from "@radix-ui/react-icons";
 import React, { useState, useEffect } from "react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "../ui/input";
+import Link from "next/link";
 
 const GiftBasketCartItem = ({
   cartItem,
@@ -27,13 +29,16 @@ const GiftBasketCartItem = ({
         checked={cartItem.isSelected}
         onCheckedChange={() => toggleItem(cartItem)}
       />
-      <Image
-        src={cartItem.campaign.imageUrls[0]}
-        alt="campaign_image"
-        width={90}
-        height={90}
-        className="rounded"
-      />
+      {cartItem?.campaign?.coverImagesURLs && (
+        <Image
+          src={cartItem.campaign.coverImagesURLs[0]}
+          alt="campaign_image"
+          width={90}
+          height={90}
+          className="rounded"
+        />
+      )}
+
       <div className="flex flex-col gap-1">
         <h3 className="text-[13px] font-semibold">{cartItem.campaign.title}</h3>
         <p
@@ -104,6 +109,17 @@ const Cart = () => {
 
   return (
     <div className="mt-20">
+      {items.length === 0 && (
+        <Link href={"/campaigns"}>
+          <Alert className="border-2 bg-red-50">
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>
+              You can add campaigns at the campaigns page! Click here to go
+              there.
+            </AlertDescription>
+          </Alert>
+        </Link>
+      )}
       {totalAmount !== -1 && (
         <div className="flex flex-col gap-2">
           {items.map((i, idx) => (

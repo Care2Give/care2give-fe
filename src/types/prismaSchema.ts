@@ -13,6 +13,7 @@ export interface Campaign {
   createdBy: string;
   editedBy: string;
   imageUrls: string[];
+  coverImagesURLs: string[];
 }
 
 export enum CampaignStatus {

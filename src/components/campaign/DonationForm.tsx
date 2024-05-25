@@ -8,6 +8,7 @@ import DonationOptions from "./DonationOptions";
 import OtherAmountForm from "./OtherAmountForm";
 import { CampaignDetails } from "@/types/CampaignDetails";
 import { CampaignDonationAmount } from "@/types/prismaSchema";
+import { toast } from "sonner";
 import { Montserrat } from "next/font/google";
 
 interface DonationFormProps {
@@ -39,6 +40,7 @@ export default function DonationForm({
       donationAmount: donationAmount,
       isSelected: true,
     });
+    toast.success("Successfully added to gift basket");
   };
 
   return (

@@ -21,7 +21,7 @@ function OtherAmountForm({
   );
 
   return (
-    <form className="px-10 py-6">
+    <form className="px-10 py-6" onSubmit={(e) => e.preventDefault()}>
       <h2 className="text-2xl text-center font-bold mb-3">
         Other Amount (Min. $10)
       </h2>

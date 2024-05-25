@@ -11,8 +11,11 @@ import Image from "next/image";
 import { Share1Icon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { WhatsappShareButton, FacebookShareButton, TwitterShareButton } from 'react-share';
-
+import {
+  WhatsappShareButton,
+  FacebookShareButton,
+  TwitterShareButton,
+} from "react-share";
 
 const araboto = localFont({
   src: "../../../public/fonts/araboto/Araboto Medium 400.ttf",
@@ -34,7 +37,7 @@ const HelpBySharing = () => {
 
   const handleInstagramShare = () => {
     // DEPRECATED: Encoded URI no longer works.
-  };  
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -75,9 +78,7 @@ const HelpBySharing = () => {
                       height={32}
                     />
                   </button>
-                  <button
-                    onClick={handleInstagramShare}
-                  >
+                  {/* <button onClick={handleInstagramShare}>
                     <Image
                       src="/popup/instagram.svg"
                       className="min-w-10 min-h-12 aspect-square object-contain object-center w-11 overflow-hidden self-stretch max-w-full"
@@ -85,22 +86,20 @@ const HelpBySharing = () => {
                       width={32}
                       height={32}
                     />
-                  </button>
+                  </button> */}
                   <TwitterShareButton
                     title="Make a Donation!"
                     url={window.location.href}
                   >
                     <Image
-                      src="/popup/twitter.svg"
-                      className="min-w-10 min-h-12 aspect-[1.21] object-contain object-center w-[41px] stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
+                      src="/popup/twitter.png"
+                      className="min-w-8 min-h-10 aspect-[1.21] object-contain object-center stroke-[2px] stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
                       alt="twitter"
                       width={32}
                       height={32}
                     />
                   </TwitterShareButton>
-                  <FacebookShareButton
-                    url={window.location.href}
-                  >
+                  <FacebookShareButton url={window.location.href}>
                     <Image
                       src="/popup/facebook.svg"
                       className="min-w-6 min-h-12 aspect-[0.53] object-contain object-center w-5 stroke-2 stroke-blue-500 overflow-hidden self-center max-w-full my-auto"
@@ -109,7 +108,7 @@ const HelpBySharing = () => {
                       height={32}
                     />
                   </FacebookShareButton>
-                  <WhatsappShareButton 
+                  <WhatsappShareButton
                     title={"Make a Donation!"}
                     separator=":: "
                     url={window.location.href}
