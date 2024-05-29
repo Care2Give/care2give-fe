@@ -381,6 +381,7 @@ const CheckoutPage = ({
   const { isCheckout, taxDeductionDetails, taxDeductionType } =
     useTaxDeductionStore();
   const { items } = useCartStore();
+  const selectedItems = items.filter((item) => item.isSelected);
   const [clientSecret, setClientSecret] = useState<string>("");
 
   const stripePromise = loadStripe(publishableKey);
@@ -411,7 +412,7 @@ const CheckoutPage = ({
       if (taxDeductionType === TaxDeductionType.INDIVIDUAL) {
         let t = taxDeductionDetails as IndividualTaxDeductionForm;
         reqBody = {
-          donationCartItems: items.map((item) => ({
+          donationCartItems: selectedItems.map((item) => ({
             campaignId: item.campaign.id,
             dollars: Math.floor(item.donationAmount),
             cents: Math.floor((item.donationAmount % 1) * 100),
@@ -427,7 +428,7 @@ const CheckoutPage = ({
         };
       } else if (taxDeductionType === TaxDeductionType.ANONYMOUS) {
         reqBody = {
-          donationCartItems: items.map((item) => ({
+          donationCartItems: selectedItems.map((item) => ({
             campaignId: item.campaign.id,
             dollars: Math.floor(item.donationAmount),
             cents: Math.floor((item.donationAmount % 1) * 100),
@@ -444,7 +445,7 @@ const CheckoutPage = ({
       } else if (taxDeductionType === TaxDeductionType.NO_TAX_DEDUCTION) {
         const t = taxDeductionDetails as NoTaxDeductionForm;
         reqBody = {
-          donationCartItems: items.map((item) => ({
+          donationCartItems: selectedItems.map((item) => ({
             campaignId: item.campaign.id,
             dollars: Math.floor(item.donationAmount),
             cents: Math.floor((item.donationAmount % 1) * 100),
@@ -461,7 +462,7 @@ const CheckoutPage = ({
       } else if (taxDeductionType === TaxDeductionType.ORGANISATION) {
         const t = taxDeductionDetails as OrganisationTaxDeductionForm;
         reqBody = {
-          donationCartItems: items.map((item) => ({
+          donationCartItems: selectedItems.map((item) => ({
             campaignId: item.campaign.id,
             dollars: Math.floor(item.donationAmount),
             cents: Math.floor((item.donationAmount % 1) * 100),
