@@ -39,12 +39,12 @@ const unSuccessfulDonationPage = () => {
           appreciate your patience.
         </div>
         <Button
-          onClick={() => alert("Make Another Donation")}
+          asChild
           className={
-            "text-xl w-full text-white font-bold rounded-[10px] bg-[#FF5757] mb-4 py-6 hover:opacity-90 hover:bg-[#00B32D]"
+            "text-xl w-full text-white font-bold rounded-[10px] bg-[#FF5757] mb-4 py-6 hover:opacity-90 hover:bg-[#ca4949]"
           }
         >
-          Try Again
+          <Link href={"/gift-basket"}>Try Again</Link>
         </Button>
         <Button
           asChild

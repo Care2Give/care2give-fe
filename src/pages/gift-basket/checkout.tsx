@@ -39,11 +39,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-import {
-  PaymentElement,
-  LinkAuthenticationElement,
-  CardElement,
-} from "@stripe/react-stripe-js";
+import { PaymentElement } from "@stripe/react-stripe-js";
 import useCartStore from "@/stores/useCartStore";
 import {
   AnonymousDonationForm,
@@ -53,6 +49,7 @@ import {
   TaxDeductionForm,
   TaxDeductionType,
 } from "@/types/taxDeductionTypes";
+import { useRouter } from "next/navigation";
 
 type Country = (typeof countries)[number]["name"];
 const COUNTRIES: [Country, ...Country[]] = [
@@ -299,6 +296,7 @@ const PaymentForm = () => {
   const elements = useElements();
   const [message, setMessage] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -310,12 +308,13 @@ const PaymentForm = () => {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/donation/success`,
+        return_url: `${window.location.origin}/campaigns`,
       },
+      redirect: "if_required",
     });
 
     // This point will only be reached if there is an immediate error when
@@ -324,11 +323,15 @@ const PaymentForm = () => {
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
 
-    if (error) {
-      setMessage(error?.message || "An unexpected error occured.");
+    if (paymentIntent?.status === "succeeded" && !error) {
+      setMessage("Payment successful!");
+      setIsLoading(false);
+      router.push("/donation/success");
+    } else {
+      setMessage(error?.message || "An unknown error occurred");
+      setIsLoading(false);
+      router.push("/donation/unsuccess");
     }
-
-    setIsLoading(false);
   };
 
   return (
