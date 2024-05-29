@@ -339,7 +339,7 @@ const PaymentForm = () => {
         id="submit"
         className="mt-2"
       >
-        {isLoading ? "Loading..." : "Pay now"}
+        {isLoading ? "Loading..." : "Make Payment"}
       </Button>
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
