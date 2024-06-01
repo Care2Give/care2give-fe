@@ -30,7 +30,9 @@ export default function DonationForm({
 }: DonationFormProps) {
   const [currOptionIndex, setCurrOptionIndex] = useState<number | null>(0);
   const [donationAmount, setDonationAmount] = useState<number>(
-    currOptionIndex ? donationOptions[currOptionIndex].value : 0
+    currOptionIndex || currOptionIndex === 0
+      ? donationOptions[currOptionIndex].value
+      : 0
   );
   const { addItem } = useCartStore();
 

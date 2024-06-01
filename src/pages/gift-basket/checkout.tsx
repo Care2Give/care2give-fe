@@ -39,11 +39,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-import {
-  PaymentElement,
-  LinkAuthenticationElement,
-  CardElement,
-} from "@stripe/react-stripe-js";
+import { PaymentElement } from "@stripe/react-stripe-js";
 import useCartStore from "@/stores/useCartStore";
 import {
   AnonymousDonationForm,
@@ -53,6 +49,7 @@ import {
   TaxDeductionForm,
   TaxDeductionType,
 } from "@/types/taxDeductionTypes";
+import { useRouter } from "next/navigation";
 
 type Country = (typeof countries)[number]["name"];
 const COUNTRIES: [Country, ...Country[]] = [
@@ -299,6 +296,7 @@ const PaymentForm = () => {
   const elements = useElements();
   const [message, setMessage] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -310,12 +308,13 @@ const PaymentForm = () => {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/donation/success`,
+        return_url: `${window.location.origin}/campaigns`,
       },
+      redirect: "if_required",
     });
 
     // This point will only be reached if there is an immediate error when
@@ -324,11 +323,15 @@ const PaymentForm = () => {
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
 
-    if (error) {
-      setMessage(error?.message || "An unexpected error occured.");
+    if (paymentIntent?.status === "succeeded" && !error) {
+      setMessage("Payment successful!");
+      setIsLoading(false);
+      router.push("/donation/success");
+    } else {
+      setMessage(error?.message || "An unknown error occurred");
+      setIsLoading(false);
+      router.push("/donation/unsuccess");
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -339,7 +342,7 @@ const PaymentForm = () => {
         id="submit"
         className="mt-2"
       >
-        {isLoading ? "Loading..." : "Pay now"}
+        {isLoading ? "Loading..." : "Make Payment"}
       </Button>
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
@@ -381,6 +384,7 @@ const CheckoutPage = ({
   const { isCheckout, taxDeductionDetails, taxDeductionType } =
     useTaxDeductionStore();
   const { items } = useCartStore();
+  const selectedItems = items.filter((item) => item.isSelected);
   const [clientSecret, setClientSecret] = useState<string>("");
 
   const stripePromise = loadStripe(publishableKey);
@@ -411,7 +415,7 @@ const CheckoutPage = ({
       if (taxDeductionType === TaxDeductionType.INDIVIDUAL) {
         let t = taxDeductionDetails as IndividualTaxDeductionForm;
         reqBody = {
-          donationCartItems: items.map((item) => ({
+          donationCartItems: selectedItems.map((item) => ({
             campaignId: item.campaign.id,
             dollars: Math.floor(item.donationAmount),
             cents: Math.floor((item.donationAmount % 1) * 100),
@@ -427,7 +431,7 @@ const CheckoutPage = ({
         };
       } else if (taxDeductionType === TaxDeductionType.ANONYMOUS) {
         reqBody = {
-          donationCartItems: items.map((item) => ({
+          donationCartItems: selectedItems.map((item) => ({
             campaignId: item.campaign.id,
             dollars: Math.floor(item.donationAmount),
             cents: Math.floor((item.donationAmount % 1) * 100),
@@ -444,7 +448,7 @@ const CheckoutPage = ({
       } else if (taxDeductionType === TaxDeductionType.NO_TAX_DEDUCTION) {
         const t = taxDeductionDetails as NoTaxDeductionForm;
         reqBody = {
-          donationCartItems: items.map((item) => ({
+          donationCartItems: selectedItems.map((item) => ({
             campaignId: item.campaign.id,
             dollars: Math.floor(item.donationAmount),
             cents: Math.floor((item.donationAmount % 1) * 100),
@@ -461,7 +465,7 @@ const CheckoutPage = ({
       } else if (taxDeductionType === TaxDeductionType.ORGANISATION) {
         const t = taxDeductionDetails as OrganisationTaxDeductionForm;
         reqBody = {
-          donationCartItems: items.map((item) => ({
+          donationCartItems: selectedItems.map((item) => ({
             campaignId: item.campaign.id,
             dollars: Math.floor(item.donationAmount),
             cents: Math.floor((item.donationAmount % 1) * 100),

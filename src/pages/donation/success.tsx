@@ -41,12 +41,12 @@ export default function Success({}: Props) {
           will go towards supporting our caregivers in need.
         </div>
         <Button
-          onClick={() => alert("Make Another Donation")}
+          asChild
           className={
             "text-xl w-full text-white font-bold rounded-[10px] bg-[#00B32D] mb-4 py-6 hover:opacity-90 hover:bg-[#00B32D]"
           }
         >
-          Make Another Donation
+          <Link href={"/campaigns"}>Make Another Donation</Link>
         </Button>
         <Button
           variant={"outline"}

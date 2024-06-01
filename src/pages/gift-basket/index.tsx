@@ -144,6 +144,12 @@ const DonationForm = ({
 }) => {
   const router = useRouter();
   const { items } = useCartStore();
+  const selectedItems = items.filter((i) => i.isSelected);
+  const totalAmount = selectedItems.reduce(
+    (acc, c) => acc + c.donationAmount,
+    0
+  );
+
   const { checkout, setTaxDeductionType, taxDeductionType } =
     useTaxDeductionStore();
 
@@ -242,7 +248,11 @@ const DonationForm = ({
         <Button
           type="submit"
           className="rounded-full flex flex-row items-center gap-1 mx-auto mt-4 w-8/12"
-          disabled={form.formState.isSubmitting || items.length === 0}
+          disabled={
+            form.formState.isSubmitting ||
+            !form.formState.isValid ||
+            totalAmount === 0
+          }
         >
           <p>Donate</p>
           <HeartFilledIcon />
