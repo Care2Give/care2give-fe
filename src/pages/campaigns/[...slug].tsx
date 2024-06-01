@@ -46,6 +46,13 @@ export const getServerSideProps = (async (context) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/campaign/${id}`
   );
+
+  if (!res.ok) {
+    return {
+      notFound: true,
+    };
+  }
+
   const campaign: CampaignDetails = await res.json();
 
   return {
