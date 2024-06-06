@@ -37,12 +37,21 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
       )}
       <div className="flex items-center gap-2">
         {router.pathname === "/" && (
-          <Image
-            src="./navbar/logo.svg"
-            alt="Caregivers Alliance Logo"
-            height={32}
-            width={32}
-          />
+          <>
+            <Image
+              src="./navbar/logo.svg"
+              alt="Caregivers Alliance Logo"
+              height={32}
+              width={32}
+            />
+            <Image
+              src="/navbar/caldsc.png"
+              alt="Caregivers Alliance Logo"
+              className="max-h-12 max-w-12"
+              height={64}
+              width={64}
+            />
+          </>
         )}
         <h1 className="text-2xl">{title}</h1>
       </div>
