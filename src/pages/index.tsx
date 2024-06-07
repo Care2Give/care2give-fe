@@ -10,8 +10,8 @@ export default function Home({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
-      <NavBar title="Caregivers Alliance Limited" titleIsCenterAligned />
-      <main className="flex min-h-screen flex-col items-center justify-between pt-[72px]">
+      <NavBar title="Care2Give" titleIsCenterAligned />
+      <main className="flex min-h-screen flex-col items-center justify-between pt-[64px]">
         <Introduction />
         <Featured campaigns={campaigns} />
         <Footer />

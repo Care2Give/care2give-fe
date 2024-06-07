@@ -23,7 +23,7 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
 
   if (!items) return null;
   return (
-    <nav className="w-full flex justify-between items-center px-6 py-4 fixed bg-white z-50">
+    <nav className="w-full flex justify-between items-center px-4 py-2 fixed bg-white z-50">
       {!titleIsCenterAligned && (
         <Button
           variant="ghost"
@@ -39,21 +39,22 @@ const NavBar = ({ title, titleIsCenterAligned = false }: NavBarProps) => {
         {router.pathname === "/" && (
           <>
             <Image
-              src="./navbar/logo.svg"
+              src="/navbar/logo.png"
               alt="Caregivers Alliance Logo"
-              height={32}
-              width={32}
+              className="max-h-14 max-w-14"
+              height={128}
+              width={128}
             />
             <Image
               src="/navbar/caldsc.png"
-              alt="Caregivers Alliance Logo"
+              alt="C2G logo"
               className="max-h-12 max-w-12"
               height={64}
               width={64}
             />
           </>
         )}
-        <h1 className="text-2xl">{title}</h1>
+        <h1 className="text-xl">{title}</h1>
       </div>
       <Link href="/gift-basket">
         <Button variant="ghost" size="icon">
