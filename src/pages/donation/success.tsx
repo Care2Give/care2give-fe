@@ -37,8 +37,8 @@ export default function Success({}: Props) {
       </div>
       <div className={"flex flex-col items-center px-8 py-6"}>
         <div className={" w-80 text-center text-sm font-light leading-5 mb-6"}>
-          You should receive an email confirming your donation. Every dollar
-          will go towards supporting our caregivers in need.
+          {/* You should receive an email confirming your donation. */}
+          Every dollar will go towards supporting our caregivers in need.
         </div>
         <Button
           asChild
